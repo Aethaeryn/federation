@@ -1,0 +1,7 @@
+Federation is an MMO turn based strategy game.
+
+The code necessary to run a Federation server is located in 'server'.
+
+The code necessary to run a Federation client is located in a subdirectory of 'client'. Most clients will also require the directory 'client/resources' as well. These have not yet been uploaded to github.
+
+More information is available at the website: http://playfederation.com/about.html
