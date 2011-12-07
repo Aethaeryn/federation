@@ -165,7 +165,7 @@ Sensor Array II:
 Mining Equipment:
   size        : "Small Component"
   description : "Enables a ship to mine for resources in an asteroid field."
-  can_mine    : True
+  special     : "Enable Mining"
   cost        : 50
 
 # STORAGE COMPONENTS

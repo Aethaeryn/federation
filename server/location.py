@@ -14,8 +14,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import core
 import random
 
+# Stores environmental objects at a given location.
+# Provides certain algorithms for hex board calculations.
 class Location:
     def __init__(self, x, y):
         self.x = x
@@ -27,6 +30,7 @@ class Location:
     def __str__(self):
         return "(%2s, %2s)" % (str(self.x), str(self.y))
 
+    # Calculates distance on a hex board.
     # TODO: Rewrite and/or comment.
     def distance(self, location):
         horizontal = abs(self.x - location.x)
@@ -99,22 +103,29 @@ class Location:
         else:
             raise Exception("Fleet does not exist at location!")
 
-class Map:
+# Holds locations of significance.
+class Map(core.CoreObject):
     name = "Map"
 
+    # Creates a map with given x, y size limits.
     def __init__(self, x, y):
         self.map = {}
         self.x   = x
         self.y   = y
 
+    # Accesses coordinates at a given location.
     def accessCoords(self, x, y):
         location_key = "%3i, %3i" % (x, y)
 
+        # If this is the first access, it creates a new Location object.
+        # fixme: Delete location objects later on if they're empty to save space.
         if location_key not in self.map:
             self.map[location_key] = Location(x, y)
 
         return self.map[location_key]
 
+    # Lists all coordinates.
+    # fixme: Rewrite so it's more useful than just printing a string for debug purposes.
     def list(self):
         ls = ""
 
@@ -122,23 +133,9 @@ class Map:
             location = self.map[location_key]
 
             if location.body:
-                ls += "%s %s\n" % (location,
-                                   location.body)
+                ls += "%s %s\n" % (location, location.body)
 
         return ls[:-1]
-
-    def getStatus(self):
-        status = {}
-
-        for stat in dir(self):
-            value = getattr(self, stat)
-            types = set([str, int, bool, list, dict])
-
-            # Iterates over all meaningful instance variables that store something.
-            if (type(value) in types) and stat is not '__module__':
-                status[stat] = getattr(self, stat)
-
-        return status
 
     # TODO: Fix this.
     def __str__(self):
@@ -148,11 +145,12 @@ class Map:
         else:
             return self.name
 
+# Holds most environmental objects.
 class System(Map):
     def __init__(self, env):
         self.env  = env
 
-        # Random size of star system.
+        # Random size/name of star system.
         self.name = "Star"
         self.size = (random.randint(60, 70), random.randint(60, 70))
 
@@ -163,6 +161,7 @@ class System(Map):
         self.typeZeroSystem()
 
     # A type zero star system has a star at the center and looks like our system.
+    # This is being used for debug purposes.
     def typeZeroSystem(self):
         center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
 
@@ -187,23 +186,21 @@ class System(Map):
     def longInfo(self):
         return "%s System %3i x %3i" % (self.name, self.size[0], self.size[1])
 
+# Holds star systems.
 class Sector(Map):
-    def __init__(self, env, x_size, y_size):
-        self.env = env
-
-        Map.__init__(self, x_size, y_size)
+    # Creates a star sector with an environment.py instance, and a max x and y.
+    def __init__(self, env, x, y):
+        Map.__init__(self, x, y)
         
-        self.x_size = x_size
-        self.y_size = y_size
+        self.env    = env
 
         self.generateSector()
-
         self.name = "Sector"
 
+    # Places stars randomly in the map.
     def generateSector(self):
-        for i in range(self.x_size * self.y_size / 5):
-            coords = (random.randint(0, self.x_size - 1), random.randint(0, self.y_size - 1))
+        for i in range(self.x * self.y / 5):
+            coords = (random.randint(0, self.x - 1), random.randint(0, self.y - 1))
 
             if not self.accessCoords(coords[0], coords[1]).body:
                 self.accessCoords(coords[0], coords[1]).addBody(System(self.env))
-

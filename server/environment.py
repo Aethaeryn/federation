@@ -20,6 +20,7 @@ import yaml, copy, json
 class EnvironmentObject(core.CoreObject):
     name   = ''
 
+    # If there is a matching attribute, the key
     def dictionaryToInstance(self, dictionary):
         for key in dictionary:
             if hasattr(self, key):
@@ -70,14 +71,13 @@ class Component(EnvironmentObject):
             self.hitpoints += 20
             self.exp_size   = 4
 
-# Base class for all spacecrafts.
 class Spacecraft(EnvironmentObject):
     def __init__(self, dictionary):
         # Stores basic stats.
         self.name        = ''
         self.custom_name = False
-        self.size        = False
         self.description = False
+        self.size        = False
         self.base_cost   = 0
         self.hitpoints   = 0
         self.shields     = 0
@@ -85,16 +85,15 @@ class Spacecraft(EnvironmentObject):
         self.speed       = 0
 
         # Stores special information.
-        self.is_shipyard = False
-        self.hyperspace  = False
-        self.can_mine    = False
         self.cargo       = False
         self.dock        = False
         self.crew        = False
+        self.hyperspace  = False
+        self.is_shipyard = False
 
         # Stores damage information.
-        self.damage_hp   = 0
-        self.damage_sh   = 0
+        self.damage_hitpoints = 0
+        self.damage_shields   = 0
 
         # Stores component information.
         self.component_max  = 0
@@ -108,6 +107,7 @@ class Spacecraft(EnvironmentObject):
         # The value is set to the base cost, and then any component adds to its value.
         self.value = self.base_cost
 
+    # Uses the components in component_list to modify the spacecraft stats.
     def initializeExpansions(self, components):
         for component in self.component_list:
             self.addExpansion(components[component])
@@ -119,7 +119,7 @@ class Spacecraft(EnvironmentObject):
             # Allowed stats to read.
             stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
 
-            # Adds to the ship's stats with each expansion stat.
+            # Adds to the spacecraft's stats with each expansion stat.
             for stat in dir(expansion):
                 if stat in stats:
                     value = getattr(expansion, stat)
@@ -136,7 +136,7 @@ class Spacecraft(EnvironmentObject):
                     setattr(self, 'value', (getattr(expansion, 'cost') + getattr(self, 'value')))
 
             # Keeps track of damage information for each component.
-            self.component_stat.append({expansion.name : {"enabled": True, "damage_hp": 0, "damage_sh": 0}})
+            self.component_stat.append({expansion.name : {"enabled": True, "damage_hitpoints": 0, "damage_shields": 0}})
 
         # Not enough room means it's removed from the list.
         else:
@@ -197,6 +197,7 @@ class Body(EnvironmentObject):
             raise Exception("This isn't a valid variant for a " +
                             self.name + "!")
 
+# The interface for environment.py. Instantiate to use this file elsewhere.
 class Environment():
     obj_id = 0
     obj    = {}
@@ -240,6 +241,7 @@ class Environment():
         return obj_dict
 
     # Increments the unique identifier of environment objects and returns a copy.
+    # Use this to place a copy of an environmental object in the game environment.
     def get(self, obj_type, obj_name):
         self.obj_id += 1
         
@@ -247,7 +249,7 @@ class Environment():
         obj_copy["obj_id"] = self.obj_id
         return obj_copy
 
-    # Converts objects into a dictionary and then YAMLifies them.
+    # Converts objects into a dictionary and then returns JSON.
     def convert(self):
         environmental_objs = {}
 

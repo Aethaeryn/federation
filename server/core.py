@@ -20,7 +20,7 @@ class CoreObject(object):
 
         for stat in dir(self):
             value = getattr(self, stat)
-            types = set([str, int, bool, list])
+            types = set([str, int, bool, list, dict])
 
             # Iterates over all meaningful instance variables that store something.
             if (type(value) in types) and stat is not '__module__':
