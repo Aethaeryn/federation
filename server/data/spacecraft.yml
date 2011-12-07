@@ -1,0 +1,89 @@
+#    Federation Server
+#    Copyright (C) 2011 Michael Babich
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# WARSHIPS
+Fighter:
+  size          : "Small Ship"
+  description   : "Cheap, basic spacecraft."
+  base_cost     : 100
+  component_max : 8
+  component_list:
+    - "Small Hull"
+    - "Small Engine"
+    - "Shield Generator"
+    - "Sensor Array I"
+    - "Missile Launcher"
+
+Frigate:
+  size          : "Medium Ship"
+  description   : "Mid-sized, modifiable combat ship that is very flexible in its roles. Useful for filling fleets."
+  component_max : 15
+  base_cost     : 250
+  component_list:
+    - "Medium Hull"
+    - "Medium Engine"
+    - "Medium Generator"
+    - "Light Armor"
+    - "Sensor Array I"
+    - "Laser"
+
+Cruiser:
+  size          : "Large Ship"
+  description   : "Cheap, basic, and fast capital ship."
+  component_max : 36
+  base_cost     : 600
+  component_list:
+    - "Large Hull"
+    - "Large Engine"
+    - "Sensor Array I"
+    - "Tesla Generator"
+    - "Docking Bay"
+    - "Crew Quarters"
+    - "Super Laser"
+
+# PLATFORMS
+Defensive Platform:
+  size          : "Small Platform"
+  description   : "Stationary platform that automatically attacks enemy spacecraft in its region."
+  component_max : 7
+  base_cost     : 80
+  component_list:
+    - "Small Hull"
+    - "Sensor Array I"
+    - "Shield Generator"
+    - "Missile Launcher"
+    - "Missile Launcher"
+
+Spaceport:
+  size          : "Large Platform"
+  description   : "Used for economic purposes, as well as for the docking and building of spacecraft."
+  is_shipyard   : True
+  component_max : 54
+  base_cost     : 600
+  component_list:
+    - "Large Hull"
+    - "Super Laser"
+    - "Heavy Missile Launcher"
+    - "Docking Bay"
+    - "Docking Bay"
+    - "Docking Bay"
+    - "Docking Bay"
+    - "Construction Dock"
+    - "Sensor Array II"
+    - "Tesla Generator"
+    - "Tesla Generator"
+    - "Heavy Armor"
+    - "Heavy Armor"

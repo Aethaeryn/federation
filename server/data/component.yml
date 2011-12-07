@@ -1,0 +1,206 @@
+#    Federation Server
+#    Copyright (C) 2011 Michael Babich
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# WEAPONS
+Missile Launcher:
+  size        : "Small Component"
+  description : "Basic damaging weapon. Especially effective against small ships."
+  wep_damage  : 10
+  wep_speed   : 7
+  wep_type    : "Missile"
+  cost        : 25
+
+Bomb Launcher:
+  size        : "Small Component"
+  description : "Modified missiles designed to do extra damage against large ships."
+  wep_damage  : 8
+  wep_speed   : 7
+  wep_type    : "Bomb"
+  cost        : 30
+
+Heavy Missile Launcher:
+  size        : "Medium Component"
+  description : "Stronger missile launcher. Especially effective against small ships."
+  wep_damage  : 22
+  wep_speed   : 6
+  wep_type    : "Missile"
+  cost        : 45
+
+Laser:
+  size        : "Medium Component"
+  description : "Slow but powerful weapon that is particularly strong against larger ships."
+  wep_damage  : 32
+  wep_speed   : 3
+  wep_type    : "Laser"
+  cost        : 50
+
+Super Laser:
+  size        : "Large Component"
+  description : "Slow, extremely powerful variant of the laser used in capital ships."
+  wep_damage  : 68
+  wep_speed   : 2
+  wep_type    : "Laser"
+  cost        : 100
+
+Bombardment Cannon:
+  size        : "Large Component"
+  description : "A large laser capable of doing tremendous damage. Damages a ship's own shields due to power requirements."
+  wep_damage  : 100
+  wep_speed   : 1
+  wep_type    : "Laser"
+  wep_special : "Drain Shield"
+  cost        : 200
+
+# CORE COMPONENTS
+Small Hull:
+  size        : "Small Component"
+  description : "Provides the basic structure for a small spacecraft."
+  sellable    : False
+  hitpoints   : 10
+  sensors     : 1
+  cost        : 50
+
+Medium Hull:
+  size        : "Medium Component"
+  description : "Provides the basic structure for a medium spacecraft."
+  sellable    : False
+  hitpoints   : 30
+  sensors     : 1
+  cost        : 75
+
+Large Hull:
+  size        : "Large Component"
+  description : "Provides the basic structure for a large spacecraft."
+  sellable    : False
+  hitpoints   : 90
+  sensors     : 2
+  cost        : 125
+
+Small Engine:
+  size        : "Small Component"
+  description : "Provides the basic movement for a small spacecraft."
+  sellable    : False
+  speed       : 8
+  cost        : 30
+
+Medium Engine:
+  size        : "Medium Component"
+  description : "Provides the basic movement for a medium spacecraft and allows for FTL travel."
+  sellable    : False
+  hyperspace  : True
+  speed       : 5
+  cost        : 50
+
+Large Engine:
+  size        : "Large Component"
+  description : "Provides the basic movement for a large spacecraft and allows for FTL travel."
+  sellable    : False
+  hyperspace  : True
+  speed       : 3
+  cost        : 100
+
+# DEFENSIVE COMPONENTS
+Light Armor:
+  size        : "Small Component"
+  description : "Boosts the hitpoints of the spacecraft."
+  hitpoints   : 10
+  cost        : 30
+    
+Medium Armor:
+  size        : "Medium Component"
+  description : "Boosts the hitpoints of the spacecraft."
+  hitpoints   : 20
+  cost        : 50
+
+Heavy Armor:
+  size        : "Large Component"
+  description : "Boosts the hitpoints of the spacecraft."
+  hitpoints   : 40
+  cost        : 85
+
+Shield Generator:
+  size        : "Small Component"
+  description : "Boosts the ship's shield capabilities."
+  shields     : 10
+  cost        : 25
+
+Medium Generator:
+  size        : "Medium Component"
+  description : "Gives a moderate boost to the ship's shield capabilities"
+  shields     : 25
+  cost        : 40
+
+Tesla Generator:
+  size        : "Large Component"
+  description : "Greatly boosts the ship's shield capabilities"
+  shields     : 50
+  cost        : 75
+
+# BASIC COMPONENTS
+Sensor Array I:
+  size        : "Small Component"
+  description : "Enables the ship to detect objects further away."
+  sensors     : 5
+  cost        : 25
+
+Sensor Array II:
+  size        : "Medium Component"
+  description : "Enables the ship to detect objects further away."
+  sensors     : 10
+  cost        : 45
+
+Mining Equipment:
+  size        : "Small Component"
+  description : "Enables a ship to mine for resources in an asteroid field."
+  can_mine    : True
+  cost        : 50
+
+# STORAGE COMPONENTS
+Small Cargo Bay:
+  size        : "Small Component"
+  description : "Stores cargo on the ship."
+  cargo       : 20
+  cost        : 25
+
+Cargo Bay:
+  size        : "Medium Component"
+  description : "Stores cargo on the ship."
+  cargo       : 50
+  cost        : 50
+
+Small Crew Quarters:
+  size        : "Small Component"
+  description : "Allows for crew to stay on the ship."
+  crew        : 8
+  cost        : 20
+
+Crew Quarters:
+  size        : "Medium Component"
+  description : "Allows for a larger crew to stay on the ship."
+  crew        : 20
+  cost        : 40
+
+Docking Bay:
+  size        : "Large Component"
+  description : "Allows small and medium ships to dock onboard."
+  dock        : 10
+  cost        : 75
+
+Construction Dock:
+  size        : "Large Component"
+  description : "Builds medium and large ships; can also assist in their repair."
+  special     : "Require Shipyard"
+  cost        : 200

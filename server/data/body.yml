@@ -1,0 +1,31 @@
+#    Federation Server
+#    Copyright (C) 2011 Michael Babich
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Planet:
+  description: "These are the basic habitable areas of a star system. Settlement and ownership are possible. Planets can be used to build structures as well as platforms in nearby space."
+
+Moon:
+  description: "A moon orbits around a planet, but functions similar to one. Population and building can take place here."
+
+Asteroid Field:
+  description: "Asteroids can be valuable economically, but asteroid fields are also useful to hide in as they slow down ships and disrupt their sensors."
+
+Star:
+  desription: "The main elmeent of a star system, all stellar objects gravitate to their star(s). Don't get too close!"
+
+Jumpgate:
+  description: "This mysterious artifact from an ancient precursor civilization leads to a seemingly random location in a far away sector of space. Be careful! This trip is one-way!"
+  owner:       "Unknown"

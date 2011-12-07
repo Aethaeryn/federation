@@ -1,0 +1,55 @@
+#    Federation Server
+#    Copyright (C) 2011 Michael Babich
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Industrial Zone:
+  description: "Allows landlords to build production buildings."
+  hitpoints  : 100
+  special    : "Production"
+  cost       : 250
+
+Residential Zone:
+  description: "Allows landlords to build population buildings."
+  hitpoints  : 80
+  special    : "Population"
+  cost       : 200
+
+Commerce Zone:
+  description: "Allows landlords to build commercial and financial buildings."
+  hitpoints  : 100
+  special    : "Revenue"
+  cost       : 250
+
+Ground Shields:
+  description: "Provides shielding to ground structures."
+  hitpoints  : 50
+  shields    : 100
+  cost       : 150
+
+Missile Silo:
+  description: "Allows ground-based missiles to be launched into nearby space."
+  hitpoints  : 50
+  wep_damage : 40
+  wep_speed  : 5
+  wep_type   : "Laser"
+  cost       : 90
+
+Laser Cannon:
+  description: "Allows ground-based lasers to be launched into nearby space."
+  hitpoints  : 50
+  wep_damage : 65
+  wep_speed  : 2
+  wep_type   : "Laser"
+  cost       : 100
