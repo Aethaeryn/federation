@@ -14,8 +14,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import core
-import yaml, copy, json
+import core, data # files
+import copy, json # external libraries
 
 class EnvironmentObject(core.CoreObject):
     name   = ''
@@ -205,39 +205,33 @@ class Environment():
     def __init__(self):
         obj_types = ["component", "spacecraft", "structure", "unit", "body"]
 
-        for obj_type in obj_types:
-            self.obj[obj_type] = self.parseYAML(obj_type)
+        # Parses the yaml data files for environment objects.
+        parse    = data.ParseYAML(obj_types)
+        self.obj = parse.parsed
 
+        # Turns the yaml dictionaries into Python objects.
+        for filename in self.obj:
+            for key in self.obj[filename]:
+                yaml = self.obj[filename].pop(key)
+
+                if filename == "component":
+                    self.obj[filename][key] = Component(yaml)
+
+                elif filename == "spacecraft":
+                    self.obj[filename][key] = Spacecraft(yaml)
+
+                elif filename == "structure":
+                    self.obj[filename][key] = Structure(yaml)
+
+                elif filename == "unit":
+                    self.obj[filename][key] = Unit(yaml)
+
+                elif filename == "body":
+                    self.obj[filename][key] = Body(yaml)
+
+        # Has the spacecrafts' component lists modify spacecraft stats. 
         for craft_type in self.obj["spacecraft"]:
             self.obj["spacecraft"][craft_type].initializeComponents(self.obj["component"])
-
-    # Parses the YAML files in the data folder.
-    def parseYAML(self, obj_type):
-        conf    = open('data/' + obj_type + '.yml', 'r')
-        yaml_in = yaml.load(conf)
-        conf.close()
-
-        obj_dict = {}
-
-        for key in yaml_in:
-            yaml_in[key]['name'] = key
-
-            if obj_type == "component":
-                obj_dict[key] = Component(yaml_in[key])
-
-            elif obj_type == "spacecraft":
-                obj_dict[key] = Spacecraft(yaml_in[key])
-
-            elif obj_type == "structure":
-                obj_dict[key] = Structure(yaml_in[key])
-
-            elif obj_type == "unit":
-                obj_dict[key] = Unit(yaml_in[key])
-
-            elif obj_type == "body":
-                obj_dict[key] = Body(yaml_in[key])
-
-        return obj_dict
 
     # Increments the unique identifier of environment objects and returns a copy.
     # Use this to place a copy of an environmental object in the game environment.
