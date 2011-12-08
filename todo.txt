@@ -7,17 +7,16 @@
  * Implement a JSON interface for the clients to connect to.
  * Add exception throwing/handling where errors can happen.
    * Pass these errors into the clients so they can handle them somehow.
- * Implement the combat system.
+ * Implement the combat system and movement system for fleets/spacecraft/etc.
  * Implement economy, money, resources, tribute, etc.
    * Add wages for units and upkeep for spacecraft/structures?
 
 ------------------
   environment.py
 ------------------
- * Replace all mentions of "expansion" with "component"?
  * Check to make sure data are semanticly valid before YAML parsing.
  * Check to make sure components are done right before adding them.
- * Spacecraft.sellExpansion()
+ * Spacecraft.sellComponent()
    * Handle case where there's more than one component of the same name.
    * Rewrite remove mechanism to be more flexible.
  * Body.variants
@@ -27,7 +26,7 @@
 -----------
   game.py
 -----------
- * Add public-facing JSON API. 
+ * Add public-facing JSON API.
  * Add buy/sell infrastructure for structures/platforms/units/etc.
  * Integrate players with openID and work on other ways of storing player
    information. How will authentication be handled?
@@ -36,8 +35,6 @@
    * Handle authentication, cash/income, last_view.
    * Add some mechanism to request membership in an alliance.
    * Handle cases where there is not enough cash.
- * Player.joindate
-   * won't be in getStatus as a datetime object
  * Player.buyShip()
    * Make possible only if chosen from shipyard.
  * Player.sellShip()
@@ -47,13 +44,9 @@
  * Player.sellComponent()
    * Handle the case where there's more than one component of the same name.
    * Adjust selling value based on damage % as well.
- * GameObject
-   * Redundant with CoreObject.
  * Alliance
    * Handle income, shared_view, shared_fleet, etc.
  * Fleet
-   * Add combat system.
-   * Add fleet/spacecraft movement.
    * Add management mechanisms, and ability to use as part of an alliance.
    * Deputy can move/fight. Commander can move/fight/administer fleet.
    * Anyone with ships in it can join/leave fleet. Commander can kick ships and
@@ -78,9 +71,15 @@
    * Rewrite so it's more useful than just printing a string for debug purposes.
  * Map.__str__()
    * Fix the naming and string system.
+ * Tactical
+   * Add a name that adjusts based on whether it's a planet or asteroid field or
+     some other significant object where this is taking place.
+   * Vary size based on traits of the planet or asteroid field?
+   * Add generator.
  * System.__init__()
    * Add other layouts, including binary and tertiary stars.
    * Populate the generator.
+   * Integrate with Tactical()
 
 
 ################################################################################

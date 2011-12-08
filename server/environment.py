@@ -108,21 +108,21 @@ class Spacecraft(EnvironmentObject):
         self.value = self.base_cost
 
     # Uses the components in component_list to modify the spacecraft stats.
-    def initializeExpansions(self, components):
+    def initializeComponents(self, components):
         for component in self.component_list:
-            self.addExpansion(components[component])
+            self.addComponent(components[component])
 
-    def addExpansion(self, expansion):
-        if self.components_in + expansion.exp_size <= self.component_max:
-            self.components_in += expansion.exp_size
+    def addComponent(self, component):
+        if self.components_in + component.exp_size <= self.component_max:
+            self.components_in += component.exp_size
 
             # Allowed stats to read.
             stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
 
-            # Adds to the spacecraft's stats with each expansion stat.
-            for stat in dir(expansion):
+            # Adds to the spacecraft's stats with each component stat.
+            for stat in dir(component):
                 if stat in stats:
-                    value = getattr(expansion, stat)
+                    value = getattr(component, stat)
 
                     if value and value != 0:
                         if type(value) is int:
@@ -133,19 +133,19 @@ class Spacecraft(EnvironmentObject):
 
                 # Cost is a special case because it adds to value.
                 elif stat == 'cost':
-                    setattr(self, 'value', (getattr(expansion, 'cost') + getattr(self, 'value')))
+                    setattr(self, 'value', (getattr(component, 'cost') + getattr(self, 'value')))
 
             # Keeps track of damage information for each component.
-            self.component_stat.append({expansion.name : {"enabled": True, "damage_hitpoints": 0, "damage_shields": 0}})
+            self.component_stat.append({component.name : {"enabled": True, "damage_hitpoints": 0, "damage_shields": 0}})
 
         # Not enough room means it's removed from the list.
         else:
-            self.component_list.remove(expansion.name)
+            self.component_list.remove(component.name)
 
-    def sellExpansion(self, expansion):
-        if expansion in self.component_list:
+    def sellComponent(self, component):
+        if component in self.component_list:
             for i in range(len(component_list)):
-                if component_list[i] == expansion:
+                if component_list[i] == component:
                     component_list.pop(i)
                     component_stat.pop(i)
                     return
@@ -209,7 +209,7 @@ class Environment():
             self.obj[obj_type] = self.parseYAML(obj_type)
 
         for craft_type in self.obj["spacecraft"]:
-            self.obj["spacecraft"][craft_type].initializeExpansions(self.obj["component"])
+            self.obj["spacecraft"][craft_type].initializeComponents(self.obj["component"])
 
     # Parses the YAML files in the data folder.
     def parseYAML(self, obj_type):

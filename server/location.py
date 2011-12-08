@@ -141,7 +141,15 @@ class Map(core.CoreObject):
         else:
             return self.name
 
-# Holds most environmental objects.
+class Tactical(Map):
+    def __init__(self, env):
+        self.env = env
+
+        self.size = (40, 40)
+
+        Map.__init__(self, self.size[0], self.size[1])
+
+# Holds the large environmental objects in a star system.
 class System(Map):
     def __init__(self, env):
         self.env  = env

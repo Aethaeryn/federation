@@ -18,8 +18,9 @@ import core, environment, location
 import datetime
 
 class GameObject(core.CoreObject):
-    def __str__(self):
-        return self.name
+    # This is filler. Remove this if you add a method that does something.
+    def __init__(self):
+        pass
 
 class Player(GameObject):
     def __init__(self, username, game_name, email, env):
@@ -53,11 +54,11 @@ class Player(GameObject):
         self.cash += ship.value * 0.8
 
     def buyComponent(self, component, ship_id):
-        self.ships[ship_id].addExpansion(component)
+        self.ships[ship_id].addComponent(component)
         self.cash -= component.cost
 
     def sellComponent(self, comp_name, ship_id):
-        self.ships[ship_id].sellExpansion(comp_name)
+        self.ships[ship_id].sellComponent(comp_name)
         self.cash += self.env.obj["component"][comp_name].cost * 0.8
 
     def renamePlayer(self, new_name):
