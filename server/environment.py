@@ -203,10 +203,11 @@ class Environment():
 
     # Creates a database of object types.
     def __init__(self):
-        obj_types = ["component", "spacecraft", "structure", "unit", "body"]
+        directory = "environment"
+        filenames = ["component", "spacecraft", "structure", "unit", "body"]
 
         # Parses the yaml data files for environment objects.
-        parse    = data.ParseYAML(obj_types)
+        parse    = data.ParseYAML(directory, filenames)
         self.obj = parse.parsed
 
         # Turns the yaml dictionaries into Python objects.

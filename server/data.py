@@ -19,17 +19,15 @@ import yaml
 # Handles .yml files in the data directory.
 class ParseYAML():
     # Parses all of the given data into the self.parsed dictionary.
-    def __init__(self, filenames):
-        self.filenames = filenames
-
+    def __init__(self, directory, filenames):
         self.parsed = {}
 
-        for filename in self.filenames:
-            self.parsed[filename] = self.parse(filename)
+        for filename in filenames:
+            self.parsed[filename] = self.parse(directory, filename)
 
     # Opens the yaml data from a given file and returns it as a Python dictionary.
-    def parse(self, filename):
-        conf    = open('data/' + filename + '.yml', 'r')
+    def parse(self, directory, filename):
+        conf    = open('data/' + directory + '/' + filename + '.yml', 'r')
         yaml_in = yaml.load(conf)
         conf.close()
 
