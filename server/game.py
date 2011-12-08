@@ -14,21 +14,13 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# fixme: add buy/sell for structures/platforms/units
-# fixme: add public-facing API
-
 import core, environment, location
 import datetime
 
 class GameObject(core.CoreObject):
-    # fixme: Redundant.
     def __str__(self):
         return self.name
 
-# fixme: Handle authentication as well.
-# fixme: Handle cash/income and last_view.
-# fixme: Handle cases where not enough cash.
-# fixme: Request membership in an alliance?
 class Player(GameObject):
     def __init__(self, username, game_name, email, env):
         self.env       = env
@@ -36,7 +28,7 @@ class Player(GameObject):
         self.username  = username
         self.game_name = game_name
         self.email     = email
-        self.join_date = datetime.datetime.now() # fixme, will not be in getStatus
+        self.join_date = datetime.datetime.now()
 
         self.cash      = 0
         self.alliance  = False
@@ -52,23 +44,18 @@ class Player(GameObject):
     def delShip(self, ship):
         self.ships.pop(ship.obj_id)
 
-    # fixme: Make possible only if chosen from shipyard.
     def buyShip(self, ship, custom_name):
         self.addShip(self.env, ship, custom_name)
         self.cash -= ship.value
 
-    # fixme: Adjust selling value based on damage, too.
     def sellShip(self, ship):
         self.delShip(ship)
         self.cash += ship.value * 0.8
 
-    # fixme: Make possible only if the ship is in friendly space.
     def buyComponent(self, component, ship_id):
         self.ships[ship_id].addExpansion(component)
         self.cash -= component.cost
 
-    # fixme: Handle case where there's more than one component of the same name.
-    # fixme: Adjust selling value based on damage, too.
     def sellComponent(self, comp_name, ship_id):
         self.ships[ship_id].sellExpansion(comp_name)
         self.cash += self.env.obj["component"][comp_name].cost * 0.8
@@ -85,7 +72,6 @@ class Player(GameObject):
     def __str__(self):
         return self.username
 
-# fixme: handle income, shared_view, and shared_fleet
 class Alliance(GameObject):
     def __init__(self, name, founder):
         # This holds the members.
@@ -124,7 +110,6 @@ class Alliance(GameObject):
     def setSharedFleet(self, toggle_fleet):
         self.shared_fleet = toggle_fleet
 
-# fixme: add combat system
 class Fleet(GameObject):
     fleet_counter = 0
 
@@ -148,10 +133,6 @@ class Fleet(GameObject):
 
     def delShip(self, ship):
         self.ships.pop(ship.obj_id)
-
-    # fixme: add movement
-    def moveFleet(self):
-        return "stub"
 
 class Game():
     def __init__(self, turn_length):
@@ -188,8 +169,6 @@ class Game():
         self.turn     += 1
         self.turn_time = time
 
-        # TODO: Other things are done when turn is added, like refresh moves and update economic stuff.
-
     def getEnvData(self):
         return env.convert()
 
@@ -198,7 +177,6 @@ class Game():
 
         self.nextTurn(now)
 
-        # TODO: Listen for other things, like player-submitted moves.
         while True:
             now = datetime.datetime.utcnow()
 

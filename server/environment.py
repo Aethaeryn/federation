@@ -142,7 +142,6 @@ class Spacecraft(EnvironmentObject):
         else:
             self.component_list.remove(expansion.name)
 
-    # fixme: Handle case where there's more than one component of the same name.
     def sellExpansion(self, expansion):
         if expansion in self.component_list:
             for i in range(len(component_list)):
@@ -188,7 +187,7 @@ class Body(EnvironmentObject):
         self.variant     = ''
         self.effects     = None
 
-        self.variants   = set(['']) # fixme
+        self.variants   = set([''])
         self.structures = []
 
         self.dictionaryToInstance(dictionary)

@@ -31,7 +31,6 @@ class Location:
         return "(%2s, %2s)" % (str(self.x), str(self.y))
 
     # Calculates distance on a hex board.
-    # TODO: Rewrite and/or comment.
     def distance(self, location):
         horizontal = abs(self.x - location.x)
 
@@ -118,14 +117,12 @@ class Map(core.CoreObject):
         location_key = "%3i, %3i" % (x, y)
 
         # If this is the first access, it creates a new Location object.
-        # fixme: Delete location objects later on if they're empty to save space.
         if location_key not in self.map:
             self.map[location_key] = Location(x, y)
 
         return self.map[location_key]
 
     # Lists all coordinates.
-    # fixme: Rewrite so it's more useful than just printing a string for debug purposes.
     def list(self):
         ls = ""
 
@@ -137,7 +134,6 @@ class Map(core.CoreObject):
 
         return ls[:-1]
 
-    # TODO: Fix this.
     def __str__(self):
         if self.name == "Star":
             return self.longInfo()
@@ -156,8 +152,6 @@ class System(Map):
 
         Map.__init__(self, self.size[0], self.size[1])
 
-        # TODO: Add other layouts, including binary stars.
-        # TODO: Populate.
         self.typeZeroSystem()
 
     # A type zero star system has a star at the center and looks like our system.

@@ -1,0 +1,92 @@
+*********************
+  Federation Server
+*********************
+ * Add exception throwing/handling where errors can happen.
+ * Pass these errors into the clients so they can handle them somehow.
+ * Implement a JSON interface for the clients to connect to.
+ * Comment code extensively!
+
+-------------
+  combat.py
+-------------
+ * Implement combat system.
+
+--------------
+  economy.py
+--------------
+ * Implement economy, money, resources, tribute, etc.
+ * Add wages for units and upkeep for spacecraft/structures?
+
+------------------
+  environment.py
+------------------
+ * Check to make sure components are valid before parsing.
+ * Spacecraft.sellExpansion()
+   * Handle case where there's more than one component of the same name.
+ * Body.variants
+   * Fix how the variants are added.
+
+-----------
+  game.py
+-----------
+ * Add buy/sell infrastructure for structures/platforms/units/etc.
+ * Add public-facing JSON API.
+ * Integrate players with openID. 
+ * Work on turn loop.
+ * Clear all the notes.
+ * Player
+   * Handle authentication, cash/income, last_view.
+   * Add some mechanism to request membership in an alliance.
+   * Handle cases where there is not enough cash.
+ * Player.joindate
+   * won't be in getStatus as a datetime object
+ * Player.buyShip()
+   * Make possible only if chosen from shipyard.
+ * Player.sellShip()
+   * Adjust selling value based on damage, too.
+ * Player.buyComponent()
+   * Make possible only if the ship is in friendly space.
+ * Player.sellComponent()
+   * Handle the case where there's more than one component of the same name.
+   * Adjust selling value based on damage % as well.
+ * GameObject
+   * Redundant with CoreObject.
+ * Alliance
+   * Handle income, shared_view, shared_fleet, etc.
+ * Fleet
+   * Add combat system.
+   * Add fleet/spacecraft movement.
+   * Add management mechanisms, and ability to use as part of an alliance.
+   * Deputy can move/fight. Commander can move/fight/administer fleet.
+   * Anyone with ships in it can join/leave fleet. Commander can kick ships and
+     players from the fleet.
+ * Game.nextTurn()
+   * Add other things that are done when turn is added... Refresh unit moves and
+     update the economic revenue generators.
+ * Game.mainLoop()
+   * Listen for player-submitted moves and other actions.
+   * Add unit movement and a combat system.
+
+---------------
+  location.py
+---------------
+ * Add tactical view for planets and asteroid fields to contain a deeper zoom.
+ * Work on new generation algorithms for Sector/System/Tactical.
+ * Location.distance() and Location.radius()
+   * Tested, comment, etc.
+ * Map.accessCoords()
+   * Delete location objects later on if they're empty to save space.
+ * Map.list()
+   * Rewrite so it's more useful than just printing a string for debug purposes.
+ * Map.__str__()
+   * Fix the naming and string system.
+ * System.__init__()
+   * Add other layouts, including binary and tertiary stars.
+   * Populate the generator.
+
+
+################################################################################
+
+*********************
+  Federation Client
+*********************
