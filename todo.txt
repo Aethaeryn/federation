@@ -59,35 +59,17 @@
 -----------
   game.py
 -----------
- * Think of a way to hide certain json files from certain players.
+ * Think of a way to hide certain API data files from certain players.
 
- * Add buy/sell infrastructure for structures/platforms/units/etc.
-
- * Integrate players with openID and work on other ways of storing player
-   information. How will authentication be handled?
+ * Add buy/sell methods for structures/spacecraft/components/units/etc. Do it
+   through those objects rather than through Player().
+   * Make sure you handle cases where there's not enough cash.
 
  * Finish the turn loop so that it is functional.
 
  * Player
-   * Handle authentication, cash/income, last_view.
+   * Handle last_view.
    * Add some mechanism to request membership in an alliance.
-   * Handle cases where there is not enough cash.
-
- * Player.buyShip()
-   * Make possible only if chosen from shipyard.
-
- * Player.sellShip()
-   * Adjust selling value based on damage, too.
-
- * Player.buyComponent()
-   * Make possible only if the ship is in friendly space.
-
- * Player.sellComponent()
-   * Handle the case where there's more than one component of the same name.
-   * Adjust selling value based on damage % as well.
-
- * Alliance
-   * Handle income, shared_view, shared_fleet, etc.
 
  * Fleet
    * Add management mechanisms, and ability to use as part of an alliance.
@@ -95,18 +77,12 @@
    * Anyone with ships in it can join/leave fleet. Commander can kick ships and
      players from the fleet.
 
- * Game.nextTurn()
-   * Add other things that are done when turn is added... Refresh unit moves
-     and update the economic revenue generators.
-
- * Game.mainLoop()
-   * Listen for player-submitted moves and other actions.
-   * Add unit movement and a combat system.
-
 
 -----------------------
   One Time Multi-File
 -----------------------
+ * Integrate Player with openID. How will authentication be handled?
+
  * Implement the combat system and movement system for fleets/spacecraft/etc.
 
  * Implement economy, money, resources, tribute, etc.
@@ -121,8 +97,8 @@
 *********************
  * Obtain artistic resources for client/resources
 
- * Different planned client interfaces:
-   * web, web (mobile), python, command line (debug), IRC bot.
+ * Prepare for these client UIs:
+   * web (desktop, mobile), python (CLI, IRC, GUI)
 
 
 ###############################################################################

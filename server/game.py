@@ -43,22 +43,6 @@ class Player(GameObject):
     def delShip(self, ship):
         self.ships.pop(ship.obj_id)
 
-    def buyShip(self, ship, custom_name):
-        self.addShip(self.env, ship, custom_name)
-        self.cash -= ship.value
-
-    def sellShip(self, ship):
-        self.delShip(ship)
-        self.cash += ship.value * 0.8
-
-    def buyComponent(self, component, ship_id):
-        self.ships[ship_id].addComponent(component)
-        self.cash -= component.cost
-
-    def sellComponent(self, comp_name, ship_id):
-        self.ships[ship_id].sellComponent(comp_name)
-        self.cash += self.env.obj["component"][comp_name].cost * 0.8
-
     def renamePlayer(self, new_name):
         self.game_name = new_name
 
@@ -145,11 +129,11 @@ class Game():
         self.turn        = 0
         self.turn_length = turn_length
 
-        # fixme: Move into its own spot and call when necessary.
+        #### fixme: Move into its own spot and call when necessary.
         self.out = data.Write('data')
         self.out.write('env', self.env.convert())
 
-        # self.mainLoop()
+        #### self.mainLoop()
 
     def addPlayer(self, username, game_name, email):
         if username not in self.players:
@@ -169,14 +153,21 @@ class Game():
     def delFleet(self, fleet_id):
         self.fleets.pop(str(fleet_id))
 
+    # These events are called on every new turn.
     def nextTurn(self, time):
         self.turn     += 1
         self.turn_time = time
+
+        #### Refresh unit move points and do queued actions.
+        #### Update the economic income for player and alliance (including tax).
+        #### Do other on-turn-start changes.
 
     def mainLoop(self):
         now = data.Time.get()
 
         self.nextTurn(now)
+
+        #### Listen for player-submitted moves/actions/combat/etc.
 
         while True:
             now = data.Time.get()
