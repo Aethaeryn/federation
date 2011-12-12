@@ -14,8 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import environment, location
-import datetime, json, os
+import environment, location, data
 
 class GameObject():
     def __str__(self):
@@ -28,7 +27,7 @@ class Player(GameObject):
         self.username  = username
         self.game_name = game_name
         self.email     = email
-        self.join_date = datetime.datetime.now()
+        self.join_date = data.getTime()
 
         self.cash      = 0
         self.alliance  = False
@@ -84,7 +83,7 @@ class Alliance(GameObject):
         # Various stats for the alliance.
         self.name         = name
         self.founder      = founder
-        self.date         = datetime.datetime.now()
+        self.date         = data.getTime()
         self.cash         = 0
         self.tax_rate     = 0
         self.shared_view  = False
@@ -134,20 +133,6 @@ class Fleet(GameObject):
     def delShip(self, ship):
         self.ships.pop(ship.obj_id)
 
-class WriteJSON():
-    def __init__(self, directory):
-        # The directory must be in the public /html folder, not in /server 
-        self.directory = '../html/' + directory + '/'
-
-        # The directory might not exist at this point.
-        if directory not in os.listdir('../html/'):
-            os.mkdir(self.directory)
-
-    def write(self, filename, string):
-        out = open(self.directory + filename + '.json', 'w')
-        out.write(string)
-
-        out.close()
 
 class Game():
     def __init__(self, turn_length):
@@ -161,8 +146,8 @@ class Game():
         self.turn_length = turn_length
 
         # fixme: Move into its own spot and call when necessary.
-        self.json        = WriteJSON("data")
-        self.json.write('env', self.getEnvData())
+        self.json = data.WriteJSON('data')
+        self.json.write('env', self.env.convert())
 
         # self.mainLoop()
 
@@ -188,23 +173,18 @@ class Game():
         self.turn     += 1
         self.turn_time = time
 
-    def getEnvData(self):
-        environmental_data = self.env.convert()
-
-        return json.dumps(environmental_data, indent=4)
-
     def mainLoop(self):
-        now = datetime.datetime.utcnow()
+        now = data.getTime()
 
         self.nextTurn(now)
 
         while True:
-            now = datetime.datetime.utcnow()
+            now = data.getTime()
 
             if now - self.turn_time >= self.turn_length:
                 self.nextTurn(now)
 
 def main():
-    game = Game(datetime.timedelta(minutes=100))
+    game = Game(data.setTimeMinutes(100))
 
 if __name__ == "__main__": main()

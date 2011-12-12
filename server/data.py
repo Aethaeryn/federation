@@ -14,9 +14,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import yaml
+import yaml, json, os, datetime
 
-# Handles .yml files in the data directory.
+# Handles .yml files in the server/data directory.
 class ParseYAML():
     # Parses all of the given data into the self.parsed dictionary.
     def __init__(self, directory, filenames):
@@ -35,3 +35,27 @@ class ParseYAML():
             yaml_in[key]['name'] = key
 
         return yaml_in
+
+# Writes .json files to html/data.
+class WriteJSON():
+    def __init__(self, directory):
+        # The directory must be in the public /html folder, not in /server 
+        self.directory = '../html/' + directory + '/'
+
+        # The directory might not exist at this point.
+        if directory not in os.listdir('../html/'):
+            os.mkdir(self.directory)
+
+    def write(self, filename, dictionary):
+        # Pure JSON doesn't have any comments at all!
+        # It would be great to give a header "This file is machine generated. Do not edit by hand."
+        message = json.dumps(dictionary, indent=4)
+        out     = open(self.directory + filename + '.json', 'w')
+        out.write(message)
+        out.close()
+
+def getTime():
+    return datetime.datetime.utcnow()
+
+def setTimeMinutes(mins):
+    return datetime.timedelta(minutes=mins)
