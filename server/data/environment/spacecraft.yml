@@ -70,7 +70,7 @@ Defensive Platform:
 Spaceport:
   size          : "Large Platform"
   description   : "Used for economic purposes, as well as for the docking and building of spacecraft."
-  is_shipyard   : True
+  special       : "Shipyard"
   component_max : 54
   base_cost     : 600
   component_list:

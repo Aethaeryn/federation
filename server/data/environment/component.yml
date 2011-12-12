@@ -68,7 +68,7 @@ Bombardment Cannon:
 Small Hull:
   size        : "Small Component"
   description : "Provides the basic structure for a small spacecraft."
-  sellable    : False
+  unsellable  : True
   hitpoints   : 10
   sensors     : 1
   cost        : 50
@@ -76,7 +76,7 @@ Small Hull:
 Medium Hull:
   size        : "Medium Component"
   description : "Provides the basic structure for a medium spacecraft."
-  sellable    : False
+  unsellable  : True
   hitpoints   : 30
   sensors     : 1
   cost        : 75
@@ -84,7 +84,7 @@ Medium Hull:
 Large Hull:
   size        : "Large Component"
   description : "Provides the basic structure for a large spacecraft."
-  sellable    : False
+  unsellable  : True
   hitpoints   : 90
   sensors     : 2
   cost        : 125
@@ -92,14 +92,14 @@ Large Hull:
 Small Engine:
   size        : "Small Component"
   description : "Provides the basic movement for a small spacecraft."
-  sellable    : False
+  unsellable  : True
   speed       : 8
   cost        : 30
 
 Medium Engine:
   size        : "Medium Component"
   description : "Provides the basic movement for a medium spacecraft and allows for FTL travel."
-  sellable    : False
+  unsellable  : True
   hyperspace  : True
   speed       : 5
   cost        : 50
@@ -107,7 +107,7 @@ Medium Engine:
 Large Engine:
   size        : "Large Component"
   description : "Provides the basic movement for a large spacecraft and allows for FTL travel."
-  sellable    : False
+  unsellable  : True
   hyperspace  : True
   speed       : 3
   cost        : 100

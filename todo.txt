@@ -1,102 +1,136 @@
 *********************
   Federation Server
 *********************
- * Comment code extensively!
- * Do additional readability clean-ups before finishing API and starting the
-   client-side work.
+----------------------
+  Ongoing Multi-File
+----------------------
+ * There's no point in making the source available if you're the only one who
+   is capable of reading it.
+
  * Add exception throwing/handling where errors can happen.
    * Pass these errors into the clients so they can handle them somehow.
- * Implement the combat system and movement system for fleets/spacecraft/etc.
- * Implement economy, money, resources, tribute, etc.
-   * Add wages for units and upkeep for spacecraft/structures?
- * Use gettext for internationalization.
+
  * Let's see if Tactical is superfluous with star system or if it makes the
    game more enjoyable.
+
+
+-----------------------
+  One Time Multi-File
+-----------------------
+ * Implement the combat system and movement system for fleets/spacecraft/etc.
+
+ * Implement economy, money, resources, tribute, etc.
+   * Add wages for units and upkeep for spacecraft/structures?
+
+ * Use gettext for internationalization.
+
 
 ------------------
   environment.py
 ------------------
- * Check to make sure data are semanticly valid before YAML parsing.
- * Check to make sure components are done right before adding them.
- * Spacecraft.sellComponent()
-   * Handle case where there's more than one component of the same name.
-   * Rewrite remove mechanism to be more flexible.
- * Body.variants
-   * Fix how the variants are added, perhaps change how this is done.
- * Clean-up Structure, Unit, and Body to be more like Spacecraft and Component 
+ * Rewrite Spacecraft.addComponent() and Spacecraft.sellComponent()
+   * Check to make sure that components are done right before adding them.
+   * Do a similar component check like with the new stats check.
+   * Require a hull and an engine in every spacecraft.
+
+ * Fix how Body works by adding the commented out features back in, but in
+   the new style..
+
 
 -----------
   game.py
 -----------
  * Think of a way to hide certain json files from certain players.
+
  * Add buy/sell infrastructure for structures/platforms/units/etc.
+
  * Integrate players with openID and work on other ways of storing player
    information. How will authentication be handled?
+
  * Finish the turn loop so that it is functional.
+
  * Player
    * Handle authentication, cash/income, last_view.
    * Add some mechanism to request membership in an alliance.
    * Handle cases where there is not enough cash.
+
  * Player.buyShip()
    * Make possible only if chosen from shipyard.
+
  * Player.sellShip()
    * Adjust selling value based on damage, too.
+
  * Player.buyComponent()
    * Make possible only if the ship is in friendly space.
+
  * Player.sellComponent()
    * Handle the case where there's more than one component of the same name.
    * Adjust selling value based on damage % as well.
+
  * Alliance
    * Handle income, shared_view, shared_fleet, etc.
+
  * Fleet
    * Add management mechanisms, and ability to use as part of an alliance.
    * Deputy can move/fight. Commander can move/fight/administer fleet.
    * Anyone with ships in it can join/leave fleet. Commander can kick ships and
      players from the fleet.
+
  * Game.nextTurn()
    * Add other things that are done when turn is added... Refresh unit moves
      and update the economic revenue generators.
+
  * Game.mainLoop()
    * Listen for player-submitted moves and other actions.
    * Add unit movement and a combat system.
+
 
 ---------------
   location.py
 ---------------
  * Work on new generation algorithms for Sector/System/Tactical.
+
  * Location.distance() and Location.radius()
    * Tested, comment, etc.
+
  * Map.accessCoords()
    * Delete location objects later on if they're empty to save space.
+
  * Map.list()
    * Rewrite so it's more useful than just printing a string for debugging
      purposes.
+
  * Map.__str__()
    * Fix the naming and string system.
+
  * Tactical
    * Add a name that adjusts based on whether it's a planet or asteroid field
      or some other significant object where this is taking place.
    * Vary size based on traits of the planet or asteroid field?
    * Add generator.
+
  * System.__init__()
    * Add other layouts, including binary and tertiary stars.
    * Populate the generator.
    * Integrate with Tactical()
 
-###############################################################################
 
+###############################################################################
 *********************
   Federation Client
 *********************
  * Obtain artistic resources for client/resources
+
  * Different planned client interfaces:
    * web, web (mobile), python, command line (debug), IRC bot.
 
-###############################################################################
 
+###############################################################################
 **********************
   Federation Website
 **********************
  * Update the website to contain more up-to-date information and a better main
    page.
+
  * Redo the styling of the website.
+

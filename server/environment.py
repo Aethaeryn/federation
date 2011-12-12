@@ -17,46 +17,41 @@
 import copy, data
 
 class EnvironmentObject():
-    name   = ''
-
+    # Makes sure the dictionary can be appropriately instantiated as an object, and then does so.
     def dictionaryToInstance(self, dictionary):
-        # If you try to have a value isn't an instance variable, throw exception.
-        for key in dictionary:
-            if key not in self.__dict__:
-                raise Exception('Illegal value in dictionary!')
+        # Popping the required and optional so they're not checked against below.
+        required = self.__dict__.pop('required')
+        optional = self.__dict__.pop('optional')
 
-        # Update the dictionary with the new values.
+        # Every new instance variable must be expected by the object.
+        for key in dictionary:
+            if key not in required and key not in optional:
+                raise Exception('Illegal value in yaml data file!')
+
+        # Every new required instance variable must be provided.
+        for entry in required:
+            if entry not in dictionary and entry != 'name':
+                raise Exception('Missing entry ' + entry + ' not in yaml file for item ' + dictionary.name)
+
+            elif entry == 'name' and entry not in dictionary:
+                raise Exception('Missing name for an entry!')
+
+        # Any optional instance variable that is missing will be set to false.
+        for entry in optional:
+            if entry not in dictionary:
+                self.__dict__[entry] = False
+
+        # Every entry in the dictionary, assuming no exception has been thrown, is added as an instance variable.
         self.__dict__.update(dictionary)
 
+    # Printing an environmental object gives its name.
     def __str__(self):
         return self.name
 
 class Component(EnvironmentObject):
-    # Sets default values in the event that some values are missing.
     def __init__(self, dictionary):
-        # Stores basic stats.
-        self.name        = ''
-        self.description = ''
-        self.sellable    = True
-        self.size        = ''
-        self.cost        = 0
-        self.hitpoints   = 0
-        self.shields     = 0
-        self.sensors     = 0
-        self.speed       = 0
-
-        # Stores special information.
-        self.cargo       = False
-        self.dock        = False
-        self.crew        = False
-        self.hyperspace  = False
-        self.special     = False
-
-        # Stores weapon information.
-        self.wep_damage  = False
-        self.wep_speed   = False
-        self.wep_type    = False
-        self.wep_special = False
+        self.required = set(['name', 'description', 'size', 'cost'])
+        self.optional = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'special', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special', 'unsellable'])
 
         # Reads in the ship data.
         self.dictionaryToInstance(dictionary)
@@ -75,44 +70,26 @@ class Component(EnvironmentObject):
             self.exp_size   = 4
 
 class Spacecraft(EnvironmentObject):
-    # Sets default values in the event that some values are missing.
     def __init__(self, dictionary):
-        # Stores basic stats.
-        self.name        = ''
-        self.custom_name = False
-        self.description = False
-        self.size        = False
-        self.base_cost   = 0
-        self.hitpoints   = 0
-        self.shields     = 0
-        self.sensors     = 0
-        self.speed       = 0
+        # These stats are read in from outside.
+        self.required = set(['name', 'description', 'size', 'base_cost', 'component_list', 'component_max'])
+        self.optional = set(['special'])
 
-        # Stores special information.
-        self.cargo       = False
-        self.dock        = False
-        self.crew        = False
-        self.hyperspace  = False
-        self.is_shipyard = False
-
-        # Stores damage information.
-        self.damage_hitpoints = 0
-        self.damage_shields   = 0
-
-        # Stores component information.
-        self.component_max  = 0
-        self.components_in  = 0
-        self.component_list = []
-        self.component_stat = []
-
-        # Reads in the ship data.
         self.dictionaryToInstance(dictionary)
 
-        # The value is set to the base cost, and then any component adds to its value.
+        # These are stats set elsewhere, not by the config dictionary.
+        customized_stats = ['custom_name', 'hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'damage_hitpoints', 'damage_shields', 'components_in', 'component_stat']
+
+        for stat in customized_stats:
+            self.__dict__[stat] = False
+
+        # The value is first set to the base cost. Any component then adds to its value.
         self.value = self.base_cost
 
     # Uses the components in component_list to modify the spacecraft stats.
     def initializeComponents(self, components):
+        self.component_stat = []
+
         for component in self.component_list:
             self.addComponent(components[component])
 
@@ -150,51 +127,35 @@ class Spacecraft(EnvironmentObject):
         if component in self.component_list:
             for i in range(len(component_list)):
                 if component_list[i] == component:
-                    component_list.pop(i)
-                    component_stat.pop(i)
+                    self.component_list.pop(i)
+                    self.component_stat.pop(i)
                     return
 
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
-        self.name        = ''
-        self.description = ''
-        self.cost        = 0
-        self.hitpoints   = 0
-        self.special     = False
-
-        self.shields     = 0
-        self.wep_damage  = 0
-        self.wep_speed   = 0
-        self.wep_type    = False
-        self.wep_special = False
+        self.required = set(['name', 'description', 'hitpoints', 'cost'])
+        self.optional = set(['special', 'shields', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special'])
 
         self.dictionaryToInstance(dictionary)
 
 class Unit(EnvironmentObject):
     def __init__(self, dictionary):
-        self.name        = ''
-        self.description = ''
-        self.cost        = 0
-        self.hitpoints   = 0
-        self.damage      = 0
-        self.veteran     = 0
-        self.special     = False
+        self.required = set(['name', 'description', 'hitpoints', 'cost'])
+        self.optional = set(['damage', 'special'])
 
         self.dictionaryToInstance(dictionary)
 
 class Body(EnvironmentObject):
     def __init__(self, dictionary):
-        self.name        = ''
-        self.place_name  = ''
-        self.description = ''
-        self.owner       = 'Neutral'
-        self.variant     = ''
-        self.effects     = None
-
-        # self.variants   = set([''])
-        self.structures = []
+        self.required = set(['name', 'description'])
+        self.optional = set(['owner'])
 
         self.dictionaryToInstance(dictionary)
+
+        # self.removed = set(['place_name', 'variant', 'effects'])
+
+        # self.variants   = set([''])
+        # self.structures = []
 
         # if self.variant not in self.variants:
         #    raise Exception("This isn't a valid variant for a " +
