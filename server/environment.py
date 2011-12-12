@@ -14,10 +14,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import core, data
-import copy
+import copy, data
 
-class EnvironmentObject(core.CoreObject):
+class EnvironmentObject():
     name   = ''
 
     # If there is a matching attribute, the key
@@ -251,7 +250,7 @@ class Environment():
             dictionary = {}
 
             for key in self.obj[obj_type]:
-                dictionary[key] = self.obj[obj_type][key].getStatus()
+                dictionary[key] = self.obj[obj_type][key].__dict__
 
             environmental_objs[obj_type] = dictionary
 

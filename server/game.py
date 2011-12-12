@@ -14,13 +14,13 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import core, environment, location
+import environment, location
 import datetime, json
 
-class GameObject(core.CoreObject):
+class GameObject():
     # This is filler. Remove this if you add a method that does something.
-    def __init__(self):
-        pass
+    def __str__(self):
+        return self.name
 
 class Player(GameObject):
     def __init__(self, username, game_name, email, env):

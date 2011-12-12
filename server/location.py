@@ -14,7 +14,6 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import core
 import random
 
 # Stores environmental objects at a given location.
@@ -103,7 +102,7 @@ class Location:
             raise Exception("Fleet does not exist at location!")
 
 # Holds locations of significance.
-class Map(core.CoreObject):
+class Map():
     name = "Map"
 
     # Creates a map with given x, y size limits.
