@@ -1,8 +1,8 @@
 # Ignore compiled Python files.
 *.pyc
 
-# Ignore server-generated JSON files.
-*.json
+# Ignore server-generated data files.
+html/data/*
 
 # Ignore hidden directories and files.
 .*

@@ -36,7 +36,8 @@ class Parse():
 
         return yaml_in
 
-# Writes .json files to html/data.
+# Writes .json and .yml files to html/data.
+# YAML is preferred, where available, but json is more widely supported.
 class Write():
     def __init__(self, directory):
         # The directory must be in the public /html folder, not in /server 
@@ -46,19 +47,26 @@ class Write():
         if directory not in os.listdir('../html/'):
             os.mkdir(self.directory)
 
+    # Writes a .json and a .yml file containing identical information.
+    # Either file can be fetched by the client to be parsed.
     def write(self, filename, dictionary):
-        # Pure JSON doesn't have any comments at all!
-        # It would be great to give a header "This file is machine generated. Do not edit by hand."
-        message = json.dumps(dictionary, indent=4)
-        out     = open(self.directory + filename + '.json', 'w')
-        out.write(message)
+        json_msg = json.dumps(dictionary, indent=4)
+        yaml_msg = '# This file is machine generated. Do not edit by hand.\n\n' + yaml.dump(dictionary, default_flow_style=False)
+
+        out      = open(self.directory + filename + '.json', 'w')
+        out.write(json_msg)
         out.close()
 
+        out       = open(self.directory + filename + '.yml', 'w')
+        out.write(yaml_msg)
+        out.close()
+
+# Provides very limited access to datetime with static methods.
 class Time():
     @classmethod
     def get(self):
         return datetime.datetime.utcnow()
 
     @classmethod
-    def setMinutes(self, mins):
+    def getMinutes(self, mins):
         return datetime.timedelta(minutes=mins)

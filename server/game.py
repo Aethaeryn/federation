@@ -185,6 +185,6 @@ class Game():
                 self.nextTurn(now)
 
 def main():
-    game = Game(data.Time.setMinutes(100))
+    game = Game(data.Time.getMinutes(100))
 
 if __name__ == "__main__": main()
