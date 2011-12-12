@@ -17,7 +17,7 @@
 import yaml, json, os, datetime
 
 # Handles .yml files in the server/data directory.
-class ParseYAML():
+class Parse():
     # Parses all of the given data into the self.parsed dictionary.
     def __init__(self, directory, filenames):
         self.parsed = {}
@@ -37,7 +37,7 @@ class ParseYAML():
         return yaml_in
 
 # Writes .json files to html/data.
-class WriteJSON():
+class Write():
     def __init__(self, directory):
         # The directory must be in the public /html folder, not in /server 
         self.directory = '../html/' + directory + '/'
@@ -54,8 +54,11 @@ class WriteJSON():
         out.write(message)
         out.close()
 
-def getTime():
-    return datetime.datetime.utcnow()
+class Time():
+    @classmethod
+    def get(self):
+        return datetime.datetime.utcnow()
 
-def setTimeMinutes(mins):
-    return datetime.timedelta(minutes=mins)
+    @classmethod
+    def setMinutes(self, mins):
+        return datetime.timedelta(minutes=mins)

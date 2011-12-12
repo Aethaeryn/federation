@@ -26,12 +26,12 @@ class EnvironmentObject():
         # Every new instance variable must be expected by the object.
         for key in dictionary:
             if key not in required and key not in optional:
-                raise Exception('Illegal value in yaml data file!')
+                raise Exception('Illegal value in the data file!')
 
         # Every new required instance variable must be provided.
         for entry in required:
             if entry not in dictionary and entry != 'name':
-                raise Exception('Missing entry ' + entry + ' not in yaml file for item ' + dictionary.name)
+                raise Exception('Missing entry ' + entry + ' not in data file for item ' + dictionary.name)
 
             elif entry == 'name' and entry not in dictionary:
                 raise Exception('Missing name for an entry!')
@@ -171,29 +171,29 @@ class Environment():
         directory = "environment"
         filenames = ["component", "spacecraft", "structure", "unit", "body"]
 
-        # Parses the yaml data files for environment objects.
-        parse    = data.ParseYAML(directory, filenames)
+        # Parses the data files for environment objects.
+        parse    = data.Parse(directory, filenames)
         self.obj = parse.parsed
 
-        # Turns the yaml dictionaries into Python objects.
+        # Turns the parsed dictionaries into Python objects.
         for filename in self.obj:
             for key in self.obj[filename]:
-                yaml = self.obj[filename].pop(key)
+                in_data = self.obj[filename].pop(key)
 
                 if filename == "component":
-                    self.obj[filename][key] = Component(yaml)
+                    self.obj[filename][key] = Component(in_data)
 
                 elif filename == "spacecraft":
-                    self.obj[filename][key] = Spacecraft(yaml)
+                    self.obj[filename][key] = Spacecraft(in_data)
 
                 elif filename == "structure":
-                    self.obj[filename][key] = Structure(yaml)
+                    self.obj[filename][key] = Structure(in_data)
 
                 elif filename == "unit":
-                    self.obj[filename][key] = Unit(yaml)
+                    self.obj[filename][key] = Unit(in_data)
 
                 elif filename == "body":
-                    self.obj[filename][key] = Body(yaml)
+                    self.obj[filename][key] = Body(in_data)
 
         # Has the spacecrafts' component lists modify spacecraft stats. 
         for craft_type in self.obj["spacecraft"]:

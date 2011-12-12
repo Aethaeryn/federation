@@ -27,7 +27,7 @@ class Player(GameObject):
         self.username  = username
         self.game_name = game_name
         self.email     = email
-        self.join_date = data.getTime()
+        self.join_date = data.Time.get()
 
         self.cash      = 0
         self.alliance  = False
@@ -83,7 +83,7 @@ class Alliance(GameObject):
         # Various stats for the alliance.
         self.name         = name
         self.founder      = founder
-        self.date         = data.getTime()
+        self.date         = data.Time.get()
         self.cash         = 0
         self.tax_rate     = 0
         self.shared_view  = False
@@ -146,8 +146,8 @@ class Game():
         self.turn_length = turn_length
 
         # fixme: Move into its own spot and call when necessary.
-        self.json = data.WriteJSON('data')
-        self.json.write('env', self.env.convert())
+        self.out = data.Write('data')
+        self.out.write('env', self.env.convert())
 
         # self.mainLoop()
 
@@ -174,17 +174,17 @@ class Game():
         self.turn_time = time
 
     def mainLoop(self):
-        now = data.getTime()
+        now = data.Time.get()
 
         self.nextTurn(now)
 
         while True:
-            now = data.getTime()
+            now = data.Time.get()
 
             if now - self.turn_time >= self.turn_length:
                 self.nextTurn(now)
 
 def main():
-    game = Game(data.setTimeMinutes(100))
+    game = Game(data.Time.setMinutes(100))
 
 if __name__ == "__main__": main()
