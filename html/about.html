@@ -1,0 +1,192 @@
+<!DOCTYPE HTML5>
+<html>
+<head>
+  <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+  <title>Federation</title>
+  <style type="text/css">
+    body { font-family:"DejaVu Sans", "Arial", "Helvetica"; color:#ffffff; background-color:#000000; font-size:12pt}
+    h1 { font-size:14pt; }
+    a {text-decoration: none; font-weight: bold; }
+    a:visited {color:#ff00ff}
+  </style>
+  <link rel="shortcut icon"
+        href="federation.ico" />
+</head>
+<body>
+<b>Note:</b> This document is old and Federation is still in active
+development, so this document could be out of date. This may not
+describe the game perfectly in its latest state.
+
+<h1>INTRODUCTION</h1>
+
+Federation is a massively multiplayer online turn-based strategy
+(MMOTBS) with a science fiction theme and utilizing a 2D hex-based
+game map. The game has slow-playing (simultaneous) turns, intended for
+once-a-day gameplay, and the sector and play style is designed so that
+perpetual gameplay (with resets or endings) is possible on any given
+server. Players can control planets, moons, and regions of asteroid
+fields within a given star system. Sectors consist of a large number
+of star systems and each game server will have at least one
+sector. Spaceships can be grouped into fleets, and fleets can belong
+to a player or a federation of many players that players can form
+among themselves.
+
+<h1>TECHNICAL DETAILS</h1>
+The server back-end of Federation will initially be coded in Python
+with Django and there will be a public API that will use HTTP with
+SSL. The source code will be hosted on Github under the AGPL license,
+but there will be several official servers hosted by the Federation
+project. The server will contain a database of the players, and the
+game action will take place on the game server. The API will be open,
+allowing anyone to be able to write a game client that can
+authenticate with the servers, retrieve the game state from the
+servers, and send moves back to the server. The official way of
+accessing and playing the game will initially be through the official
+website via any HTML 5 capable browser, but flexibility is intended so
+that mobile and desktop apps will be eventually be released. Because
+of the open nature of the game, unofficial clients and servers are
+possible.
+
+<h1>PLANNED OFFICIAL SERVERS</h1>
+
+Initially, there will be three official game servers with different
+initial settings so that different play styles can be
+accommodated. The main server will be a slow-playing server with a
+large sector, enabling perpetual gameplay that requires checking about
+once a day to be successful. In addition, there will be a competitive
+deathmatch server with tweaked settings that plays more quickly, is on
+a much smaller sector, and will reset every three months or if a
+federation manages to conquer the entire sector and hence "win" the
+game. Finally, there will be a bots-allowed server that is a varient
+of the deathmatch gameplay so that people can write automated clients
+to play the game in an environment intended so that the best AI can
+win. Bots will not be allowed on the other official servers.
+
+All official servers will eventually (after alpha is completed) have
+two sectors. The starting sector will be a safe sector where newbies
+can complete missions and learn how to play the game with PvP being
+disabled. Economic growth will be slower because ownership of
+territory and membership in federations will not be supported. The
+second sector is accessible through a one-way hyperspace
+jumpgate. This second sector allows full utilization of the game
+features: PvP is allowed, ownership of territory is allowed, and
+players can form federations with each other. Players will never be
+forced into the second sector, but economic growth potential is much
+greater in the second sector, so there will be strong incentives to
+utilize the full features of the game by making the one-way jump. If a
+player is completely eliminated, with no ships or territory remaining,
+they will be able to restart in the original sector and build again
+from scratch.
+
+<h1>SPACESHIPS, COMPONENTS, AND FLEETS</h1>
+
+In Federation, spaceships are completely modular and consist entirely
+of components. Players can buy, sell, or upgrade components, although
+different ship types may have different component slots or might have
+certain unsellable components "locked" to their ship. There will be
+small ships (such as fighters and bombers), medium ships (frigates),
+and large ships (various forms of capital ships) that all have various
+advantages and disadvantages as a ship class, as well as each
+individual type.
+
+Because different ships have different advantages and disadvantages,
+forming a fleet to balance out the ships is recommended. Any player
+can put their ships in a fleet that they own. Fleets will move as
+quickly as the slowest ship in the fleet, and large gatherings of
+ships will be visible by enemies from further away in servers where
+fog of war is enabled. Because of fuel limitations, small ships are
+unable to travel between star systems unless they are docked in a ship
+with a docking bay. They will undock if the fleet enters into combat.
+
+Players who are in federations will be able to participate in fleets
+owned by their federation and will be able to join and leave at any
+time as long as they remain part of that federation. Only two players
+can actually control the fleet (a commander and a deputy) and everyone
+else is a passive passenger until they choose to leave that
+fleet. With federations, players are able to create much larger fleets
+than they would otherwise be able to.
+
+<h1>GAME MAPS</h1>
+
+The furthest level of the game map is the sector view, which allows
+the player to view all star systems as well as large fleets that are
+moving between star systems. Fleets and ships that are in betewen star
+systems will be unable to engage in combat because they are locked
+into the fastest type of faster-than-light (FTL) travel and are locked
+onto their given destination. All action will take place within a
+given star system.
+
+A star system consists of a 2D representation on a hex map. The star
+is typically near the center of the star system (star systems with
+more than one star have more complicated physics). The only other
+important objects in a star system are the asteroid fields, the
+planets, and the moons. Planets revolve around the star(s), moons
+revolve around a planet, and asteroid fields typically are
+one-hex-large sectors of a larger asteroid belt that encircle a star
+at some orbital distance.
+
+<h1>TYPES OF BODIES</h1>
+
+Planets and moons are ownable by players. The player that owns the
+planet or moon can launch various orbital stations around the
+object. Friendly fleets and space platforms around the planet are
+safer than in deep space. The player can build certain settlements on
+the surface (for solid planets) or in the atmosphere (for gas planets)
+that can provide a source of moderate economic revenue.
+
+Asteroid fields are a special type of object because they obstruct
+movement and visibility. Unless the player owns an asteroid field, has
+an ally that owns the asteroid field, or is nearby the asteroid field,
+ownership of the territory is unknown. Spacecraft and space platforms
+can hide more easily in the asteroid field and are given a defensive
+advantage if they are being attacked from outside of the asteroid
+field. Because of the difficulty of asteroid fields, star systems with
+many asteroid fields are great for guerilla warfare against a superior
+foe.
+
+Asteroids are economically advantageous and can be mined by special
+spacecraft and refined in an asteroid base. Refined asteroids can
+either be sold directly at the base or transported further away. The
+value of refined asteroids is based on the distance of where they are
+being sold from the nearest asteroid field.
+
+<h1>INTERACTIONS BETWEEN PLAYERS</h1>
+
+Players will be able to form federations and federations will be able
+to ally each other and declare war on each other. Players in a
+federation will be unable to attack a federation or the allies of that
+federation without first leaving that federation. Federations will be
+able to form interplayer fleets (as described in the FLEET)
+section. Most of the features federations will be able to utilize will
+be options that the federation's government can determine, thus
+allowing both loose coalitions and strong, centralized governance with
+optional features available such as a mandatory membership fee or
+shared vision.
+
+Players and federations will be able to place monetary bounties on
+players in general, or on particular ships, fleets, or planetary
+bodies that are owned by a player.
+
+A major focus on Federation will be social gameplay and membership in
+federations is strongly encouraged to experience the full features of
+the game. You are rewarded for getting your friends to join the game
+because friends can join your fleet, thus providing strength in
+numbers.
+
+<h1>DIFFERENT GAMEPLAY STYLES</h1>
+
+Federation, unlike many traditional strategy games, is designed so
+that there is a multiplicity of gameplay styles possible on the main
+server. One can choose one or more of several ways to play the
+game. One can build galactic empires and try to conquer many regions
+of the sector, but that is not necessarily the best way to
+play. Players can instead focus on optimizing their economic strength,
+on being bounty hunters, or even on being pirates. Because refined
+asteroids can be shipped to far-away bases for higher economic profit,
+players can try to intercept these trade convoys, take control of the
+ships via boarding, and then sell those refined asteroids themselves
+without having to actually mine asteroids.
+<br><br>
+<a href="index.html"><b>Return Home</b></a>
+</body>
+</html>
