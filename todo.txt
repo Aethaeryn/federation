@@ -14,17 +14,6 @@
    game more enjoyable.
 
 
------------------------
-  One Time Multi-File
------------------------
- * Implement the combat system and movement system for fleets/spacecraft/etc.
-
- * Implement economy, money, resources, tribute, etc.
-   * Add wages for units and upkeep for spacecraft/structures?
-
- * Use gettext for internationalization.
-
-
 ------------------
   environment.py
 ------------------
@@ -35,6 +24,36 @@
 
  * Fix how Body works by adding the commented out features back in, but in
    the new style..
+
+
+---------------
+  location.py
+---------------
+ * Work on new generation algorithms for Sector/System/Tactical.
+
+ * Location.distance() and Location.radius()
+   * Tested, comment, etc.
+
+ * Map.accessCoords()
+   * Delete location objects later on if they're empty to save space.
+
+ * Map.list()
+   * Rewrite so it's more useful than just printing a string for debugging
+     purposes.
+
+ * Map.__str__()
+   * Fix the naming and string system.
+
+ * Tactical
+   * Add a name that adjusts based on whether it's a planet or asteroid field
+     or some other significant object where this is taking place.
+   * Vary size based on traits of the planet or asteroid field?
+   * Add generator.
+
+ * System.__init__()
+   * Add other layouts, including binary and tertiary stars.
+   * Populate the generator.
+   * Integrate with Tactical()
 
 
 -----------
@@ -85,34 +104,15 @@
    * Add unit movement and a combat system.
 
 
----------------
-  location.py
----------------
- * Work on new generation algorithms for Sector/System/Tactical.
+-----------------------
+  One Time Multi-File
+-----------------------
+ * Implement the combat system and movement system for fleets/spacecraft/etc.
 
- * Location.distance() and Location.radius()
-   * Tested, comment, etc.
+ * Implement economy, money, resources, tribute, etc.
+   * Add wages for units and upkeep for spacecraft/structures?
 
- * Map.accessCoords()
-   * Delete location objects later on if they're empty to save space.
-
- * Map.list()
-   * Rewrite so it's more useful than just printing a string for debugging
-     purposes.
-
- * Map.__str__()
-   * Fix the naming and string system.
-
- * Tactical
-   * Add a name that adjusts based on whether it's a planet or asteroid field
-     or some other significant object where this is taking place.
-   * Vary size based on traits of the planet or asteroid field?
-   * Add generator.
-
- * System.__init__()
-   * Add other layouts, including binary and tertiary stars.
-   * Populate the generator.
-   * Integrate with Tactical()
+ * Use gettext for internationalization.
 
 
 ###############################################################################
