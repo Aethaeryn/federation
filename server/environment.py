@@ -14,8 +14,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import core, data # files
-import copy, json # external libraries
+import core, data
+import copy
 
 class EnvironmentObject(core.CoreObject):
     name   = ''
@@ -187,14 +187,14 @@ class Body(EnvironmentObject):
         self.variant     = ''
         self.effects     = None
 
-        self.variants   = set([''])
+        # self.variants   = set([''])
         self.structures = []
 
         self.dictionaryToInstance(dictionary)
 
-        if self.variant not in self.variants:
-            raise Exception("This isn't a valid variant for a " +
-                            self.name + "!")
+        # if self.variant not in self.variants:
+        #    raise Exception("This isn't a valid variant for a " +
+        #                    self.name + "!")
 
 # The interface for environment.py. Instantiate to use this file elsewhere.
 class Environment():
@@ -243,7 +243,7 @@ class Environment():
         obj_copy["obj_id"] = self.obj_id
         return obj_copy
 
-    # Converts objects into a dictionary and then returns JSON.
+    # Converts objects into a dictionary for parsing elsewhere.
     def convert(self):
         environmental_objs = {}
 
@@ -255,4 +255,4 @@ class Environment():
 
             environmental_objs[obj_type] = dictionary
 
-        return json.dumps(environmental_objs, indent=4)
+        return environmental_objs

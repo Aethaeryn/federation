@@ -15,7 +15,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import core, environment, location
-import datetime
+import datetime, json
 
 class GameObject(core.CoreObject):
     # This is filler. Remove this if you add a method that does something.
@@ -135,6 +135,16 @@ class Fleet(GameObject):
     def delShip(self, ship):
         self.ships.pop(ship.obj_id)
 
+class WriteJSON():
+    def __init__(self, directory):
+        self.directory = directory
+
+    def write(self, filename, string):
+        out = open(self.directory + filename + '.json', 'w')
+        out.write(string)
+
+        out.close()
+
 class Game():
     def __init__(self, turn_length):
         self.env = environment.Environment()
@@ -145,6 +155,10 @@ class Game():
         self.fleets      = {}
         self.turn        = 0
         self.turn_length = turn_length
+
+        # fixme: Move into its own spot and call when necessary.
+        self.json        = WriteJSON("../html/data/")
+        self.json.write('env', self.getEnvData())
 
         # self.mainLoop()
 
@@ -171,7 +185,9 @@ class Game():
         self.turn_time = time
 
     def getEnvData(self):
-        return env.convert()
+        environmental_data = self.env.convert()
+
+        return json.dumps(environmental_data, indent=4)
 
     def mainLoop(self):
         now = datetime.datetime.utcnow()

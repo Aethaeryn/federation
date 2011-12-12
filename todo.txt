@@ -92,4 +92,13 @@
 *********************
  * Obtain artistic resources for client/resources
  * Different planned client interfaces:
-   * web, web (mobile), python, Android, iOS, command line, IRC bot.
+   * web, web (mobile), python, command line (debug), IRC bot.
+
+###############################################################################
+
+**********************
+  Federation Website
+**********************
+ * Update the website to contain more up-to-date information and a better main
+   page.
+ * Redo the styling of the website.

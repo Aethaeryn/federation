@@ -14,25 +14,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-
 class CoreObject(object):
     def getStatus(self):
-        status = {}
-
-        for stat in dir(self):
-            value = getattr(self, stat)
-            types = set([str, int, bool, list, dict])
-
-            # Iterates over all meaningful instance variables that store something.
-            if (type(value) in types) and stat is not '__module__':
-                status[stat] = getattr(self, stat)
-
-            # Datetime objects are handled specially, and converted to string.
-            elif type(value) is datetime:
-                status[stat] = str(getattr(self, stat))
-
-        return status
+        return self.__dict__
 
     def __str__(self):
         return self.name
