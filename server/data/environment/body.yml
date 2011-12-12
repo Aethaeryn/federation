@@ -24,7 +24,7 @@ Asteroid Field:
   description: "Asteroids can be valuable economically, but asteroid fields are also useful to hide in as they slow down ships and disrupt their sensors."
 
 Star:
-  desription: "The main elmeent of a star system, all stellar objects gravitate to their star(s). Don't get too close!"
+  description: "The main elmeent of a star system, all stellar objects gravitate to their star(s). Don't get too close!"
 
 Jumpgate:
   description: "This mysterious artifact from an ancient precursor civilization leads to a seemingly random location in a far away sector of space. Be careful! This trip is one-way!"

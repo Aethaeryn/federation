@@ -19,16 +19,20 @@ import copy, data
 class EnvironmentObject():
     name   = ''
 
-    # If there is a matching attribute, the key
     def dictionaryToInstance(self, dictionary):
+        # If you try to have a value isn't an instance variable, throw exception.
         for key in dictionary:
-            if hasattr(self, key):
-                setattr(self, key, dictionary[key])
+            if key not in self.__dict__:
+                raise Exception('Illegal value in dictionary!')
+
+        # Update the dictionary with the new values.
+        self.__dict__.update(dictionary)
 
     def __str__(self):
         return self.name
 
 class Component(EnvironmentObject):
+    # Sets default values in the event that some values are missing.
     def __init__(self, dictionary):
         # Stores basic stats.
         self.name        = ''
@@ -42,15 +46,15 @@ class Component(EnvironmentObject):
         self.speed       = 0
 
         # Stores special information.
-        self.cargo       = 0
-        self.dock        = 0
-        self.crew        = 0
+        self.cargo       = False
+        self.dock        = False
+        self.crew        = False
         self.hyperspace  = False
         self.special     = False
 
         # Stores weapon information.
-        self.wep_damage  = 0
-        self.wep_speed   = 0
+        self.wep_damage  = False
+        self.wep_speed   = False
         self.wep_type    = False
         self.wep_special = False
 
@@ -71,6 +75,7 @@ class Component(EnvironmentObject):
             self.exp_size   = 4
 
 class Spacecraft(EnvironmentObject):
+    # Sets default values in the event that some values are missing.
     def __init__(self, dictionary):
         # Stores basic stats.
         self.name        = ''
