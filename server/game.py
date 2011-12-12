@@ -137,7 +137,7 @@ class Fleet(GameObject):
 class WriteJSON():
     def __init__(self, directory):
         # The directory must be in the public /html folder, not in /server 
-        self.directory = '../html/' + directory
+        self.directory = '../html/' + directory + '/'
 
         # The directory might not exist at this point.
         if directory not in os.listdir('../html/'):
