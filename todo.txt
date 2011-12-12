@@ -10,6 +10,9 @@
  * Implement the combat system and movement system for fleets/spacecraft/etc.
  * Implement economy, money, resources, tribute, etc.
    * Add wages for units and upkeep for spacecraft/structures?
+ * Use gettext for internationalization.
+ * Let's see if Tactical is superfluous with star system or if it makes the
+   game more enjoyable.
 
 ------------------
   environment.py
@@ -21,12 +24,12 @@
    * Rewrite remove mechanism to be more flexible.
  * Body.variants
    * Fix how the variants are added, perhaps change how this is done.
- * Clean-up Structure, Unit, and Body to be more like Spacecraft and Component. 
+ * Clean-up Structure, Unit, and Body to be more like Spacecraft and Component 
 
 -----------
   game.py
 -----------
- * Add public-facing JSON API.
+ * Add public-facing JSON API. 
  * Add buy/sell infrastructure for structures/platforms/units/etc.
  * Integrate players with openID and work on other ways of storing player
    information. How will authentication be handled?
@@ -52,8 +55,8 @@
    * Anyone with ships in it can join/leave fleet. Commander can kick ships and
      players from the fleet.
  * Game.nextTurn()
-   * Add other things that are done when turn is added... Refresh unit moves and
-     update the economic revenue generators.
+   * Add other things that are done when turn is added... Refresh unit moves
+     and update the economic revenue generators.
  * Game.mainLoop()
    * Listen for player-submitted moves and other actions.
    * Add unit movement and a combat system.
@@ -61,19 +64,19 @@
 ---------------
   location.py
 ---------------
- * Add tactical view for planets and asteroid fields to contain a deeper zoom.
  * Work on new generation algorithms for Sector/System/Tactical.
  * Location.distance() and Location.radius()
    * Tested, comment, etc.
  * Map.accessCoords()
    * Delete location objects later on if they're empty to save space.
  * Map.list()
-   * Rewrite so it's more useful than just printing a string for debug purposes.
+   * Rewrite so it's more useful than just printing a string for debugging
+     purposes.
  * Map.__str__()
    * Fix the naming and string system.
  * Tactical
-   * Add a name that adjusts based on whether it's a planet or asteroid field or
-     some other significant object where this is taking place.
+   * Add a name that adjusts based on whether it's a planet or asteroid field
+     or some other significant object where this is taking place.
    * Vary size based on traits of the planet or asteroid field?
    * Add generator.
  * System.__init__()
@@ -82,7 +85,7 @@
    * Integrate with Tactical()
 
 
-################################################################################
+###############################################################################
 
 *********************
   Federation Client
