@@ -15,10 +15,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import environment, location
-import datetime, json
+import datetime, json, os
 
 class GameObject():
-    # This is filler. Remove this if you add a method that does something.
     def __str__(self):
         return self.name
 
@@ -137,7 +136,12 @@ class Fleet(GameObject):
 
 class WriteJSON():
     def __init__(self, directory):
-        self.directory = directory
+        # The directory must be in the public /html folder, not in /server 
+        self.directory = '../html/' + directory
+
+        # The directory might not exist at this point.
+        if directory not in os.listdir('../html/'):
+            os.mkdir(self.directory)
 
     def write(self, filename, string):
         out = open(self.directory + filename + '.json', 'w')
@@ -157,7 +161,7 @@ class Game():
         self.turn_length = turn_length
 
         # fixme: Move into its own spot and call when necessary.
-        self.json        = WriteJSON("../html/data/")
+        self.json        = WriteJSON("data")
         self.json.write('env', self.getEnvData())
 
         # self.mainLoop()
