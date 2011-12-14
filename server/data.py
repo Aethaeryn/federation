@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import yaml, json, os, datetime
+import yaml, json, os, datetime, time
 
 # Handles .yml files in the server/data directory.
 class Parse():
@@ -70,3 +70,7 @@ class Time():
     @classmethod
     def getMinutes(self, mins):
         return datetime.timedelta(minutes=mins)
+
+    @classmethod
+    def sleep(self, seconds):
+        return time.sleep(seconds)

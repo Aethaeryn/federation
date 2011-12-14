@@ -133,7 +133,7 @@ class Game():
         self.out = data.Write('data')
         self.out.write('env', self.env.convert())
 
-        #### self.mainLoop()
+        self.mainLoop()
 
     def addPlayer(self, username, game_name, email):
         if username not in self.players:
@@ -170,6 +170,8 @@ class Game():
         #### Listen for player-submitted moves/actions/combat/etc.
 
         while True:
+            data.Time.sleep(.1)
+
             now = data.Time.get()
 
             if now - self.turn_time >= self.turn_length:
