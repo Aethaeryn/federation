@@ -1,4 +1,4 @@
-#    Federation Server
+#    Federation
 #    Copyright (C) 2011 Michael Babich
 #
 #    This program is free software: you can redistribute it and/or modify
