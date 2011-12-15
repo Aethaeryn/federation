@@ -16,9 +16,10 @@
 
 import copy, data
 
+# An environment object is something that exists as a physical object in the game world.
 class EnvironmentObject(object):
     # Makes sure the dictionary can be appropriately instantiated as an object, and then does so.
-    def dictionaryToInstance(self, dictionary):
+    def __init__(self, dictionary):
         # Popping the required and optional so they're not checked against below.
         required = self.__dict__.pop('required')
         optional = self.__dict__.pop('optional')
@@ -54,7 +55,7 @@ class Component(EnvironmentObject):
         self.optional = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'special', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special', 'unsellable'])
 
         # Reads in the ship data to create a component object.
-        self.dictionaryToInstance(dictionary)
+        super(Component, self).__init__(dictionary)
         self.sizeTraits()
 
     # Sets the size and HP based on component size.
@@ -77,7 +78,7 @@ class Spacecraft(EnvironmentObject):
         self.required = set(['name', 'description', 'size', 'base_cost', 'component_list', 'component_max'])
         self.optional = set(['special', 'inherits'])
 
-        self.dictionaryToInstance(dictionary)
+        super(Spacecraft, self).__init__(dictionary)
 
         # These are stats set elsewhere, not by the config dictionary.
         customized_stats = ['custom_name', 'hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'damage_hitpoints', 'damage_shields', 'components_in', 'component_stat']
@@ -138,30 +139,27 @@ class Structure(EnvironmentObject):
         self.required = set(['name', 'description', 'hitpoints', 'cost'])
         self.optional = set(['special', 'shields', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special'])
 
-        self.dictionaryToInstance(dictionary)
+        super(Structure, self).__init__(dictionary)
 
 class Unit(EnvironmentObject):
     def __init__(self, dictionary):
         self.required = set(['name', 'description', 'hitpoints', 'cost'])
         self.optional = set(['damage', 'special'])
 
-        self.dictionaryToInstance(dictionary)
+        super(Unit, self).__init__(dictionary)
 
 class Body(EnvironmentObject):
     def __init__(self, dictionary):
         self.required = set(['name', 'description'])
-        self.optional = set(['owner'])
+        self.optional = set(['variants'])
 
-        self.dictionaryToInstance(dictionary)
+        super(Body, self).__init__(dictionary)
 
-        # self.removed = set(['place_name', 'variant', 'effects'])
+        # These are stats set elsewhere, not by the config dictionary.
+        customized_stats = ['custom_name', 'variant', 'owner', 'structures']
 
-        # self.variants   = set([''])
-        # self.structures = []
-
-        # if self.variant not in self.variants:
-        #    raise Exception("This isn't a valid variant for a " +
-        #                    self.name + "!")
+        for stat in customized_stats:
+            self.__dict__[stat] = False
 
 # The interface for environment.py. Instantiate to use this file elsewhere.
 class Environment():

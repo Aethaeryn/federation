@@ -16,16 +16,36 @@
 
 Planet:
   description: "These are the basic habitable areas of a star system. Settlement and ownership are possible. Planets can be used to build structures as well as platforms in nearby space."
+  variants:
+    - "Habitable"
+    - "Rocky"
+    - "Ice"
+    - "Volcanic"
+    - "Gas Giant"
 
 Moon:
   description: "A moon orbits around a planet, but functions similar to one. Population and building can take place here."
+  variants:
+    - "Habitable"
+    - "Rocky"
+    - "Ice"
+    - "Volcanic"
+    - "Asteroid"
 
 Asteroid Field:
   description: "Asteroids can be valuable economically, but asteroid fields are also useful to hide in as they slow down ships and disrupt their sensors."
+  variants:
+    - "Sparse"
+    - "Dense"
 
 Star:
   description: "The main elmeent of a star system, all stellar objects gravitate to their star(s). Don't get too close!"
+  variants:
+    - "Red Giant"
+    - "Yellow Giant"
+    - "Yellow"
+    - "Red"
+    - "White Dwarf"
 
 Jumpgate:
   description: "This mysterious artifact from an ancient precursor civilization leads to a seemingly random location in a far away sector of space. Be careful! This trip is one-way!"
-  owner:       "Unknown"
