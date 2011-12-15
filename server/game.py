@@ -16,7 +16,7 @@
 
 import environment, location, data
 
-class GameObject():
+class GameObject(object):
     def __str__(self):
         return self.name
 
@@ -31,7 +31,6 @@ class Player(GameObject):
 
         self.cash      = 0
         self.alliance  = False
-        self.last_view = False
 
         self.ships     = {}
 
@@ -117,41 +116,60 @@ class Fleet(GameObject):
     def delShip(self, ship):
         self.ships.pop(ship.obj_id)
 
-
 class Game():
     def __init__(self, turn_length):
         self.env = environment.Environment()
 
+        # These hold various data.
         self.sectors     = {}
         self.players     = {}
         self.alliance    = {}
         self.fleets      = {}
+
+        # Keeps track of the turn.
         self.turn        = 0
         self.turn_length = turn_length
 
-        #### fixme: Move into its own spot and call when necessary.
-        self.out = data.Write('data')
-        self.out.write('env', self.env.convert())
-
+        # Runs actions.
+        self.refreshEnvironmentData()
         self.mainLoop()
 
+    # Writes env data to a publicly visible html page.
+    def refreshEnvironmentData(self):
+        self.out = data.Write('data')
+        self.out.write('env', self.env.convert())       
+
+    # Adds a player.
     def addPlayer(self, username, game_name, email):
         if username not in self.players:
             self.players[username] = Player(username, game_name, email, env)
 
+        else:
+            raise Exception("A player with that username already exists!")
+
+    # Adds an alliance.
     def addAlliance(self, name, founder):
         if name not in self.alliance:
             self.alliance[name] = Alliance(name, founder)
 
+        else:
+            raise Exception("An alliance with that name already exists!")
+
+    # Adds a sector.
     def addSector(self, name):
         if name not in self.sectors:
             self.sectors[name] = location.Sector(self.env)
 
+        else:
+            raise Exception("A sector with that name already exists!")
+
+    # Adds a fleet.
     def addFleet(self, name, player, ships):
         self.fleets[str(Fleet.fleet_counter)] = Fleet(name, player, ships)
 
+    # Deletes a fleet.
     def delFleet(self, fleet_id):
-        self.fleets.pop(str(fleet_id))
+        return self.fleets.pop(str(fleet_id))
 
     # These events are called on every new turn.
     def nextTurn(self, time):

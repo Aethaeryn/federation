@@ -1,24 +1,9 @@
-*********************
-  Federation Server
-*********************
-----------------------
-  Ongoing Multi-File
-----------------------
- * There's no point in making the source available if you're the only one who
-   is capable of reading it.
-
- * Add exception throwing/handling where errors can happen.
-   * Pass these errors into the clients so they can handle them somehow.
-
- * Let's see if Tactical is superfluous with star system or if it makes the
-   game more enjoyable.
-
-
 ------------------
   environment.py
 ------------------
  * Check to make sure that components / spacecraft have valid values before
    running Spacecraft.initializeComponents()
+
  * Handle component damage and enabling / disabling of components.
 
 
@@ -63,10 +48,6 @@
 
  * Finish the turn loop so that it is functional.
 
- * Player
-   * Handle last_view.
-   * Add some mechanism to request membership in an alliance.
-
  * Fleet
    * Add management mechanisms, and ability to use as part of an alliance.
    * Deputy can move/fight. Commander can move/fight/administer fleet.
@@ -74,35 +55,27 @@
      players from the fleet.
 
 
------------------------
-  One Time Multi-File
------------------------
+---------
+  Other
+---------
+ * Add a mission / campaign system for the newbie starting galaxy, and perhaps
+   for the later one too.
+
  * Integrate Player with openID. How will authentication be handled?
 
  * Implement the combat system and movement system for fleets/spacecraft/etc.
 
- * Implement economy, money, resources, tribute, etc.
+ * Implement economy, money, resources, tribute, bounties, etc.
    * Add wages for units and upkeep for spacecraft/structures?
 
  * Use gettext for internationalization.
 
+ * Add some method by which the clients can handle the exceptions where the
+   user should see it.
 
-###############################################################################
-*********************
-  Federation Client
-*********************
- * Obtain artistic resources for client/resources
+ * Use an error log for the other exceptions.
 
  * Prepare for these client UIs:
    * web (desktop, mobile), python (CLI, IRC, GUI)
 
-
-###############################################################################
-**********************
-  Federation Website
-**********************
- * Update the website to contain more up-to-date information and a better main
-   page.
-
- * Redo the styling of the website.
-
+ * Update website.
