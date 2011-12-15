@@ -192,7 +192,7 @@ class Environment():
                 inherits = old_data['inherits']
 
                 # The inherited components go at the top of the component list.
-                new_list = self.obj['spacecraft'][inherits]['component_list']
+                new_list = copy.copy(self.obj['spacecraft'][inherits]['component_list'])
 
                 for component in self.obj['spacecraft'][spacecraft]['component_list']:
                     new_list.append(component)
