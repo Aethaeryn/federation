@@ -18,33 +18,57 @@ import yaml, json, os, datetime, time
 
 # Handles .yml files in the server/data directory.
 class Parse():
+    DIR = 'data/'
+    EXT = '.yml'
+
     # Parses all of the given data into the self.parsed dictionary.
     def __init__(self, directory, filenames):
+        # This handles one file (a string) or a list of strings.
+        if type(filenames) is str:
+            filenames = [filenames]
+
         self.parsed = {}
 
+        if directory[-1] != '/':
+            directory += '/'
+
         for filename in filenames:
-            self.parsed[filename] = self.parse(directory, filename)
+            try:
+                self.parsed[filename] = self.parse(directory, filename)
+            except:
+                raise Exception('Error in parsing Federation/server/' + self.DIR + directory + filename + self.EXT)
 
     # Opens the yaml data from a given file and returns it as a Python dictionary.
+    @classmethod
     def parse(self, directory, filename):
-        conf    = open('data/' + directory + '/' + filename + '.yml', 'r')
+        if directory[-1] != '/':
+            directory += '/'
+
+        conf    = open(self.DIR + directory + filename + self.EXT, 'r')
         yaml_in = yaml.load(conf)
         conf.close()
 
-        for key in yaml_in:
-            yaml_in[key]['name'] = key
+        # Environmental objects are dictionaries, and they key also becomes the 'name' entry.
+        if 'environment' in directory:
+            for key in yaml_in:
+                yaml_in[key]['name'] = key
 
         return yaml_in
 
 # Writes .json and .yml files to html/data.
 # YAML is preferred, where available, but json is more widely supported.
 class Write():
+    DIR = '../html/'
+
     def __init__(self, directory):
+        if directory[-1] != '/':
+            directory += '/'
+
         # The directory must be in the public /html folder, not in /server 
-        self.directory = '../html/' + directory + '/'
+        self.directory = self.DIR + directory
 
         # The directory might not exist at this point.
-        if directory not in os.listdir('../html/'):
+        if directory not in os.listdir(self.DIR):
             os.mkdir(self.directory)
 
     # Writes a .json and a .yml file containing identical information.
