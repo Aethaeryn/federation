@@ -14,7 +14,10 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# WARSHIPS
+# Players can purchase blank spacecraft and buy the components themselves, or
+# they can purchase spacecraft that already come with components.
+
+# BLANK SPACECRAFT
 Fighter:
   size          : "Small Ship"
   description   : "Cheap, basic spacecraft."
@@ -23,9 +26,6 @@ Fighter:
   component_list:
     - "Small Hull"
     - "Small Engine"
-    - "Shield Generator"
-    - "Sensor Array I"
-    - "Missile Launcher"
 
 Frigate:
   size          : "Medium Ship"
@@ -35,12 +35,8 @@ Frigate:
   component_list:
     - "Medium Hull"
     - "Medium Engine"
-    - "Medium Generator"
-    - "Light Armor"
-    - "Sensor Array I"
-    - "Laser"
 
-Cruiser:
+Capital Ship:
   size          : "Large Ship"
   description   : "Cheap, basic, and fast capital ship."
   component_max : 36
@@ -48,13 +44,7 @@ Cruiser:
   component_list:
     - "Large Hull"
     - "Large Engine"
-    - "Sensor Array I"
-    - "Tesla Generator"
-    - "Docking Bay"
-    - "Crew Quarters"
-    - "Super Laser"
 
-# PLATFORMS
 Defensive Platform:
   size          : "Small Platform"
   description   : "Stationary platform that automatically attacks enemy spacecraft in its region."
@@ -62,12 +52,8 @@ Defensive Platform:
   base_cost     : 80
   component_list:
     - "Small Hull"
-    - "Sensor Array I"
-    - "Shield Generator"
-    - "Missile Launcher"
-    - "Missile Launcher"
 
-Spaceport:
+Space Station:
   size          : "Large Platform"
   description   : "Used for economic purposes, as well as for the docking and building of spacecraft."
   special       : "Shipyard"
@@ -75,6 +61,62 @@ Spaceport:
   base_cost     : 600
   component_list:
     - "Large Hull"
+
+# INHERITED SHIP TEMPLATES
+Basic Fighter:
+  inherits      : "Fighter"
+  component_list:
+    - "Shield Generator"
+    - "Sensor Array I"
+    - "Missile Lancher"
+
+Battle Frigate:
+  inherits      : "Frigate"
+  component_list:
+    - "Medium Generator"
+    - "Light Armor"
+    - "Sensor Array I"
+    - "Laser"
+
+Carrier:
+  inherits      : "Capital Ship"
+  component_list:
+    - "Tesla Generator"
+    - "Sensor Array II"
+    - "Docking Bay"
+    - "Docking Bay"
+    - "Docking Bay"
+    - "Docking Bay"
+    - "Crew Quarters"
+    - "Laser"
+
+Cruiser:
+  inherits      : "Capital Ship"
+  component_list:
+    - "Tesla Generator"
+    - "Sensor Array I"
+    - "Docking Bay"
+    - "Crew Quarters"
+    - "Super Laser"
+
+Missile Platform:
+  inherits      : "Defensive Platform"
+  component_list:
+    - "Shield Generator"
+    - "Sensor Array I"
+    - "Missile Launcher"
+    - "Missile Launcher"
+
+Laser Platform:
+  inherits      : "Defensive Platform"
+  component_list:
+    - "Shield Generator"
+    - "Sensor Array I"
+    - "Laser"
+
+Spaceport:
+  inherits      : "Space Station"
+  component_list:
     - "Super Laser"
     - "Heavy Missile Launcher"
     - "Docking Bay"
