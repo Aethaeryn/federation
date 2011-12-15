@@ -16,7 +16,7 @@
 
 import copy, data
 
-class EnvironmentObject():
+class EnvironmentObject(object):
     # Makes sure the dictionary can be appropriately instantiated as an object, and then does so.
     def dictionaryToInstance(self, dictionary):
         # Popping the required and optional so they're not checked against below.
@@ -30,10 +30,10 @@ class EnvironmentObject():
 
         # Every new required instance variable must be provided.
         for entry in required:
-            if entry not in dictionary and entry != 'name':
+            if entry not in dictionary and 'name' in dictionary:
                 raise Exception('Missing entry ' + entry + ' not in data file for item ' + dictionary.name)
 
-            elif entry == 'name' and entry not in dictionary:
+            elif 'name' not in dictionary:
                 raise Exception('Missing name for an entry!')
 
         # Any optional instance variable that is missing will be set to false.
@@ -53,10 +53,12 @@ class Component(EnvironmentObject):
         self.required = set(['name', 'description', 'size', 'cost'])
         self.optional = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'special', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special', 'unsellable'])
 
-        # Reads in the ship data.
+        # Reads in the ship data to create a component object.
         self.dictionaryToInstance(dictionary)
+        self.sizeTraits()
 
-        # Sets the size and HP based on component size.
+    # Sets the size and HP based on component size.
+    def sizeTraits(self):
         if self.size == "Small Component":
             self.hitpoints += 5
             self.exp_size   = 1
@@ -73,7 +75,7 @@ class Spacecraft(EnvironmentObject):
     def __init__(self, dictionary):
         # These stats are read in from outside.
         self.required = set(['name', 'description', 'size', 'base_cost', 'component_list', 'component_max'])
-        self.optional = set(['special'])
+        self.optional = set(['special', 'inherits'])
 
         self.dictionaryToInstance(dictionary)
 
@@ -174,8 +176,35 @@ class Environment():
         # Parses the data files for environment objects.
         parse    = data.Parse(directory, filenames)
         self.obj = parse.parsed
+        self.inheritSpacecraft()
+        self.objectifyDictionary()
 
-        # Turns the parsed dictionaries into Python objects.
+        # Has the spacecrafts' component lists modify spacecraft stats. 
+        for craft_type in self.obj["spacecraft"]:
+            self.obj["spacecraft"][craft_type].initializeComponents(self.obj["component"])
+
+    # Handles spacecraft inheritance.
+    def inheritSpacecraft(self):
+        for spacecraft in self.obj['spacecraft']:
+            if 'inherits' in self.obj['spacecraft'][spacecraft]:
+                old_data = self.obj['spacecraft'][spacecraft]
+
+                inherits = old_data['inherits']
+
+                # The inherited components go at the top of the component list.
+                new_list = self.obj['spacecraft'][inherits]['component_list']
+
+                for component in self.obj['spacecraft'][spacecraft]['component_list']:
+                    new_list.append(component)
+
+                old_data['component_list'] = new_list
+
+                # Merging the inherited spacecraft with the additions.
+                self.obj['spacecraft'][spacecraft] = copy.copy(self.obj['spacecraft'][inherits])
+                self.obj['spacecraft'][spacecraft].update(old_data)
+
+    # Turns the parsed dictionaries into Python objects.
+    def objectifyDictionary(self):
         for filename in self.obj:
             for key in self.obj[filename]:
                 in_data = self.obj[filename].pop(key)
@@ -194,10 +223,6 @@ class Environment():
 
                 elif filename == "body":
                     self.obj[filename][key] = Body(in_data)
-
-        # Has the spacecrafts' component lists modify spacecraft stats. 
-        for craft_type in self.obj["spacecraft"]:
-            self.obj["spacecraft"][craft_type].initializeComponents(self.obj["component"])
 
     # Increments the unique identifier of environment objects and returns a copy.
     # Use this to place a copy of an environmental object in the game environment.

@@ -68,7 +68,7 @@ Basic Fighter:
   component_list:
     - "Shield Generator"
     - "Sensor Array I"
-    - "Missile Lancher"
+    - "Missile Launcher"
 
 Battle Frigate:
   inherits      : "Frigate"
