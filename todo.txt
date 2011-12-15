@@ -1,12 +1,3 @@
-------------------
-  environment.py
-------------------
- * Check to make sure that components / spacecraft have valid values before
-   running Spacecraft.initializeComponents()
-
- * Handle component damage and enabling / disabling of components.
-
-
 ---------------
   location.py
 ---------------
@@ -33,40 +24,44 @@
 
  * System.__init__()
    * Add other layouts, including binary and tertiary stars.
-   * Populate the generator.
    * Integrate with Tactical()
 
 
 -----------
   game.py
 -----------
- * Think of a way to hide certain API data files from certain players.
-
- * Add buy/sell methods for structures/spacecraft/components/units/etc. Do it
-   through those objects rather than through Player().
-   * Make sure you handle cases where there's not enough cash.
-
  * Finish the turn loop so that it is functional.
-
- * Fleet
-   * Add management mechanisms, and ability to use as part of an alliance.
-   * Deputy can move/fight. Commander can move/fight/administer fleet.
-   * Anyone with ships in it can join/leave fleet. Commander can kick ships and
-     players from the fleet.
 
 
 ---------
   Other
 ---------
+ * Check to make sure that YAML config files have valid values before parsing.
+
+ * Implement the combat system and movement system for fleets/spacecraft/etc.
+
+ * Implement fleet system, which is linked closely to combat / movement.
+   * Ships move as part of a fleet.
+   * Alliances can have fleets, or individual players can.
+   * The deputy can move or fight. The commander can move/fight/administer.
+   * Anyone in the group (alliance or player) can join/leave the fleet.
+   * The commander can kick ships and players from the fleet.
+   * There should also be locked fleets that are only allowed to certain
+     players, even though the alliance has more people.
+
  * Add a mission / campaign system for the newbie starting galaxy, and perhaps
    for the later one too.
 
  * Integrate Player with openID. How will authentication be handled?
 
- * Implement the combat system and movement system for fleets/spacecraft/etc.
+ * Think of a way to hide certain API data files from certain players.
 
- * Implement economy, money, resources, tribute, bounties, etc.
-   * Add wages for units and upkeep for spacecraft/structures?
+ * Implement economy:
+   * Income and money.
+   * Resources and mining.
+   * Tributes, trade, and bounty.
+   * Wages for units and upkeep for other stuff?
+   * Buy/sell structures, spacecraft, components, units, etc.
 
  * Use gettext for internationalization.
 
