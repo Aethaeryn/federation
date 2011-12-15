@@ -94,23 +94,17 @@ class Spacecraft(EnvironmentObject):
         self.component_stat = []
 
         for component in self.component_list:
-            self.addComponent(components[component])
+            self.addComponent(components, component)
 
-    # Adds a component's stats to the total spacecraft stats.
-    def addComponent(self, component):
-        # There needs to be enough room for it.
-        if self.components_in + component.exp_size >= self.component_max:
-            self.component_list.remove(component.name)
-            raise Exception("Not enough room for component " + component.name)
+    # Checks to make sure a component position is valid before acting.
+    def checkPosition(self, position):
+        if position >= len(component_list) or position < 0:
+            raise Exception("Invalid component list position.")
 
-        # Adds to component count and spacecraft value.
-        self.components_in += component.exp_size
-        self.value         += component.cost
-
+    def enableComponent(self, component, position):
         # Allowed stats to read.
         stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
 
-        # Adds to the spacecraft's stats with each component stat.
         for stat in dir(component):
             if stat in stats:
                 value = component.__dict__[stat]
@@ -121,41 +115,79 @@ class Spacecraft(EnvironmentObject):
                 if value and type(value) is bool:
                     self.__dict__[stat] = True
 
-        # Keeps track of damage information for each component.
-        self.component_stat.append({"enabled": True, "damage_hitpoints": 0, "damage_shields": 0})
+        self.component_stat[position]["enabled"] = True
 
-    # Removes a component at a given position.
+    def disableComponent(self, component, position, change_status):
+        # Allowed stats to read.
+        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
+
+        for stat in dir(component):
+            if stat in stats:
+                value = component.__dict__[stat]
+
+                if type(value) is int:
+                    self.__dict__[stat] -= value
+
+                #### fixme: What if there's more than one component that enables this stat?
+                if value and type(value) is bool:
+                    self.__dict__[stat] = False
+
+        if change_status:
+            self.component_stat[position]["enabled"] = False
+
+    def addComponent(self, components, component_name):
+        component = components[component_name]
+
+        if self.components_in + component.exp_size >= self.component_max:
+            self.component_list.remove(component.name)
+            raise Exception("Not enough room for component " + component.name)
+
+        self.components_in += component.exp_size
+        self.value         += component.cost
+
+        # Keeps track of damage information for each component.
+        self.component_stat.append({"damage_hitpoints": 0})
+
+        self.enableComponent(component, len(self.component_stat) - 1)
+
     def delComponent(self, components, position):
-        # Removes the component if it exists on the list.
-        if position >= len(component_list) or position < 0:
-            raise Exception("Invalid component list position.")
+        self.checkPosition(position)
 
         component = components[self.component_list.pop(position)]
         comp_stat = self.component_stat.pop(position)
 
-        # Lowers the component count and the spacecraft value.
         self.components_in -= component.exp_size
         self.value         -= component.cost
 
-        # If the component is enabled (i.e. active), this removes the spacecraft's stats with each component stat.
-        if self.component_stat["enabled"]:
-            # Allowed stats to read.
-            stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
-
-            for stat in dir(component):
-                if stat in stats:
-                    value = component.__dict__[stat]
-
-                    if type(value) is int:
-                        self.__dict__[stat] -= value
-
-                    #### fixme: What if there's more than one component that enables this stat?
-                    if value and type(value) is bool:
-                        self.__dict__[stat] = False
-
-        # Reverses the damage if it exists.
+        # Reverses the damage if it exists, since the spacecraft total HP is going to go down.
         self.damage_hitpoints -= self.component_stat["damage_hitpoints"] 
-        self.damage_shields   -= self.component_stat["damage_shields"]
+
+        if self.component_stat["enabled"]:
+            self.disableComponent(component, position, False)
+
+    def damageComponent(self, components, position, damage):
+        self.changeComponentHitpoints(components, position, damage)
+
+    def repairComponent(self, components, position, repair):
+        self.changeComponentHitpoints(components, position, -repair)
+
+    def changeComponentHitpoints(self, components, position, hp_change):
+        self.checkPosition(position)
+
+        component = components[self.component_list[position]]
+        comp_stat = self.component_stat[position]
+
+        # Reducing the damage on an entirely damaged component will enable it.
+        if comp_stat["damage_hitpoints"] == component.hitpoints and hp_change < 0:
+            self.enableComponent(component, position)
+
+        comp_stat["damage_hitpoints"] += hp_change
+
+        # Maxing out the damage on a component will diable it.
+        if comp_stat["damage_hitpoints"] >= component.hitpoints:
+            self.comp_stat["damage_hitpoints"] = component.hitpoints
+
+            self.disableComponent(component, position, True)
 
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
