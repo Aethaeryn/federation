@@ -17,13 +17,9 @@
 ------------------
   environment.py
 ------------------
- * Rewrite Spacecraft.addComponent() and Spacecraft.sellComponent()
-   * Check to make sure that components are done right before adding them.
-   * Do a similar component check like with the new stats check.
-   * Require a hull and an engine in every spacecraft.
-
- * Fix how Body works by adding the commented out features back in, but in
-   the new style..
+ * Check to make sure that components / spacecraft have valid values before
+   running Spacecraft.initializeComponents()
+ * Handle component damage and enabling / disabling of components.
 
 
 ---------------

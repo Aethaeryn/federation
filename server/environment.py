@@ -96,43 +96,66 @@ class Spacecraft(EnvironmentObject):
         for component in self.component_list:
             self.addComponent(components[component])
 
+    # Adds a component's stats to the total spacecraft stats.
     def addComponent(self, component):
-        if self.components_in + component.exp_size <= self.component_max:
-            self.components_in += component.exp_size
+        # There needs to be enough room for it.
+        if self.components_in + component.exp_size >= self.component_max:
+            self.component_list.remove(component.name)
+            raise Exception("Not enough room for component " + component.name)
 
+        # Adds to component count and spacecraft value.
+        self.components_in += component.exp_size
+        self.value         += component.cost
+
+        # Allowed stats to read.
+        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
+
+        # Adds to the spacecraft's stats with each component stat.
+        for stat in dir(component):
+            if stat in stats:
+                value = component.__dict__[stat]
+
+                if type(value) is int:
+                    self.__dict__[stat] += value
+
+                if value and type(value) is bool:
+                    self.__dict__[stat] = True
+
+        # Keeps track of damage information for each component.
+        self.component_stat.append({"enabled": True, "damage_hitpoints": 0, "damage_shields": 0})
+
+    # Removes a component at a given position.
+    def delComponent(self, components, position):
+        # Removes the component if it exists on the list.
+        if position >= len(component_list) or position < 0:
+            raise Exception("Invalid component list position.")
+
+        component = components[self.component_list.pop(position)]
+        comp_stat = self.component_stat.pop(position)
+
+        # Lowers the component count and the spacecraft value.
+        self.components_in -= component.exp_size
+        self.value         -= component.cost
+
+        # If the component is enabled (i.e. active), this removes the spacecraft's stats with each component stat.
+        if self.component_stat["enabled"]:
             # Allowed stats to read.
             stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
 
-            # Adds to the spacecraft's stats with each component stat.
             for stat in dir(component):
                 if stat in stats:
-                    value = getattr(component, stat)
+                    value = component.__dict__[stat]
 
-                    if value and value != 0:
-                        if type(value) is int:
-                            setattr(self, stat, (value + getattr(self, stat)))
+                    if type(value) is int:
+                        self.__dict__[stat] -= value
 
-                        elif type(value) is bool:
-                            setattr(self, stat, True)
+                    #### fixme: What if there's more than one component that enables this stat?
+                    if value and type(value) is bool:
+                        self.__dict__[stat] = False
 
-                # Cost is a special case because it adds to value.
-                elif stat == 'cost':
-                    setattr(self, 'value', (getattr(component, 'cost') + getattr(self, 'value')))
-
-            # Keeps track of damage information for each component.
-            self.component_stat.append({component.name : {"enabled": True, "damage_hitpoints": 0, "damage_shields": 0}})
-
-        # Not enough room means it's removed from the list.
-        else:
-            self.component_list.remove(component.name)
-
-    def sellComponent(self, component):
-        if component in self.component_list:
-            for i in range(len(component_list)):
-                if component_list[i] == component:
-                    self.component_list.pop(i)
-                    self.component_stat.pop(i)
-                    return
+        # Reverses the damage if it exists.
+        self.damage_hitpoints -= self.component_stat["damage_hitpoints"] 
+        self.damage_shields   -= self.component_stat["damage_shields"]
 
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
