@@ -2,12 +2,14 @@ import Image, ImageDraw, sys
 
 class Hex():
     def __init__(self, x_shift, y_shift):
-        self. points = [[14,  0], [43,  0], [57, 27], [43, 54], [14, 54], [ 0, 27]]
+        # These are the coordinates of the upper left hex. All other coordinates are shifted.
+        self. points = [[14, 0], [43, 0], [57, 27], [43, 54], [14, 54], [0, 27]]
 
         for point in self.points:
             point[0] += x_shift
             point[1] += y_shift
 
+    # Draws lines through every adjacent point in the hexagon.
     def draw(self, img):
         for i in range(6):
             start = i
@@ -18,44 +20,59 @@ class Hex():
 
             img.line([self.points[start][0], self.points[start][1], self.points[end][0], self.points[end][1]])
 
-def main():
+class Board():
+    def __init__(self, hex_grid, border):
+    # Gets index positions to act like x/y coordinates.
     X = 0
     Y = 1
 
+    # * These constants make generating work. Do not mess with them unless you know what you're doing. * #
+    # Size of the hexes.
+    HEX_SIZE   = (57, 54)
+
+    # Offsets each X and every other Y.
+    HEX_OFFSET = (43, 27)
+
+    # Space between the even Xs.
+    HALF_X     = 15
+
+    # Magicly fixes the x_pixels and y_pixels calculations for any border size.
+    MAGIC      = (11, 1)
+
+    # Sets up the board sizejmnk in pixels.
+    x_pixels   = (hex_grid[X] * HEX_SIZE[X] / 2) + hex_grid[X] * HALF_X + (border * 2) + MAGIC[0]
+    y_pixels   = hex_grid[Y] * HEX_SIZE[Y] + HEX_OFFSET[Y] + (border * 2) + MAGIC[1]
+    board_size = (x_pixels, y_pixels)
+
+    # Fills a hexagon list with Hex objects with pixel coordinates.
     hexagons = []
 
-    HEX_GRID   = (10, 5)
-    border     = (10, 10)
+    for i in range(hex_grid[Y]):
+        x = 0 + border
+        y = i * HEX_SIZE[Y] + border
 
-    HEX_SIZE   = (57, 54)
-    HEX_OFFSET = (43, 27)
-    
-    x_pixels   = HEX_GRID[X] * HEX_SIZE[X] + HEX_OFFSET[X] + (border[X] * 2) + 1
-    y_pixels   = HEX_GRID[Y] * HEX_SIZE[Y] + HEX_OFFSET[Y] + (border[Y] * 2) + 1
-
-    BOARD_SIZE = (x_pixels, y_pixels)
-
-#    BOARD_SIZE = (HEX_GRID[0] * 57 + border * 2 - ((HEX_GRID[0] - 1 / 2) * 11),
-#                  HEX_GRID[1] * 54 + 27 + border * 2 + 1)
-
-    for i in range(HEX_GRID[Y]):
-        x = 0 + border[X]
-        y = i * HEX_SIZE[Y] + border[Y]
-
-        for j in range(HEX_GRID[X]):
+        for j in range(hex_grid[X]):
             hexagons.append(Hex(x, y))
-            x += HEX_OFFSET[0]
+            x += HEX_OFFSET[X]
 
-            if j % 2: y -= HEX_OFFSET[1]
-            else: y += HEX_OFFSET[1]
+            if j % 2: y -= HEX_OFFSET[Y]
+            else: y += HEX_OFFSET[Y]
 
-    img = Image.new("RGB", BOARD_SIZE)
+    # Draws the hexagons onto a test.png.
+    img = Image.new("RGB", board_size)
 
     draw = ImageDraw.Draw(img)
 
     for hexagon in hexagons:
         hexagon.draw(draw)
 
-    img.save("test.png", "PNG")
+    img.save("test.png", "PNG")      
+
+def main():
+    # Variables.
+    hex_grid   = (10, 5)
+    border     = 10
+
+    board = Board(hex_grid, border)
 
 main()
