@@ -76,8 +76,8 @@ class Board():
 
     def makePage(self, image_name):
         page_meta = '<META HTTP-EQUIV="CONTENT-TYPE" CONENT="text/html; charset=utf8">\n'
-        page_css  = '<style type="text/css">\n    body { color:#ffffff; background-color:#000000 }\n  </style>\n'
-        page_img  = '<body>\n  <img src="%s" usemap="#hex">\n  <map name="hex">\n' % image_name
+        page_css  = '<style type="text/css">\n    body { font-family:"DejaVu Sans", "Arial", "Helvetica"; color:#ffffff; background-color:#000000 }\n    a:link { text-decoration:none; color:#ffffff}\n    a:visited { text-decoration:none; color:#ffffff; }\n    a:hover { color:#aaaaaa}\n  </style>\n'
+        page_img  = '<body>\n  <b><big><a href="index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Name"></img> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Federation"></img> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Credits"></img> 200' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Income"></img> 10' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Research Points"></img> 20' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Ships"></img> 4' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Fleets"></img> 1' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Territories"></img> 2</big></b>\n  <center><img src="%s" usemap="#hex"></img></center>\n  <map name="hex">\n' % image_name
         page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  %s  <title>Federation</title>\n  %s</head>\n%s' % (page_meta, page_css, page_img)
 
 
