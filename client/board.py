@@ -58,39 +58,49 @@ class Board():
                 if j % 2: y -= HEX_OFFSET[Y]
                 else: y += HEX_OFFSET[Y]
 
-        self.drawImage()
-        self.makePage()
+        image_name = 'test.png'
 
-    def drawImage(self):
+        self.drawImage(image_name)
+        self.makePage(image_name)
+
+    def drawImage(self, image_name):
         # Draws the hexagons onto a test.png.
-        img = Image.new("RGB", self.board_size)
+        img = Image.new('RGB', self.board_size)
 
         draw = ImageDraw.Draw(img)
 
         for hexagon in self.hexagons:
             hexagon.draw(draw)
 
-        img.save("../html/test.png", "PNG")      
+        img.save('../html/%s' % image_name, 'PNG')      
 
-    def makePage(self):
-        page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  <META HTTP-EQUIV="CONTENT-TYPE" CONENT="text/html; charset=utf8">\n  <title>Federation</title>\n  <style type="text/css">\n    body { color:#ffffff; background-color:#000000 }\n  </style>\n</head>\n<body>\n  <img src="test.png" usemap="#hex">\n  <map name="hex">\n'
+    def makePage(self, image_name):
+        page_meta = '<META HTTP-EQUIV="CONTENT-TYPE" CONENT="text/html; charset=utf8">\n'
+        page_css  = '<style type="text/css">\n    body { color:#ffffff; background-color:#000000 }\n  </style>\n'
+        page_img  = '<body>\n  <img src="%s" usemap="#hex">\n  <map name="hex">\n' % image_name
+        page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  %s  <title>Federation</title>\n  %s</head>\n%s' % (page_meta, page_css, page_img)
+
 
         page_foot = '</map>\n</body>\n</html>'
 
-        map_base  = '    <area shape="poly" coords="%i %i %i %i %i %i %i %i %i %i %i %i" href="foo.html">'
+        map_base  = '    <area shape="poly" coords="%i %i %i %i %i %i %i %i %i %i %i %i" href="hex%s.html">\n'
 
-        img_map = map_base % (self.hexagons[1].points[0][0],
-                              self.hexagons[1].points[0][1],
-                              self.hexagons[1].points[1][0],
-                              self.hexagons[1].points[1][1],
-                              self.hexagons[1].points[2][0],
-                              self.hexagons[1].points[2][1],
-                              self.hexagons[1].points[3][0],
-                              self.hexagons[1].points[3][1],
-                              self.hexagons[1].points[4][0],
-                              self.hexagons[1].points[4][1],
-                              self.hexagons[1].points[5][0],
-                              self.hexagons[1].points[5][1])
+        img_map   = ''
+
+        for i in range(len(self.hexagons)):
+            img_map += map_base % (self.hexagons[i].points[0][0],
+                                  self.hexagons[i].points[0][1],
+                                  self.hexagons[i].points[1][0],
+                                  self.hexagons[i].points[1][1],
+                                  self.hexagons[i].points[2][0],
+                                  self.hexagons[i].points[2][1],
+                                  self.hexagons[i].points[3][0],
+                                  self.hexagons[i].points[3][1],
+                                  self.hexagons[i].points[4][0],
+                                  self.hexagons[i].points[4][1],
+                                  self.hexagons[i].points[5][0],
+                                  self.hexagons[i].points[5][1],
+                                  str(i % 40) + 'x' + str(i / 40))
 
         webpage = open('../html/test.html', 'w')
         webpage.write(page_head + img_map + page_foot)
@@ -98,7 +108,7 @@ class Board():
 
 def main():
     # Variables.
-    hex_grid   = (10, 5)
+    hex_grid   = (40, 40)
     border     = 10
 
     board = Board(hex_grid, border)
