@@ -16,6 +16,7 @@
 
 import Image, ImageDraw, sys
 
+# This represents a hexagon in terms of pixel locations.
 class Hex():
     def __init__(self, x_shift, y_shift):
         # These are the coordinates of the upper left hex. All other coordinates are shifted.
@@ -36,6 +37,11 @@ class Hex():
 
             img.line([self.points[start][0], self.points[start][1], self.points[end][0], self.points[end][1]])
 
+    # Finds the center of the hexagon.
+    def getCenter(self):
+        return ((self.points[0][0] + self.points[1][0]) / 2, self.points[2][1])
+
+# This generates a hex board.
 class Board():
     def __init__(self, hex_grid, border):
         # Gets index positions to act like x/y coordinates.
@@ -79,9 +85,9 @@ class Board():
         self.drawImage(image_name)
         self.makePage(image_name)
 
+    # Draws the hexagons onto a test.png.
     def drawImage(self, image_name):
-        # Draws the hexagons onto a test.png.
-        img = Image.new('RGB', self.board_size)
+        img = Image.new('RGBA', self.board_size)
 
         draw = ImageDraw.Draw(img)
 
@@ -91,34 +97,37 @@ class Board():
         img.save('../html/%s' % image_name, 'PNG')      
 
     def makePage(self, image_name):
-        page_meta = '<META HTTP-EQUIV="CONTENT-TYPE" CONENT="text/html; charset=utf8">\n'
+        page_meta = '<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">\n'
 
-        page_css  = '<link href="style.css"\n        rel="stylesheet"\n        type="text/css" />\n'
+        page_css  = '<link href="style.css" rel="stylesheet" type="text/css" />\n  <style type="text/css">\n    p { margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px}\n    img {vertical-align:text-top;}\n  </style>\n'
 
-        page_img  = '<body>\n  <b><big><a href="index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Name"></img> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Federation"></img> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Credits"></img> 200' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Income"></img> 10' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Research Points"></img> 20' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Ships"></img> 4' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Fleets"></img> 1' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Territories"></img> 2</big></b>\n  <center><img src="%s" usemap="#hex"></img></center>\n  <map name="hex">\n' % image_name
+        stats     = '<body>\n  <p style="font-size:13.5pt; font-weight:bold">\n    <a href="index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" title="Name" /> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" title="Federation" /> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" title="Credits" /> 200' + '&nbsp;&nbsp;<img src="sphere.png" title="Income" /> 10' + '&nbsp;&nbsp;<img src="sphere.png"  title="Research Points" /> 20' + '&nbsp;&nbsp;<img src="sphere.png" title="Ships" /> 4' + '&nbsp;&nbsp;<img src="sphere.png" title="Fleets" /> 1' + '&nbsp;&nbsp;<img src="sphere.png" title="Territories" /> 2\n  </p>'
 
-        page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  %s  <title>Federation</title>\n  %s</head>\n%s' % (page_meta, page_css, page_img)
+        page_img  = '  <p style="text-align:center"><img src="%s" usemap="#hex" alt="Game Board" /></p>\n' % image_name
 
-        page_foot = '</map>\n</body>\n</html>'
+        page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  %s  <title>Federation</title>\n  %s</head>\n%s\n%s' % (page_meta, page_css, stats, page_img)
 
-        map_base  = '<area shape="poly" coords="%i %i %i %i %i %i %i %i %i %i %i %i" href="hex%s.html"> '
+        page_foot = '\n  </map>\n</body>\n</html>'
 
-        img_map   = '    '
+        map_base  = '<area shape="poly" coords="%i,%i,%i,%i,%i,%i,%i,%i,%i,%i,%i,%i" href="%s" title="%s"> '
+
+        img_map   = '  <map name="hex">\n    '
 
         for i in range(len(self.hexagons)):
             img_map += map_base % (self.hexagons[i].points[0][0],
-                                  self.hexagons[i].points[0][1],
-                                  self.hexagons[i].points[1][0],
-                                  self.hexagons[i].points[1][1],
-                                  self.hexagons[i].points[2][0],
-                                  self.hexagons[i].points[2][1],
-                                  self.hexagons[i].points[3][0],
-                                  self.hexagons[i].points[3][1],
-                                  self.hexagons[i].points[4][0],
-                                  self.hexagons[i].points[4][1],
-                                  self.hexagons[i].points[5][0],
-                                  self.hexagons[i].points[5][1],
-                                  str(i % 40) + 'x' + str(i / 40))
+                                   self.hexagons[i].points[0][1],
+                                   self.hexagons[i].points[1][0],
+                                   self.hexagons[i].points[1][1],
+                                   self.hexagons[i].points[2][0],
+                                   self.hexagons[i].points[2][1],
+                                   self.hexagons[i].points[3][0],
+                                   self.hexagons[i].points[3][1],
+                                   self.hexagons[i].points[4][0],
+                                   self.hexagons[i].points[4][1],
+                                   self.hexagons[i].points[5][0],
+                                   self.hexagons[i].points[5][1],
+                                   "test.html",
+                                   str(i % 40) + ',' + str(i / 40))
 
         webpage = open('../html/test.html', 'w')
         webpage.write(page_head + img_map + page_foot)
