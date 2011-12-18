@@ -1,3 +1,19 @@
+#    Federation
+#    Copyright (C) 2011 Michael Babich
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import Image, ImageDraw, sys
 
 class Hex():
@@ -76,16 +92,18 @@ class Board():
 
     def makePage(self, image_name):
         page_meta = '<META HTTP-EQUIV="CONTENT-TYPE" CONENT="text/html; charset=utf8">\n'
-        page_css  = '<style type="text/css">\n    body { font-family:"DejaVu Sans", "Arial", "Helvetica"; color:#ffffff; background-color:#000000 }\n    a:link { text-decoration:none; color:#ffffff}\n    a:visited { text-decoration:none; color:#ffffff; }\n    a:hover { color:#aaaaaa}\n  </style>\n'
-        page_img  = '<body>\n  <b><big><a href="index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Name"></img> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Federation"></img> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Credits"></img> 200' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Income"></img> 10' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Research Points"></img> 20' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Ships"></img> 4' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Fleets"></img> 1' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Territories"></img> 2</big></b>\n  <center><img src="%s" usemap="#hex"></img></center>\n  <map name="hex">\n' % image_name
-        page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  %s  <title>Federation</title>\n  %s</head>\n%s' % (page_meta, page_css, page_img)
 
+        page_css  = '<link href="style.css"\n        rel="stylesheet"\n        type="text/css" />\n'
+
+        page_img  = '<body>\n  <b><big><a href="index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Name"></img> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Federation"></img> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Credits"></img> 200' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Income"></img> 10' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Research Points"></img> 20' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Ships"></img> 4' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Fleets"></img> 1' + '&nbsp;&nbsp;<img src="sphere.png" align="top" title="Territories"></img> 2</big></b>\n  <center><img src="%s" usemap="#hex"></img></center>\n  <map name="hex">\n' % image_name
+
+        page_head = '<!DOCTYPE HTML>\n<html>\n<head>\n  %s  <title>Federation</title>\n  %s</head>\n%s' % (page_meta, page_css, page_img)
 
         page_foot = '</map>\n</body>\n</html>'
 
-        map_base  = '    <area shape="poly" coords="%i %i %i %i %i %i %i %i %i %i %i %i" href="hex%s.html">\n'
+        map_base  = '<area shape="poly" coords="%i %i %i %i %i %i %i %i %i %i %i %i" href="hex%s.html"> '
 
-        img_map   = ''
+        img_map   = '    '
 
         for i in range(len(self.hexagons)):
             img_map += map_base % (self.hexagons[i].points[0][0],
