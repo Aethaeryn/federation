@@ -55,6 +55,7 @@
  * Integrate Player with openID. How will authentication be handled?
 
  * Think of a way to hide certain API data files from certain players.
+   * Redo the API.
 
  * Implement economy:
    * Income and money.
@@ -67,10 +68,9 @@
 
  * Add some method by which the clients can handle the exceptions where the
    user should see it.
+   * Use an error log for the other exceptions.
 
- * Use an error log for the other exceptions.
-
- * Prepare for these client UIs:
-   * web (desktop, mobile), python (CLI, IRC, GUI)
+ * Federation/client is now strictly going to be for the web browser client. All other clients (IRC, Python, Android, iOS, etc.) will go into their own git repo because they are independent applications and it is highly unlikely that more than a few people will be interested in every single possible client.
 
  * Update website.
+
