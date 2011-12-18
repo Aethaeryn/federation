@@ -72,5 +72,4 @@
 
  * Federation/client is now strictly going to be for the web browser client. All other clients (IRC, Python, Android, iOS, etc.) will go into their own git repo because they are independent applications and it is highly unlikely that more than a few people will be interested in every single possible client.
 
- * Update website.
 
