@@ -61,11 +61,8 @@ class Write():
     DIR = '../html/'
 
     def __init__(self, directory):
-        if directory[-1] != '/':
-            directory += '/'
-
         # The directory must be in the public /html folder, not in /server 
-        self.directory = self.DIR + directory
+        self.directory = self.DIR + directory + '/'
 
         # The directory might not exist at this point.
         if directory not in os.listdir(self.DIR):

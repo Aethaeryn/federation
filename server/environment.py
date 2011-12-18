@@ -283,7 +283,7 @@ class Environment():
         self.obj_id += 1
         
         obj_copy = copy.copy(self.obj[obj_type][obj_name])
-        obj_copy["obj_id"] = self.obj_id
+        obj_copy.__dict__["obj_id"] = self.obj_id
         return obj_copy
 
     # Converts objects into a dictionary for parsing elsewhere.

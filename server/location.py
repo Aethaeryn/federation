@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import random
+import random, copy
 
 # Stores environmental objects at a given location.
 # Provides certain algorithms for hex board calculations.
@@ -22,9 +22,6 @@ class Location:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
-        self.fleets = set([])
-        self.body   = False
 
     def __str__(self):
         return "(%2s, %2s)" % (str(self.x), str(self.y))
@@ -84,23 +81,6 @@ class Location:
 
         return radius_set
 
-    def addBody(self, body):
-        if not self.body:
-            self.body = body
-
-        else:
-            raise Exception("Body already exists at location!")
-
-    def addFleet(self, fleet):
-        self.fleets.add(fleet)
-
-    def removeFleet(self, fleet):
-        if fleet in self.fleets:
-            self.fleets.remove(fleet)
-
-        else:
-            raise Exception("Fleet does not exist at location!")
-
 # Holds locations of significance.
 class Map():
     name = "Map"
@@ -117,21 +97,26 @@ class Map():
 
         # If this is the first access, it creates a new Location object.
         if location_key not in self.map:
-            self.map[location_key] = Location(x, y)
+            self.map[location_key] = None
 
         return self.map[location_key]
 
+    def setCoords(self, x, y, body):
+        location_key = "%3i, %3i" % (x, y)
+
+        self.map[location_key] = body
+
     # Lists all coordinates.
-    def list(self):
-        ls = ""
+    # def list(self):
+    #     ls = ""
 
-        for location_key in sorted(self.map.keys()):
-            location = self.map[location_key]
+    #     for location_key in sorted(self.map.keys()):
+    #         location = self.map[location_key]
 
-            if location.body:
-                ls += "%s %s\n" % (location, location.body)
+    #         if location.body:
+    #             ls += "%s %s\n" % (location, location.body)
 
-        return ls[:-1]
+    #     return ls[:-1]
 
     def __str__(self):
         if self.name == "Star":
@@ -151,7 +136,23 @@ class Tactical(Map):
 
         Map.__init__(self, self.size[0], self.size[1])
 
+        center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
+
+        self.setCoords(center[0], center[1], self.body)
+
         # Generator goes here.
+
+    def convert(self):
+        tactical_copy = copy.copy(self.__dict__)
+
+        tactical_copy.pop("env")
+
+        tactical_copy["body"] = tactical_copy["body"].__dict__
+
+        for location in tactical_copy["map"]:
+            tactical_copy["map"][location] = tactical_copy["map"][location].__dict__
+
+        return tactical_copy
 
 # Holds the large environmental objects in a star system.
 class System(Map):
@@ -160,7 +161,8 @@ class System(Map):
 
         # Random size/name of star system.
         self.name = "Star"
-        self.size = (random.randint(60, 70), random.randint(60, 70))
+        # self.size = (random.randint(60, 70), random.randint(60, 70))
+        self.size = (40, 40)
 
         Map.__init__(self, self.size[0], self.size[1])
 
@@ -175,13 +177,13 @@ class System(Map):
         planet   = self.env.get("body", "Planet")
         asteroid = self.env.get("body", "Asteroid Field")
 
-        self.accessCoords(center[0], center[1]).addBody(star)
-        
-        distances = [1, 2, 3, 4, 9, 15, 21, 27]
+        self.setCoords(center[0], center[1], star)
+
+        distances = [1, 2, 3, 4, 8, 11, 14, 17]
 
         # The planets start in x alignment with each other.
         for distance in distances:
-            self.accessCoords(center[0], center[1] + distance).addBody(Tactical(self.env, planet))
+            self.setCoords(center[0], center[1] + distance, Tactical(self.env, planet))
 
         # Use radius to generate belt instead.
 
@@ -192,6 +194,20 @@ class System(Map):
     def longInfo(self):
         return "%s System %3i x %3i" % (self.name, self.size[0], self.size[1])
 
+    def convert(self):
+        system_copy = copy.copy(self.__dict__)
+
+        system_copy.pop("env")
+
+        for location in system_copy["map"]:
+            if system_copy["map"][location].__class__.__name__ is Tactical.__name__:
+                system_copy["map"][location] = system_copy["map"][location].convert()
+
+            else:
+                system_copy["map"][location] = system_copy["map"][location].__dict__
+
+        return system_copy
+
 # Holds star systems.
 class Sector(Map):
     # Creates a star sector with an environment.py instance, and a max x and y.
@@ -200,7 +216,10 @@ class Sector(Map):
         
         self.env    = env
 
-        self.generateSector()
+        # self.generateSector()
+
+        self.setCoords(0, 0, System(self.env))
+
         self.name = "Sector"
 
     # Places stars randomly in the map.
@@ -208,5 +227,14 @@ class Sector(Map):
         for i in range(self.x * self.y / 5):
             coords = (random.randint(0, self.x - 1), random.randint(0, self.y - 1))
 
-            if not self.accessCoords(coords[0], coords[1]).body:
-                self.accessCoords(coords[0], coords[1]).addBody(System(self.env))
+            self.setCoords(coords[0], coords[1], System(self.env))
+
+    def convert(self):
+        sector_copy = copy.copy(self.__dict__)
+
+        sector_copy.pop("env")
+
+        for location in sector_copy["map"]:
+            sector_copy["map"][location] = sector_copy["map"][location].convert()
+
+        return sector_copy

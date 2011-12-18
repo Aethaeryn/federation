@@ -137,7 +137,11 @@ class Game():
     # Writes env data to a publicly visible html page.
     def refreshEnvironmentData(self):
         self.out = data.Write('data')
-        self.out.write('env', self.env.convert())       
+        self.out.write('env', self.env.convert())
+
+    def refreshLocationData(self, system):
+        self.out = data.Write('data')
+        self.out.write('loc', system.convert())
 
     # Adds a player.
     def addPlayer(self, username, game_name, email):
@@ -158,7 +162,7 @@ class Game():
     # Adds a sector.
     def addSector(self, name):
         if name not in self.sectors:
-            self.sectors[name] = location.Sector(self.env)
+            self.sectors[name] = location.Sector(self.env, 40, 40)
 
         else:
             raise Exception("A sector with that name already exists!")
@@ -182,6 +186,12 @@ class Game():
 
     def mainLoop(self):
         now = data.Time.get()
+
+        self.addSector("Test 1")
+
+        self.refreshLocationData(self.sectors["Test 1"])
+
+        quit()
 
         self.nextTurn(now)
 
