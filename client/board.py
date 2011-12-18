@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import Image, ImageDraw, sys
+import Image, ImageDraw, sys, os
 
 # This represents a hexagon in terms of pixel locations.
 class Hex():
@@ -82,6 +82,9 @@ class Board():
 
         image_name = 'test.png'
 
+        if 'game' not in os.listdir('../html/'):
+            os.mkdir('../html/game')
+
         self.drawImage(image_name)
         self.makePage(image_name)
 
@@ -94,14 +97,14 @@ class Board():
         for hexagon in self.hexagons:
             hexagon.draw(draw)
 
-        img.save('../html/%s' % image_name, 'PNG')      
+        img.save('../html/game/%s' % image_name, 'PNG')      
 
     def makePage(self, image_name):
         page_meta = '<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">\n'
 
-        page_css  = '<link href="style.css" rel="stylesheet" type="text/css" />\n  <style type="text/css">\n    p { margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px}\n    img {vertical-align:text-top;}\n  </style>\n'
+        page_css  = '<link href="../style.css" rel="stylesheet" type="text/css" />\n  <style type="text/css">\n    p { margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px}\n    img {vertical-align:text-top;}\n  </style>\n'
 
-        stats     = '<body>\n  <p style="font-size:13.5pt; font-weight:bold">\n    <a href="index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" title="Name" /> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" title="Federation" /> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" title="Credits" /> 200' + '&nbsp;&nbsp;<img src="sphere.png" title="Income" /> 10' + '&nbsp;&nbsp;<img src="sphere.png"  title="Research Points" /> 20' + '&nbsp;&nbsp;<img src="sphere.png" title="Ships" /> 4' + '&nbsp;&nbsp;<img src="sphere.png" title="Fleets" /> 1' + '&nbsp;&nbsp;<img src="sphere.png" title="Territories" /> 2\n  </p>'
+        stats     = '<body>\n  <p style="font-size:13.5pt; font-weight:bold">\n    <a href="../index.html">Federation</a>' + '&nbsp;&nbsp;<img src="sphere.png" title="Name" /> John Doe' + '&nbsp;&nbsp;<img src="sphere.png" title="Federation" /> Pirates' + '&nbsp;&nbsp;<img src="sphere.png" title="Credits" /> 200' + '&nbsp;&nbsp;<img src="sphere.png" title="Income" /> 10' + '&nbsp;&nbsp;<img src="sphere.png"  title="Research Points" /> 20' + '&nbsp;&nbsp;<img src="sphere.png" title="Ships" /> 4' + '&nbsp;&nbsp;<img src="sphere.png" title="Fleets" /> 1' + '&nbsp;&nbsp;<img src="sphere.png" title="Territories" /> 2\n  </p>'
 
         page_img  = '  <p style="text-align:center"><img src="%s" usemap="#hex" alt="Game Board" /></p>\n' % image_name
 
@@ -129,7 +132,7 @@ class Board():
                                    "test.html",
                                    str(i % 40) + ',' + str(i / 40))
 
-        webpage = open('../html/test.html', 'w')
+        webpage = open('../html/game/test.html', 'w')
         webpage.write(page_head + img_map + page_foot)
         webpage.close()
 

@@ -3,6 +3,7 @@
 
 # Ignore server-generated data files.
 html/data/*
+html/game/*
 
 # Ignore hidden directories and files.
 .*
