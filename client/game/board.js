@@ -56,23 +56,9 @@ function board() {
     var border = 10;
     var hex_grid = [40, 40];
 
-    var x_pixels = window.innerWidth;
-    var y_pixels = window.innerHeight;
-
-    var board = document.getElementById('board');
-    board.setAttribute("width", x_pixels - 260);
-    board.setAttribute("height", y_pixels - 45);
-
-    var sidebar = document.getElementById('sidebar');
-    sidebar.setAttribute("width", 220);
-    sidebar.setAttribute("height", y_pixels * .9);
-
-    foo = sidebar.getContext('2d');
-    foo.fillStyle = "#ff88ff";
-    foo.fillRect(0, 0, 220, y_pixels * .9);
-
-
     var hexagons = [];
+
+    setSize();
 
     for (var i = 0; i < hex_grid[Y]; i++) {
         x = 0 + border;
@@ -93,6 +79,32 @@ function board() {
     for (var i = 0; i < hexagons.length; i++) {
         draw(hexagons[i]);
     }
+}
+
+function setSize() {
+    var x_pixels = window.innerWidth;
+    var y_pixels = window.innerHeight;
+
+    var board = document.getElementById('board');
+    board.setAttribute("width", x_pixels - 260);
+    board.setAttribute("height", y_pixels - 45);
+
+    var sidebar = document.getElementById('sidebar');
+    sidebar.setAttribute("width", 220);
+    sidebar.setAttribute("height", y_pixels - 45);
+
+    foo = sidebar.getContext('2d');
+    foo.fillStyle = "#888888";
+    foo.fillRect(0, 0, 220, y_pixels - 45);
+
+    foo.fillStyle = "#333333";
+
+    foo.fillRect(10, 10, 200, 200);
+}
+
+window.onresize = function(event) {
+    setSize();
+    board();
 }
 
 board()
