@@ -106,24 +106,30 @@ class Map():
 
         self.map[location_key] = body
 
-    # Lists all coordinates.
-    # def list(self):
-    #     ls = ""
-
-    #     for location_key in sorted(self.map.keys()):
-    #         location = self.map[location_key]
-
-    #         if location.body:
-    #             ls += "%s %s\n" % (location, location.body)
-
-    #     return ls[:-1]
-
     def __str__(self):
         if self.name == "Star":
             return self.longInfo()
 
         else:
             return self.name
+
+    def convert(self):
+        converted = copy.copy(self.__dict__)
+
+        if hasattr(self, "body"):
+            converted["body"] = converted["body"].__dict__
+
+        converted.pop("env")
+
+        # If there's a convert method, use it instead of a dictionary.
+        for location in converted["map"]:
+            if hasattr(converted["map"][location], "convert"):
+                converted["map"][location] = converted["map"][location].convert()
+
+            else:
+                converted["map"][location] = converted["map"][location].__dict__
+
+        return converted
 
 class Tactical(Map):
     # Planet or asteroid field.
@@ -141,18 +147,6 @@ class Tactical(Map):
         self.setCoords(center[0], center[1], self.body)
 
         # Generator goes here.
-
-    def convert(self):
-        tactical_copy = copy.copy(self.__dict__)
-
-        tactical_copy.pop("env")
-
-        tactical_copy["body"] = tactical_copy["body"].__dict__
-
-        for location in tactical_copy["map"]:
-            tactical_copy["map"][location] = tactical_copy["map"][location].__dict__
-
-        return tactical_copy
 
 # Holds the large environmental objects in a star system.
 class System(Map):
@@ -194,20 +188,6 @@ class System(Map):
     def longInfo(self):
         return "%s System %3i x %3i" % (self.name, self.size[0], self.size[1])
 
-    def convert(self):
-        system_copy = copy.copy(self.__dict__)
-
-        system_copy.pop("env")
-
-        for location in system_copy["map"]:
-            if system_copy["map"][location].__class__.__name__ is Tactical.__name__:
-                system_copy["map"][location] = system_copy["map"][location].convert()
-
-            else:
-                system_copy["map"][location] = system_copy["map"][location].__dict__
-
-        return system_copy
-
 # Holds star systems.
 class Sector(Map):
     # Creates a star sector with an environment.py instance, and a max x and y.
@@ -228,13 +208,3 @@ class Sector(Map):
             coords = (random.randint(0, self.x - 1), random.randint(0, self.y - 1))
 
             self.setCoords(coords[0], coords[1], System(self.env))
-
-    def convert(self):
-        sector_copy = copy.copy(self.__dict__)
-
-        sector_copy.pop("env")
-
-        for location in sector_copy["map"]:
-            sector_copy["map"][location] = sector_copy["map"][location].convert()
-
-        return sector_copy
