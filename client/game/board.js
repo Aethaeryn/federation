@@ -32,7 +32,8 @@ function getCoordCenter(hex_coords) {
 function draw(coords) {
     var board = document.getElementById('board').getContext('2d');
 
-    board.strokeStyle = '#ffffff';
+    board.strokeStyle = '#aaaaaa';
+    board.lineWidth = 1;
     board.beginPath();
 
     board.moveTo(coords[0][0], coords[0][1]);
@@ -51,18 +52,25 @@ function board() {
 
     const HEX_SIZE = [57, 54];
     const HEX_OFFSET = [43, 27];
-    const HALF_X = 15;
-    const MAGIC = [11, 1];
 
     var border = 10;
     var hex_grid = [40, 40];
 
-    var x_pixels = (hex_grid[X] * HEX_SIZE[X] / 2) + hex_grid[X] * HALF_X + (border * 2) + MAGIC[0];
-    var y_pixels = hex_grid[Y] * HEX_SIZE[Y] + HEX_OFFSET[Y] + (border * 2) + MAGIC[1];
+    var x_pixels = window.innerWidth;
+    var y_pixels = window.innerHeight;
 
     var board = document.getElementById('board');
-    board.setAttribute("width", x_pixels);
-    board.setAttribute("height", y_pixels);
+    board.setAttribute("width", x_pixels - 260);
+    board.setAttribute("height", y_pixels - 45);
+
+    var sidebar = document.getElementById('sidebar');
+    sidebar.setAttribute("width", 220);
+    sidebar.setAttribute("height", y_pixels * .9);
+
+    foo = sidebar.getContext('2d');
+    foo.fillStyle = "#ff88ff";
+    foo.fillRect(0, 0, 220, y_pixels * .9);
+
 
     var hexagons = [];
 
