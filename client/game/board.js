@@ -53,7 +53,6 @@ function board() {
     const HEX_SIZE = [57, 54];
     const HEX_OFFSET = [43, 27];
 
-    var border = 10;
     var hex_grid = [40, 40];
 
     var hexagons = [];
@@ -61,8 +60,8 @@ function board() {
     setSize();
 
     for (var i = 0; i < hex_grid[Y]; i++) {
-        x = 0 + border;
-        y = i * HEX_SIZE[Y] + border;
+        x = 0;
+        y = i * HEX_SIZE[Y];
 
         for (var j = 0; j < hex_grid[X]; j++) {
             hexagons.push(getCoords(x, y));
@@ -87,19 +86,39 @@ function setSize() {
 
     var board = document.getElementById('board');
     board.setAttribute("width", x_pixels - 260);
-    board.setAttribute("height", y_pixels - 45);
+    board.setAttribute("height", y_pixels - 88);
 
     var sidebar = document.getElementById('sidebar');
     sidebar.setAttribute("width", 220);
-    sidebar.setAttribute("height", y_pixels - 45);
+    sidebar.setAttribute("height", y_pixels - 88);
 
-    foo = sidebar.getContext('2d');
-    foo.fillStyle = "#888888";
-    foo.fillRect(0, 0, 220, y_pixels - 45);
+    side_canvas = sidebar.getContext('2d');
+    side_canvas.fillStyle = "#888888";
+    side_canvas.fillRect(0, 0, 220, y_pixels - 88);
 
-    foo.fillStyle = "#333333";
+    side_canvas.fillStyle = "#333333";
 
-    foo.fillRect(10, 10, 200, 200);
+    side_canvas.fillRect(10, 10, 200, 150);
+
+    side_canvas.fillRect(10, 165, 50, 50);
+
+    var footer = document.getElementById('footer');
+
+    footer.setAttribute("width", x_pixels - 35);
+    footer.setAttribute("height", 30);
+
+    foot_canvas = footer.getContext('2d');
+    foot_canvas.fillStyle = "#888888";
+    foot_canvas.fillRect(0, 0, x_pixels - 35, 30);
+
+    var header = document.getElementById('header');
+
+    header.setAttribute("width", x_pixels - 35);
+    header.setAttribute("height", 30);
+
+    head_canvas = header.getContext('2d');
+    head_canvas.fillStyle = "#888888";
+    head_canvas.fillRect(0, 0, x_pixels - 35, 30);
 }
 
 window.onresize = function(event) {
