@@ -46,7 +46,14 @@ function draw(coords) {
     board.stroke();
 }
 
+boardimg = new Object();
+boardimg.x = 0;
+boardimg.y = 0;
+
 function board() {
+    var off_x = boardimg.x;
+    var off_y = boardimg.y;
+
     const X = 0;
     const Y = 1;
 
@@ -57,9 +64,11 @@ function board() {
 
     var hexagons = [];
 
+    setSize("#333333");
+
     for (var i = 0; i < hex_grid[Y]; i++) {
-        x = 0;
-        y = i * HEX_SIZE[Y];
+        x = 0 + off_x;
+        y = i * HEX_SIZE[Y] + off_y;
 
         for (var j = 0; j < hex_grid[X]; j++) {
             hexagons.push(getCoords(x, y));
@@ -120,29 +129,43 @@ function setSize(color) {
 }
 
 window.onresize = function(event) {
-    setSize("#333333");
+    board();
 }
 
 function keyActions(event) {
+    var x = 0;
+    var y = 0;
+
     switch (event.keyCode) {
     case 37: // left
-        setSize("#000000");
+        boardimg.x += 10;
+
+        board();
+
         break;
     case 38: // up
-        setSize("#0000ff");
+        boardimg.y += 10;
+
+        board();
+
         break;
     case 39: // right
-        setSize("#ff0000");
+        boardimg.x -= 10;
+
+        board();
+
         break;
     case 40: //down
-        setSize("#00ff00");
+        boardimg.y -= 10;
+
+        board();
+
         break;
     case 71: // 'g'
-        board();
         break;
     }
 }
 
 window.addEventListener('keydown', keyActions, true);
 
-setSize("#333333");
+board(0, 0);
