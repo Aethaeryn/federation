@@ -59,12 +59,21 @@ class Header():
 
     @classmethod
     def stamp(self, header, filename):
+        # Examines the extension.
+        extension = filename.split('.')[1]
+
+        # Javascript uses '//' instead of '#' and the rest are '#'
+        if extension == 'js':
+            self.__dict__[header] = self.__dict__[header].replace('#', '//')
+
+        # Reads in the old file.
         infile = open(filename, 'r')
 
         new_file = self.__dict__[header] + infile.read()
 
         infile.close()
 
+        # Writes out the file, which now has a header.
         outfile = open(filename, 'w')
 
         outfile.write(new_file)
@@ -72,15 +81,18 @@ class Header():
         outfile.close()
 
 def main():
+    # Checks for the right argument count.
     if len(sys.argv) != 3:
         print 'Error: The syntax is "python header.py <license> <file>"'
 
-    elif sys.argv[1] not in Header.__dict__:
+    # Checks for the right license.
+    elif sys.argv[1] not in Header.licenses:
         print 'Error: Valid licenses are:',
 
         for license_name in Header.licenses:
             print license_name,
 
+    # Tries to stamp the file.
     else:
         try:
             Header.stamp(sys.argv[1], sys.argv[2])
