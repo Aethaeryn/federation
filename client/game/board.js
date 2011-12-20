@@ -62,6 +62,12 @@ function board() {
 
     var hex_grid = [40, 40];
 
+    // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
+    boardimg.x_max = (hex_grid[X] / 2) * HEX_SIZE[X] + (hex_grid[X] / 2) * 29 + 14
+
+    // The total hex height, plus the y offset, gives the max.
+    boardimg.y_max = (HEX_SIZE[Y] * hex_grid[Y] + HEX_OFFSET[Y])
+
     var hexagons = [];
 
     setSize("#333333");
@@ -94,6 +100,9 @@ function setSize(color) {
     var board = document.getElementById('board');
     board.setAttribute("width", x_pixels - 260);
     board.setAttribute("height", y_pixels - 88);
+
+    boardimg.y_height = y_pixels - 88;
+    boardimg.x_height = x_pixels - 260;
 
     var sidebar = document.getElementById('sidebar');
     sidebar.setAttribute("width", 220);
@@ -136,31 +145,39 @@ function keyActions(event) {
     var x = 0;
     var y = 0;
 
+    const SCROLL = 20;
+
+    // Left scrolls left.
+    if (event.keyCode == 37) {
+        if (boardimg.x + SCROLL <= 0) {
+            boardimg.x += SCROLL;
+        }
+    }
+
+    // Up scrolls up.
+    if (event.keyCode == 38) {
+        if (boardimg.y + SCROLL <= 0) {
+            boardimg.y += SCROLL;
+        }
+    }
+
+    // Right scrolls right.
+    if (event.keyCode == 39) {
+        if (boardimg.x - boardimg.x_height >= - boardimg.x_max) {
+            boardimg.x -= SCROLL;
+        }
+    }
+
+    // Down scrolls down.
+    if (event.keyCode == 40) {
+        if (boardimg.y - boardimg.y_height >= - boardimg.y_max) {
+            boardimg.y -= SCROLL;
+        }
+    }
+
+    board();
+
     switch (event.keyCode) {
-    case 37: // left
-        boardimg.x += 10;
-
-        board();
-
-        break;
-    case 38: // up
-        boardimg.y += 10;
-
-        board();
-
-        break;
-    case 39: // right
-        boardimg.x -= 10;
-
-        board();
-
-        break;
-    case 40: //down
-        boardimg.y -= 10;
-
-        board();
-
-        break;
     case 71: // 'g'
         break;
     }
