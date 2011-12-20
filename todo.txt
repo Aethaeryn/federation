@@ -1,20 +1,32 @@
+------------
+  board.js
+------------
+ * Board
+   * Start the player's view in the middle of the board, rather than at the left
+     corner.
+   * Add environment object sprites to the board.
+
+ * Header/footer text.
+   * Add player stats to the header.
+   * Add turn information and informative links to the footer.
+
+ * Sidebar.
+   * Add accurate minimap.
+   * Add mouseover information of hex.
+   * Add real time social updates.
+
+ * More board.
+   * Get the board to scroll.
+   * Add a background image of stars, get it to scroll more slowly.
+   * Get the forground objects to scroll quickly.
+
 ---------------
   location.py
 ---------------
- * Work on new generation algorithms for Sector/System/Tactical.
+ * Work on new generation algorithms and layouts for Sector/System/Tactical.
 
- * Location.distance() and Location.radius()
-   * Tested, comment, etc.
-
- * Map.accessCoords()
-   * Delete location objects later on if they're empty to save space.
-
- * Map.list()
-   * Rewrite so it's more useful than just printing a string for debugging
-     purposes.
-
- * Map.__str__()
-   * Fix the naming and string system.
+ * Redo location to be a static class with class methods that act on certain
+   locations to do calculations (distance, radius, etc.)
 
  * Tactical
    * Add a name that adjusts based on whether it's a planet or asteroid field
@@ -22,22 +34,18 @@
    * Vary size based on traits of the planet or asteroid field?
    * Add generator.
 
- * System.__init__()
-   * Add other layouts, including binary and tertiary stars.
-   * Integrate with Tactical()
-
 
 -----------
   game.py
 -----------
+ * Redo the player class to provide what the new JavaScript GUI will expect.
+
  * Finish the turn loop so that it is functional.
 
 
 ---------
   Other
 ---------
- * Check to make sure that YAML config files have valid values before parsing.
-
  * Implement the combat system and movement system for fleets/spacecraft/etc.
 
  * Implement fleet system, which is linked closely to combat / movement.
@@ -48,9 +56,6 @@
    * The commander can kick ships and players from the fleet.
    * There should also be locked fleets that are only allowed to certain
      players, even though the alliance has more people.
-
- * Add a mission / campaign system for the newbie starting galaxy, and perhaps
-   for the later one too.
 
  * Integrate Player with openID. How will authentication be handled?
 
@@ -64,12 +69,7 @@
    * Wages for units and upkeep for other stuff?
    * Buy/sell structures, spacecraft, components, units, etc.
 
- * Use gettext for internationalization.
-
  * Add some method by which the clients can handle the exceptions where the
    user should see it.
    * Use an error log for the other exceptions.
-
- * Federation/client is now strictly going to be for the web browser client. All other clients (IRC, Python, Android, iOS, etc.) will go into their own git repo because they are independent applications and it is highly unlikely that more than a few people will be interested in every single possible client.
-
 

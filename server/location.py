@@ -23,9 +23,6 @@ class Location:
         self.x = x
         self.y = y
 
-    def __str__(self):
-        return "(%2s, %2s)" % (str(self.x), str(self.y))
-
     # Calculates distance on a hex board.
     def distance(self, location):
         horizontal = abs(self.x - location.x)
@@ -91,27 +88,19 @@ class Map():
         self.x   = x
         self.y   = y
 
-    # Accesses coordinates at a given location.
-    def accessCoords(self, x, y):
-        location_key = "%3i, %3i" % (x, y)
-
-        # If this is the first access, it creates a new Location object.
-        if location_key not in self.map:
-            self.map[location_key] = None
-
-        return self.map[location_key]
-
     def setCoords(self, x, y, body):
         location_key = "%3i, %3i" % (x, y)
 
         self.map[location_key] = body
 
-    def __str__(self):
-        if self.name == "Star":
-            return self.longInfo()
+    def delCoords(self, x, y, body):
+        location_key = "%3i, %3i" % (x, y)
 
-        else:
-            return self.name
+        try:
+            return self.map.pop(location_key)
+
+        except KeyError:
+            return None
 
     def convert(self):
         converted = copy.copy(self.__dict__)
