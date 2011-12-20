@@ -16,9 +16,13 @@
    * Add real time social updates.
 
  * More board.
-   * Get the board to scroll.
+   * Get diagonal (e.g. up + left) scrolling to work if possible.
    * Add a background image of stars, get it to scroll more slowly.
    * Get the forground objects to scroll quickly.
+
+ * Finally.
+   * After it all works, clean up the code to make it not a mess of things that
+     barely work.
 
 ---------------
   location.py

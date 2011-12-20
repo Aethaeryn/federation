@@ -46,14 +46,7 @@ function draw(coords) {
     board.stroke();
 }
 
-boardimg = new Object();
-boardimg.x = 0;
-boardimg.y = 0;
-
 function board() {
-    var off_x = boardimg.x;
-    var off_y = boardimg.y;
-
     const X = 0;
     const Y = 1;
 
@@ -63,10 +56,19 @@ function board() {
     var hex_grid = [40, 40];
 
     // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
-    boardimg.x_max = (hex_grid[X] / 2) * HEX_SIZE[X] + (hex_grid[X] / 2) * 29 + 14
+    boardimg.x_max = (hex_grid[X] / 2) * HEX_SIZE[X] + (hex_grid[X] / 2) * 29 + 14;
 
     // The total hex height, plus the y offset, gives the max.
-    boardimg.y_max = (HEX_SIZE[Y] * hex_grid[Y] + HEX_OFFSET[Y])
+    boardimg.y_max = (HEX_SIZE[Y] * hex_grid[Y] + HEX_OFFSET[Y]);
+
+    /* fixme: code to center the board on start
+    if (boardimg.moved == false) {
+        boardimg.x = - boardimg.x_max / 2;
+        boardimg.y = - boardimg.y_max / 2;
+    } */
+
+    var off_x = boardimg.x;
+    var off_y = boardimg.y;
 
     var hexagons = [];
 
@@ -142,10 +144,9 @@ window.onresize = function(event) {
 }
 
 function keyActions(event) {
-    var x = 0;
-    var y = 0;
-
     const SCROLL = 20;
+
+    boardimg.moved = true;
 
     // Left scrolls left.
     if (event.keyCode == 37) {
@@ -177,12 +178,35 @@ function keyActions(event) {
 
     board();
 
-    switch (event.keyCode) {
+/*    switch (event.keyCode) {
     case 71: // 'g'
         break;
     }
+*/
+}
+
+// Accurately captures location of mouse on board canvas.
+function mouseMove(event) {
+    var x = event.clientX - 10 - boardimg.x;
+    var y = event.clientY - 45 - boardimg.y;
+
+    if (x < 0 || x > boardimg.x_height) {
+        x = false;
+    }
+
+    if (y < 0 || y > boardimg.y_height) {
+        y = false;
+    }
+
+    alert(x + ', ' + y);
 }
 
 window.addEventListener('keydown', keyActions, true);
+document.addEventListener('mousemove', mouseMove, true)
 
-board(0, 0);
+boardimg = new Object();
+boardimg.moved = false;
+boardimg.x = 0;
+boardimg.y = 0;
+
+board();
