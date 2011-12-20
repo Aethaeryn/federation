@@ -57,8 +57,6 @@ function board() {
 
     var hexagons = [];
 
-    setSize();
-
     for (var i = 0; i < hex_grid[Y]; i++) {
         x = 0;
         y = i * HEX_SIZE[Y];
@@ -80,7 +78,7 @@ function board() {
     }
 }
 
-function setSize() {
+function setSize(color) {
     var x_pixels = window.innerWidth;
     var y_pixels = window.innerHeight;
 
@@ -96,7 +94,7 @@ function setSize() {
     side_canvas.fillStyle = "#888888";
     side_canvas.fillRect(0, 0, 220, y_pixels - 88);
 
-    side_canvas.fillStyle = "#333333";
+    side_canvas.fillStyle = color;
 
     side_canvas.fillRect(10, 10, 200, 150);
 
@@ -122,8 +120,29 @@ function setSize() {
 }
 
 window.onresize = function(event) {
-    setSize();
-    board();
+    setSize("#333333");
 }
 
-board()
+function keyActions(event) {
+    switch (event.keyCode) {
+    case 37: // left
+        setSize("#000000");
+        break;
+    case 38: // up
+        setSize("#0000ff");
+        break;
+    case 39: // right
+        setSize("#ff0000");
+        break;
+    case 40: //down
+        setSize("#00ff00");
+        break;
+    case 71: // 'g'
+        board();
+        break;
+    }
+}
+
+window.addEventListener('keydown', keyActions, true);
+
+setSize("#333333");
