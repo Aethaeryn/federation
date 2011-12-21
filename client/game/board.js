@@ -15,50 +15,52 @@
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 function Board () {
+    this.HEX_SIZE   = [57, 54];
+    this.HEX_OFFSET = [43, 27];
+
+    this.X = 0;
+    this.Y = 1;
+
+    this.hex_grid = [40, 40];
+
     this.moved = false;
-    this.x = 0;
-    this.y = 0;
+    this.x     = 0;
+    this.y     = 0;
 
     this.board = function() {
-        const X = 0;
-        const Y = 1;
-
-        const HEX_SIZE = [57, 54];
-        const HEX_OFFSET = [43, 27];
-
-        var hex_grid = [40, 40];
-
         // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
-        this.x_max = (hex_grid[X] / 2) * HEX_SIZE[X] + (hex_grid[X] / 2) * 29 + 14;
+        this.x_max = (this.hex_grid[this.X] / 2) * this.HEX_SIZE[this.X] + (this.hex_grid[this.X] / 2) * 29 + 14;
 
         // The total hex height, plus the y offset, gives the max.
-        this.y_max = (HEX_SIZE[Y] * hex_grid[Y] + HEX_OFFSET[Y]);
+        this.y_max = (this.HEX_SIZE[this.Y] * this.hex_grid[this.Y] + this.HEX_OFFSET[this.Y]);
 
-        /* fixme: code to center the board on start
-           if (this.moved == false) {
+        /*
+        // fixme: code to center the board on start
+        if (this.moved == false) {
            this.x = - this.x_max / 2;
            this.y = - this.y_max / 2;
-           } */
+        }
+        */
+
+        setSize("#333333");
 
         var off_x = this.x;
         var off_y = this.y;
 
-        setSize("#333333");
-
         this.hexagons = [];
 
-        for (var i = 0; i < hex_grid[Y]; i++) {
+        for (var i = 0; i < this.hex_grid[this.Y]; i++) {
             x = 0 + off_x;
-            y = i * HEX_SIZE[Y] + off_y;
+            y = i * this.HEX_SIZE[this.Y] + off_y;
 
-            for (var j = 0; j < hex_grid[X]; j++) {
+            for (var j = 0; j < this.hex_grid[this.X]; j++) {
                 this.hexagons.push(this.getCoords(x, y));
-                x += HEX_OFFSET[X];
+                x += this.HEX_OFFSET[this.X];
 
                 if (j % 2) {
-                    y -= HEX_OFFSET[Y];
+                    y -= this.HEX_OFFSET[this.Y];
                 } else {
-                    y += HEX_OFFSET[Y];
+                    y += this.HEX_OFFSET[this.Y];
                 }
             }
         }
@@ -84,7 +86,7 @@ function Board () {
     }
 
     this.getCoordCenter = function (hex_coords) {
-        return [(hex_coords[0][0] + hex_coords[1][0]) / 2, hex_coords[2][1]];
+        return [(hex_coords[0][this.X] + hex_coords[1][this.X]) / 2, hex_coords[2][this.Y]];
     }
 
     this.drawGrid = function (coords) {
