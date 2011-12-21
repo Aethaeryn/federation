@@ -23,9 +23,10 @@ function Board (hex_grid) {
 
     this.hex_grid = hex_grid;
 
-    this.moved = false;
-    this.x     = 0;
-    this.y     = 0;
+    this.x      = 0;
+    this.y      = 0;
+    this.moved  = false;
+    this.gridOn = false;
 
     this.board = function() {
         // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
@@ -71,10 +72,16 @@ function Board (hex_grid) {
             }
         }
 
-        this.grid();
+        if (this.gridOn == true) {
+            this.grid();
+        }
     }
 
     this.grid = function () {
+        if (this.gridOn == false) {
+            this.gridOn = true;
+        }
+
         for (var i = 0; i < this.hexagons.length; i++) {
             this.drawGrid(this.hexagons[i]);
         }
@@ -197,12 +204,11 @@ function keyActions(event) {
 
     board.board();
 
-    /*
     switch (event.keyCode) {
     case 71: // 'g'
+        board.grid();
         break;
     }
-    */
 }
 
 // Accurately captures location of mouse on board canvas.
