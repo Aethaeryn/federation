@@ -187,16 +187,35 @@ function setCanvases() {
         header.textBaseline = 'top'
         header.font = 'bold 14px sans-serif'
         // Server Name Federation Credits Income Research Points Ships Fleets Territories
-        header.textAlign = "center";
-        header.fillText("Federation", 50, 7);
-        header.fillText("John Doe", 175, 7);
-        header.fillText("Pirates", 260, 7);
-        header.fillText("200", 330, 7);
-        header.fillText("10", 400, 7);
-        header.fillText("20", 450, 7);
-        header.fillText("4", 500, 7);
-        header.fillText("1", 550, 7);
-        header.fillText("2", 600, 7);
+        var icon = new Image();
+        icon.src = "../sphere.png"
+        header.textAlign = "left";
+        header.fillText("Federation", 10, 7);
+
+        header.drawImage(icon, 110, 3);
+        header.fillText("John Doe", 135, 7);
+
+        header.drawImage(icon, 250, 3);
+        header.fillText("Pirates", 275, 7);
+
+        header.drawImage(icon, 365, 3);
+        header.fillText("200,000", 390, 7);
+
+        header.drawImage(icon, 475, 3);
+        header.fillText("100", 500, 7);
+
+        header.drawImage(icon, 550, 3);
+        header.fillText("20", 575, 7);
+
+        header.drawImage(icon, 620, 3);
+        header.fillText("4", 645, 7);
+
+        header.drawImage(icon, 675, 3);
+        header.fillText("1", 700, 7);
+
+        header.drawImage(icon, 730, 3);
+        header.fillText("2", 755, 7);
+
         header.textAlign = "right";
         header.fillText("(10, 10)", this.x - 35, 7);
     }
