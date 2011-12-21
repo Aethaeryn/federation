@@ -14,14 +14,14 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function Board () {
+function Board (hex_grid) {
     this.HEX_SIZE   = [57, 54];
     this.HEX_OFFSET = [43, 27];
 
     this.X = 0;
     this.Y = 1;
 
-    this.hex_grid = [40, 40];
+    this.hex_grid = hex_grid;
 
     this.moved = false;
     this.x     = 0;
@@ -113,7 +113,7 @@ function Board () {
     }
 }
 
-var board = new Board();
+var board = new Board([40, 40]);
 
 function setCanvases() {
     this.color1 = "#333333";
@@ -129,49 +129,36 @@ function setCanvases() {
         this.setHeader();
     }
 
-    this.setBoard = function () {
-        var board_canvas = document.getElementById('board');
-        board_canvas.setAttribute("width", this.x - 260);
-        board_canvas.setAttribute("height", this.y - 88);
+    this.setStart = function(id, x, y) {
+        var canvas = document.getElementById(id);
 
-        board.y_height = this.y - 88;
+        canvas.setAttribute("width", x);
+        canvas.setAttribute("height", y);
+
+        return canvas.getContext("2d");
+    }
+
+    this.setBoard = function () {
         board.x_height = this.x - 260;
+        board.y_height = this.y - 88;
+
+        var boardc = this.setStart("board", board.x_height, board.y_height);
     }
 
     this.setSidebar = function () {
-        var sidebar = document.getElementById('sidebar');
-        sidebar.setAttribute("width", 220);
-        sidebar.setAttribute("height", this.y - 88);
+        var sidebar = this.setStart("sidebar", 220, this.y - 88);
 
-        side_canvas = sidebar.getContext('2d');
-        side_canvas.fillStyle = this.color2;
-        side_canvas.fillRect(0, 0, 220, this.y - 88);
-
-        side_canvas.fillStyle = this.color1;
-        side_canvas.fillRect(10, 10, 200, 150);
-        side_canvas.fillRect(10, 165, 50, 50);
+        sidebar.fillStyle = this.color1;
+        sidebar.fillRect(10, 10, 200, 150);
+        sidebar.fillRect(10, 165, 50, 50);
     }
 
     this.setFooter = function () {
-        var footer = document.getElementById('footer');
-
-        footer.setAttribute("width", this.x - 35);
-        footer.setAttribute("height", 30);
-
-        foot_canvas = footer.getContext('2d');
-        foot_canvas.fillStyle = this.color2;
-        foot_canvas.fillRect(0, 0, this.x - 35, 30);
+        var footer = this.setStart("footer", this.x - 35, 30);
     }
 
     this.setHeader = function () {
-        var header = document.getElementById('header');
-
-        header.setAttribute("width", this.x - 35);
-        header.setAttribute("height", 30);
-
-        head_canvas = header.getContext('2d');
-        head_canvas.fillStyle = this.color2;
-        head_canvas.fillRect(0, 0, this.x - 35, 30);
+        var header = this.setStart("header", this.x - 35, 30);
     }
 }
 
