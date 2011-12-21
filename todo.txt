@@ -2,8 +2,8 @@
   board.js
 ------------
  * Board
-   * Start the player's view in the middle of the board, rather than at the left
-     corner.
+   * Start the player's view in the middle of the board, rather than at the
+     left corner.
    * Add environment object sprites to the board.
 
  * Header/footer text.
@@ -16,13 +16,32 @@
    * Add real time social updates.
 
  * More board.
+   * Have grid turn off with 'g'.
+   * When you are at the right of the board and resize window to the right, you
+     go past the boundary. Fix this.
    * Get diagonal (e.g. up + left) scrolling to work if possible.
    * Add a background image of stars, get it to scroll more slowly.
    * Get the forground objects to scroll quickly.
 
- * Finally.
-   * After it all works, clean up the code to make it not a mess of things that
-     barely work.
+
+-----------
+  game.py
+-----------
+ * Redo the player class to provide what the new JavaScript GUI will expect.
+
+ * Finish the turn loop so that it is functional.
+
+ * Provide turn information in the form of psuedo-time information, with
+   each day as a month in-game.
+
+ * Move turns forward based on an absolute system time, rather than on
+   relative hours from start of game.
+
+ * Show certain data files from certain players, based on authentication
+   information of the player viewing it.
+
+ * Add a mechanism by which the client can send moves to the game engine.
+
 
 ---------------
   location.py
@@ -39,41 +58,63 @@
    * Add generator.
 
 
------------
-  game.py
------------
- * Redo the player class to provide what the new JavaScript GUI will expect.
-
- * Finish the turn loop so that it is functional.
+-------------
+  combat.py
+-------------
+ * Implement.
 
 
----------
-  Other
----------
- * Implement the combat system and movement system for fleets/spacecraft/etc.
+---------------
+  movement.py
+---------------
+ * Implement.
 
- * Implement fleet system, which is linked closely to combat / movement.
-   * Ships move as part of a fleet.
-   * Alliances can have fleets, or individual players can.
-   * The deputy can move or fight. The commander can move/fight/administer.
-   * Anyone in the group (alliance or player) can join/leave the fleet.
-   * The commander can kick ships and players from the fleet.
-   * There should also be locked fleets that are only allowed to certain
-     players, even though the alliance has more people.
 
- * Integrate Player with openID. How will authentication be handled?
+----------------------------------
+  Authentication (various files)
+----------------------------------
+ * Implement.
 
- * Think of a way to hide certain API data files from certain players.
-   * Redo the API.
+ * Integrate with something like openID?
 
- * Implement economy:
-   * Income and money.
-   * Resources and mining.
-   * Tributes, trade, and bounty.
-   * Wages for units and upkeep for other stuff?
-   * Buy/sell structures, spacecraft, components, units, etc.
 
- * Add some method by which the clients can handle the exceptions where the
-   user should see it.
-   * Use an error log for the other exceptions.
+--------------------------
+  Economy (various files)
+--------------------------
+ * Income and money.
+
+ * Resources and mining.
+
+ * Tributes, trade, and bounty.
+   * Allow sending of both money and research points instantly between players.
+
+ * Add wages (units) and upkeep (other)?
+
+ * Let players buy/sell environment objects.
+
+
+------------------------------
+  Exceptions (various files)
+------------------------------
+ * Error log.
+
+ * Transmit certain errors to the client / player somehow.
+
+
+-------------------------
+  Fleet (various files)
+-------------------------
+ * Ships move as part of a fleet.
+
+ * Alliances and players can both form/own fleets.
+
+ * The deputy can move or fight. The commander can do this, and also access
+   certain administration commands.
+
+ * Anyone in the group (alliance or player) can join/leave the fleet.
+
+ * The commander can kick ships and players from the fleet.
+
+ * Certain locked fleets are only allowed to certain players in a subset of
+   the alliance at large.
 
