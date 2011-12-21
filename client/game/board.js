@@ -42,8 +42,14 @@ function Board () {
         }
         */
 
-        setSize("#333333");
+        var canvas_set = new setCanvases();
 
+        canvas_set.setAll();
+
+        this.hexSetup();
+    }
+
+    this.hexSetup = function () {
         var off_x = this.x;
         var off_y = this.y;
 
@@ -109,54 +115,64 @@ function Board () {
 
 var board = new Board();
 
-function setSize(color) {
-    var x_pixels = window.innerWidth;
-    var y_pixels = window.innerHeight;
+function setCanvases() {
+    this.color1 = "#333333";
+    this.color2 = "#888888";
 
-    var board_canvas = document.getElementById('board');
-    board_canvas.setAttribute("width", x_pixels - 260);
-    board_canvas.setAttribute("height", y_pixels - 88);
+    this.x = window.innerWidth;
+    this.y = window.innerHeight;
 
-    board.y_height = y_pixels - 88;
-    board.x_height = x_pixels - 260;
+    this.setAll = function() {
+        this.setBoard();
+        this.setSidebar();
+        this.setFooter();
+        this.setHeader();
+    }
 
-    var sidebar = document.getElementById('sidebar');
-    sidebar.setAttribute("width", 220);
-    sidebar.setAttribute("height", y_pixels - 88);
+    this.setBoard = function () {
+        var board_canvas = document.getElementById('board');
+        board_canvas.setAttribute("width", this.x - 260);
+        board_canvas.setAttribute("height", this.y - 88);
 
-    side_canvas = sidebar.getContext('2d');
-    side_canvas.fillStyle = "#888888";
-    side_canvas.fillRect(0, 0, 220, y_pixels - 88);
+        board.y_height = this.y - 88;
+        board.x_height = this.x - 260;
+    }
 
-    side_canvas.fillStyle = color;
-    side_canvas.fillRect(10, 10, 200, 150);
-    side_canvas.fillRect(10, 165, 50, 50);
+    this.setSidebar = function () {
+        var sidebar = document.getElementById('sidebar');
+        sidebar.setAttribute("width", 220);
+        sidebar.setAttribute("height", this.y - 88);
 
-    var footer = document.getElementById('footer');
+        side_canvas = sidebar.getContext('2d');
+        side_canvas.fillStyle = this.color2;
+        side_canvas.fillRect(0, 0, 220, this.y - 88);
 
-    footer.setAttribute("width", x_pixels - 35);
-    footer.setAttribute("height", 30);
+        side_canvas.fillStyle = this.color1;
+        side_canvas.fillRect(10, 10, 200, 150);
+        side_canvas.fillRect(10, 165, 50, 50);
+    }
 
-    foot_canvas = footer.getContext('2d');
-    foot_canvas.fillStyle = "#888888";
-    foot_canvas.fillRect(0, 0, x_pixels - 35, 30);
+    this.setFooter = function () {
+        var footer = document.getElementById('footer');
 
-    var header = document.getElementById('header');
+        footer.setAttribute("width", this.x - 35);
+        footer.setAttribute("height", 30);
 
-    header.setAttribute("width", x_pixels - 35);
-    header.setAttribute("height", 30);
+        foot_canvas = footer.getContext('2d');
+        foot_canvas.fillStyle = this.color2;
+        foot_canvas.fillRect(0, 0, this.x - 35, 30);
+    }
 
-    head_canvas = header.getContext('2d');
-    head_canvas.fillStyle = "#888888";
-    head_canvas.fillRect(0, 0, x_pixels - 35, 30);
-}
+    this.setHeader = function () {
+        var header = document.getElementById('header');
 
-window.onresize = function(event) {
-    board.board();
-}
+        header.setAttribute("width", this.x - 35);
+        header.setAttribute("height", 30);
 
-window.onload = function(event) {
-    board.board();
+        head_canvas = header.getContext('2d');
+        head_canvas.fillStyle = this.color2;
+        head_canvas.fillRect(0, 0, this.x - 35, 30);
+    }
 }
 
 function keyActions(event) {
@@ -216,6 +232,14 @@ function mouseMove(event) {
     }
 
     // alert(x + ', ' + y);
+}
+
+window.onresize = function(event) {
+    board.board();
+}
+
+window.onload = function(event) {
+    board.board();
 }
 
 window.addEventListener('keydown', keyActions, true);
