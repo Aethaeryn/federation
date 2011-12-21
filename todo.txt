@@ -9,11 +9,7 @@
  * Actually read in information text displayed from the game server instead of
    using static mock-up text.
 
- * Add accurate minimap.
-
  * Add mouseover information of each hex.
-
- * Add real time social updates to sidebar.
 
  * Have grid turn off with 'g', not just on.
 
@@ -121,3 +117,9 @@
  * Certain locked fleets are only allowed to certain players in a subset of
    the alliance at large.
 
+-----------
+  Someday
+-----------
+ * Fill in the rest of the sidebar with real-time social updates.
+
+ * Handle resolutions smaller than 1024x768.

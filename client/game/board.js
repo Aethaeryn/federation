@@ -155,15 +155,34 @@ function setCanvases() {
     this.setSidebar = function () {
         var sidebar = this.setStart("sidebar", 220, this.y - 88);
 
+        var obj = new Image();
+        obj.src = "../sphere.png";
+
+        var mini_x = 200;
+        var mini_y = 150;
+
+        const mini_corner_x = 10;
+        const mini_corner_y = 10;
+
         sidebar.fillStyle = this.color1;
-        sidebar.fillRect(10, 10, 200, 150);
+        sidebar.fillRect(mini_corner_x, mini_corner_y, mini_x, mini_y);
         sidebar.fillRect(10, 165, 50, 50);
+        sidebar.drawImage(obj, 25, 180);
+
+        var x_ratio = board.x_height / board.x_max;
+        var y_ratio = board.y_height / board.y_max;
+
+        var mini_start_x = mini_corner_x - (board.x * ((mini_x - 4) / board.x_max));
+        var mini_start_y = mini_corner_y - (board.y * (mini_y / board.y_max));
+
+        sidebar.fillStyle = "#000088";
+        sidebar.fillRect(mini_start_x, mini_start_y, mini_x * x_ratio, mini_y * y_ratio);
 
         sidebar.fillStyle = "#cccccc";
-        sidebar.textBaseline = 'top'
-        sidebar.font = 'bold 14px sans-serif'
+        sidebar.textBaseline = 'top';
+        sidebar.font = 'bold 14px sans-serif';
         sidebar.fillText("Sol", 70, 167);
-        sidebar.font = 'bold 12px sans-serif'
+        sidebar.font = 'bold 12px sans-serif';
         sidebar.fillText("Star", 70, 187);
         sidebar.fillText("Earthlings", 70, 202);
     }
@@ -172,8 +191,8 @@ function setCanvases() {
         var footer = this.setStart("footer", this.x - 35, 30);
 
         footer.fillStyle = "#cccccc";
-        footer.textBaseline = 'top'
-        footer.font = 'bold 14px sans-serif'
+        footer.textBaseline = 'top';
+        footer.font = 'bold 14px sans-serif';
         footer.textAlign = "center";
         footer.fillText("May 2500", 50, 7);
         footer.fillText("Forums", 200, 7);
@@ -184,11 +203,11 @@ function setCanvases() {
     this.setHeader = function () {
         var header = this.setStart("header", this.x - 35, 30);
         header.fillStyle = "#cccccc";
-        header.textBaseline = 'top'
-        header.font = 'bold 14px sans-serif'
+        header.textBaseline = 'top';
+        header.font = 'bold 14px sans-serif';
         // Server Name Federation Credits Income Research Points Ships Fleets Territories
         var icon = new Image();
-        icon.src = "../sphere.png"
+        icon.src = "../sphere.png";
         header.textAlign = "left";
         header.fillText("Federation", 10, 7);
 
