@@ -158,14 +158,33 @@ function setCanvases() {
         sidebar.fillStyle = this.color1;
         sidebar.fillRect(10, 10, 200, 150);
         sidebar.fillRect(10, 165, 50, 50);
+
+        sidebar.fillStyle = "#cccccc";
+        sidebar.textBaseline = 'top'
+        sidebar.font = 'bold 14px sans-serif'
+        sidebar.fillText("Sol", 70, 167);
+        sidebar.font = 'bold 12px sans-serif'
+        sidebar.fillText("Star", 70, 187);
+        sidebar.fillText("Earthlings", 70, 202);
     }
 
     this.setFooter = function () {
         var footer = this.setStart("footer", this.x - 35, 30);
+
+        footer.fillStyle = "#cccccc";
+        footer.textBaseline = 'top'
+        footer.font = 'bold 14px sans-serif'
+        footer.fillText("May 2500     Forums     Wiki     Developers", 0, 7);
     }
 
     this.setHeader = function () {
         var header = this.setStart("header", this.x - 35, 30);
+        header.fillStyle = "#cccccc";
+        header.textBaseline = 'top'
+        header.font = 'bold 14px sans-serif'
+        // Server Name Federation Credits Income Research Points Ships Fleets Territories
+        header.fillText("Federation     John Doe     Pirates     200     10     20     4     1     2", 0, 7);
+        header.fillText("(10, 10)", this.x - 100, 7);
     }
 }
 
