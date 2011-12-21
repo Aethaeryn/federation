@@ -1,27 +1,30 @@
 ------------
   board.js
 ------------
- * Board
-   * Start the player's view in the middle of the board, rather than at the
-     left corner.
-   * Add environment object sprites to the board.
+ * Start the player's view in the middle of the board, rather than at the
+   left corner.
 
- * Header/footer text.
-   * Add player stats to the header.
-   * Add turn information and informative links to the footer.
+ * Add environment object sprites to the board.
 
- * Sidebar.
-   * Add accurate minimap.
-   * Add mouseover information of hex.
-   * Add real time social updates.
+ * Actually read in information text displayed from the game server instead of
+   using static mock-up text.
 
- * More board.
-   * Have grid turn off with 'g'.
-   * When you are at the right of the board and resize window to the right, you
-     go past the boundary. Fix this.
-   * Get diagonal (e.g. up + left) scrolling to work if possible.
-   * Add a background image of stars, get it to scroll more slowly.
-   * Get the forground objects to scroll quickly.
+ * Add accurate minimap.
+
+ * Add mouseover information of each hex.
+
+ * Add real time social updates to sidebar.
+
+ * Have grid turn off with 'g', not just on.
+
+ * When you are at the right of the board and resize window to the right, you
+   go past the boundary. Fix this.
+
+ * Get diagonal (e.g. up + left) scrolling to work if possible.
+
+ * Add a background image of stars, get it to scroll more slowly.
+
+ * Get the forground (environment) objects to scroll quickly relative to background.
 
 
 -----------

@@ -174,7 +174,11 @@ function setCanvases() {
         footer.fillStyle = "#cccccc";
         footer.textBaseline = 'top'
         footer.font = 'bold 14px sans-serif'
-        footer.fillText("May 2500     Forums     Wiki     Developers", 0, 7);
+        footer.textAlign = "center";
+        footer.fillText("May 2500", 50, 7);
+        footer.fillText("Forums", 200, 7);
+        footer.fillText("Wiki", 350, 7);
+        footer.fillText("Developers", 500, 7);
     }
 
     this.setHeader = function () {
@@ -183,8 +187,18 @@ function setCanvases() {
         header.textBaseline = 'top'
         header.font = 'bold 14px sans-serif'
         // Server Name Federation Credits Income Research Points Ships Fleets Territories
-        header.fillText("Federation     John Doe     Pirates     200     10     20     4     1     2", 0, 7);
-        header.fillText("(10, 10)", this.x - 100, 7);
+        header.textAlign = "center";
+        header.fillText("Federation", 50, 7);
+        header.fillText("John Doe", 175, 7);
+        header.fillText("Pirates", 260, 7);
+        header.fillText("200", 330, 7);
+        header.fillText("10", 400, 7);
+        header.fillText("20", 450, 7);
+        header.fillText("4", 500, 7);
+        header.fillText("1", 550, 7);
+        header.fillText("2", 600, 7);
+        header.textAlign = "right";
+        header.fillText("(10, 10)", this.x - 35, 7);
     }
 }
 
