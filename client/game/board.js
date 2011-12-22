@@ -87,6 +87,40 @@ function Board (hex_grid) {
         }
     }
 
+    // Determines if points are in a given hex.
+    this.isInHex = function (hex_coords, check_coords) {
+        // The inside rectangle is the easy case.
+        if ((check_coords[this.X] > hex_coords[0][this.X]) &&
+            (check_coords[this.X] < hex_coords[1][this.X]) &&
+            (check_coords[this.Y] > hex_coords[0][this.Y]) &&
+            (check_coords[this.Y] < hex_coords[3][this.Y])) {
+            return true;
+        }
+
+        // The other case is the side triangles.
+        // The lines are: y = (y2 - y1) / (x2 - x1) * (x - x1) + y1
+
+        // This is the left side triangle.
+        else if ((check_coords[this.X] > hex_coords[5][this.X]) &&
+                 (check_coords[this.X] < hex_coords[0][this.X]) &&
+                 (check_coords[this.Y] < (hex_coords[0][this.Y] - hex_coords[5][this.Y]) / (hex_coords[0][this.X] - hex_coords[5][this.X]) * (check_coords[this.X] - hex_coords[5][this.X]) + hex_coords[5][this.Y]) &&
+                 (check_coords[this.Y] > (hex_coords[4][this.Y] - hex_coords[5][this.Y]) / (hex_coords[4][this.X] - hex_coords[5][this.X]) * (check_coords[this.X] - hex_coords[5][this.X]) + hex_coords[5][this.Y])) {
+            return true;
+        }
+
+        // This is the right side triangle.
+        else if ((check_coords[this.X] > hex_coords[1][this.X]) &&
+                 (check_coords[this.X] < hex_coords[2][this.X]) &&
+                 (check_coords[this.Y] < (hex_coords[1][this.Y] - hex_coords[2][this.Y]) / (hex_coords[1][this.X] - hex_coords[2][this.X]) * (check_coords[this.X] - hex_coords[2][this.X]) + hex_coords[2][this.Y]) &&
+                 (check_coords[this.Y] > (hex_coords[3][this.Y] - hex_coords[2][this.Y]) / (hex_coords[3][this.X] - hex_coords[2][this.X]) * (check_coords[this.X] - hex_coords[2][this.X]) + hex_coords[2][this.Y])) {
+            return true;
+        }
+
+        else {
+            return false;
+        }
+    }
+
     this.getCoords = function (x_shift, y_shift) {
         var coords = [[14, 0], [43, 0], [57, 27], [43, 54], [14, 54], [0, 27]];
 
