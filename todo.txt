@@ -28,8 +28,6 @@
 -----------
  * Redo the player class to provide what the new JavaScript GUI will expect.
 
- * Finish the turn loop so that it is functional.
-
  * Provide turn information in the form of psuedo-time information, with
    each day as a month in-game.
 
@@ -47,14 +45,8 @@
 ---------------
  * Work on new generation algorithms and layouts for Sector/System/Tactical.
 
- * Redo location to be a static class with class methods that act on certain
+ * Redo Location to be a static class with class methods that act on certain
    locations to do calculations (distance, radius, etc.)
-
- * Tactical
-   * Add a name that adjusts based on whether it's a planet or asteroid field
-     or some other significant object where this is taking place.
-   * Vary size based on traits of the planet or asteroid field?
-   * Add generator.
 
 
 -------------

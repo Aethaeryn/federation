@@ -83,7 +83,7 @@ function Board (hex_grid) {
         }
 
         for (var i = 0; i < this.hexagons.length; i++) {
-            this.drawGrid(this.hexagons[i]);
+            this.drawHex(this.hexagons[i]);
         }
     }
 
@@ -102,7 +102,7 @@ function Board (hex_grid) {
         return [(hex_coords[0][this.X] + hex_coords[1][this.X]) / 2, hex_coords[2][this.Y]];
     }
 
-    this.drawGrid = function (coords) {
+    this.drawHex = function (coords) {
         var board_canvas = document.getElementById('board').getContext('2d');
 
         board_canvas.strokeStyle = '#aaaaaa';
