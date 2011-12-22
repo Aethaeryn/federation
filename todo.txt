@@ -26,14 +26,8 @@
 -----------
  * Redo the player class to provide what the new JavaScript GUI will expect.
 
- * Provide turn information in the form of psuedo-time information, with
-   each day as a month in-game.
-
  * Move turns forward based on an absolute system time, rather than on
    relative hours from start of game.
-
- * Show certain data files from certain players, based on authentication
-   information of the player viewing it.
 
  * Add a mechanism by which the client can send moves to the game engine.
 
@@ -52,8 +46,6 @@
 --------------------------
  * Income and money.
 
- * Allow sending of both money and research points instantly between players.
-
  * Let players buy/sell environment objects.
 
 
@@ -65,6 +57,7 @@
  * movement.py
 
  * authentication (various files)
+   * Based on who you're authenticated as, it should affect what data you get.
 
  * fleets
 

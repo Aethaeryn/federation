@@ -30,6 +30,7 @@ class Player(GameObject):
         self.join_date = data.Time.get()
 
         self.cash      = 0
+        self.research  = 0
         self.alliance  = False
 
         self.ships     = {}
@@ -129,6 +130,7 @@ class Game():
         # Keeps track of the turn.
         self.turn        = 0
         self.turn_length = turn_length
+        self.start_year  = 2500
 
         # Runs actions.
         self.refreshEnvironmentData()
@@ -150,6 +152,14 @@ class Game():
 
         else:
             raise Exception("A player with that username already exists!")
+
+    # Transfers cash and research from one player to another.
+    def transferFunds(self, original, target, amount_cash, amount_research):
+        self.players[original].cash -= amount_cash
+        self.players[target].cash   += amount_cash
+
+        self.players[original].research -= amount_research
+        self.players[target].research   += amount_research
 
     # Adds an alliance.
     def addAlliance(self, name, founder):
@@ -183,6 +193,20 @@ class Game():
         #### Refresh unit move points and do queued actions.
         #### Update the economic income for player and alliance (including tax).
         #### Do other on-turn-start changes.
+
+    # Turns the turn into a month and year.
+    def getTurnDate(self):
+        # Each month value is an index for months.
+        months = ["January", "February", "March", "April", "May", "June", "July",
+                  "August", "September", "October", "November", "December"]
+
+        # Every 12 turns is another year. Within a year, are 12 months.
+        month = self.turn % 12
+        year  = self.turn / 12
+
+        year += self.start_year
+        
+        return months[month], year
 
     def mainLoop(self):
         now = data.Time.get()
