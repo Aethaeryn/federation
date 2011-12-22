@@ -16,29 +16,27 @@
 
 import random, copy
 
-# Stores environmental objects at a given location.
 # Provides certain algorithms for hex board calculations.
+# Takes in location tuples such as (0, 0)
 class Location:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
     # Calculates distance on a hex board.
-    def distance(self, location):
-        horizontal = abs(self.x - location.x)
+    @classmethod
+    def distance(self, start_location, end_location):
+        horizontal = abs(start_location[0] - end_location[0])
 
         penalty = 0
 
-        if (((self.x % 2) and not (location.x % 2) and self.y < location.y)
-            or (location.x % 2) and not (self.x % 2) and location.y < self.y):
+        if (((start_location[0] % 2) and not (end_location[0] % 2) and start_location[1] < end_location[1])
+            or (end_location[0] % 2) and not (start_location[0] % 2) and end_location[1] < start_location[1]):
             penalty = 1
 
-        alt_distance = abs(self.y - location.y) + penalty + (horizontal / 2)
+        alt_distance = abs(start_location[1] - end_location[1]) + penalty + (horizontal / 2)
 
         return max(horizontal, alt_distance)
 
     # Returns a set of tuple (x, y) coordinates in the radius range.
-    def radius(self, radius):
+    @classmethod
+    def radius(self, location, radius):
         radius_set = set([])
 
         # Case 1: The radius is even.
@@ -46,17 +44,17 @@ class Location:
 
             # Generates the left side of the hex range.
             for i in range(-radius + (radius / 2), radius - (radius / 2) + 1):
-                radius_set.add((self.x - radius, self.y + i))
+                radius_set.add((location[0] - radius, location[1] + i))
 
             # Generates the right side of the hex range
             for i in range(-radius + (radius / 2), radius - (radius / 2) + 1):
-                radius_set.add((self.x + radius, self.y + i))
+                radius_set.add((location[0] + radius, location[1] + i))
 
             # Connects the corners on the other sides.
-            y1  = self.y - radius
-            y2  = self.y + radius
-            x1  = self.x
-            x2  = self.x
+            y1  = location[1] - radius
+            y2  = location[1] + radius
+            x1  = location[0]
+            x2  = location[0]
 
             for i in range(radius):
                 radius_set.add((x1, y1))

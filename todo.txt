@@ -21,13 +21,6 @@
  * Redo the keypress system to allow things like diagonal scrolling.
 
 
----------------
-  location.py
----------------
- * Redo Location to be a static class with class methods that act on certain
-   locations to do calculations (distance, radius, etc.)
-
-
 ------------
   Game API
 ------------
@@ -49,3 +42,6 @@
  * fleets
 
  * map generation algorithms
+
+ * test the hex location calculations
+
