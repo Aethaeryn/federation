@@ -26,9 +26,6 @@
 -----------
  * Redo the player class to provide what the new JavaScript GUI will expect.
 
- * Move turns forward based on an absolute system time, rather than on
-   relative hours from start of game.
-
  * Add a mechanism by which the client can send moves to the game engine.
 
 

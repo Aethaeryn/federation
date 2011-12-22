@@ -78,6 +78,24 @@ class Write():
 # Provides very limited access to datetime with static methods.
 class Time():
     @classmethod
+    def setNextTurnEnd(self, turns_per_day):
+        now = datetime.datetime.utcnow()
+
+        hour_length = 24 / turns_per_day
+
+        # If once a day, simply escalate the days.
+        if turns_per_day == 1:
+            return datetime.datetime(now.year, now.month, now.day + 1)
+
+        # If the last hour set has passed, the next turn is at midnight.
+        elif (turns_per_day > 1) and (now.hour >= (hour_length * turns_per_day - 1)):
+            return datetime.datetime(now.year, now.month, now.day + 1)
+
+        # Otherwise, escalate the day's subdivision.
+        else:
+            return datetime.datetime(now.year, now.month, now.day, hour_length * (now.hour / hour_length) + 1)
+
+    @classmethod
     def get(self):
         return datetime.datetime.utcnow()
 

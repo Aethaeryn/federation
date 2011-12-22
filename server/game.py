@@ -118,7 +118,7 @@ class Fleet(GameObject):
         self.ships.pop(ship.obj_id)
 
 class Game():
-    def __init__(self, turn_length):
+    def __init__(self, turns_per_day):
         self.env = environment.Environment()
 
         # These hold various data.
@@ -128,9 +128,9 @@ class Game():
         self.fleets      = {}
 
         # Keeps track of the turn.
-        self.turn        = 0
-        self.turn_length = turn_length
-        self.start_year  = 2500
+        self.turn          = 0
+        self.start_year    = 2500
+        self.turns_per_day = turns_per_day
 
         # Runs actions.
         self.refreshEnvironmentData()
@@ -215,7 +215,10 @@ class Game():
 
         self.refreshLocationData(self.sectors["Test 1"])
 
+        #### Temporary debug thing. Remove me.
         quit()
+
+        data.Time.setNextTurnEnd(self, self.turns_per_day)
 
         self.nextTurn(now)
 
@@ -226,10 +229,11 @@ class Game():
 
             now = data.Time.get()
 
-            if now - self.turn_time >= self.turn_length:
+            if now >= self.turn_end:
                 self.nextTurn(now)
+                data.Time.setNextTurnEnd(self, self.turns_per_day)
 
 def main():
-    game = Game(data.Time.getMinutes(100))
+    game = Game(1)
 
 if __name__ == "__main__": main()
