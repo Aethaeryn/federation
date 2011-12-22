@@ -1,26 +1,24 @@
 ------------
   board.js
 ------------
+ * Have grid turn off with 'g', not just on.
+
  * Start the player's view in the middle of the board, rather than at the
    left corner.
-
- * Add environment object sprites to the board.
 
  * Actually read in information text displayed from the game server instead of
    using static mock-up text.
 
  * Add mouseover information of each hex.
 
- * Have grid turn off with 'g', not just on.
+ * Add environment object sprites to the board.
 
  * When you are at the right of the board and resize window to the right, you
    go past the boundary. Fix this.
 
- * Get diagonal (e.g. up + left) scrolling to work if possible.
+ * Allow mouse movement of the board/minimap.
 
- * Add a background image of stars, get it to scroll more slowly.
-
- * Get the forground (environment) objects to scroll quickly relative to background.
+ * Redo the keypress system to allow things like diagonal scrolling.
 
 
 -----------
@@ -49,69 +47,24 @@
    locations to do calculations (distance, radius, etc.)
 
 
--------------
-  combat.py
--------------
- * Implement.
-
-
----------------
-  movement.py
----------------
- * Implement.
-
-
-----------------------------------
-  Authentication (various files)
-----------------------------------
- * Implement.
-
- * Integrate with something like openID?
-
-
 --------------------------
   Economy (various files)
 --------------------------
  * Income and money.
 
- * Resources and mining.
-
- * Tributes, trade, and bounty.
-   * Allow sending of both money and research points instantly between players.
-
- * Add wages (units) and upkeep (other)?
+ * Allow sending of both money and research points instantly between players.
 
  * Let players buy/sell environment objects.
 
 
-------------------------------
-  Exceptions (various files)
-------------------------------
- * Error log.
+---------
+  Also:
+---------
+ * combat.py
 
- * Transmit certain errors to the client / player somehow.
+ * movement.py
 
+ * authentication (various files)
 
--------------------------
-  Fleet (various files)
--------------------------
- * Ships move as part of a fleet.
+ * fleets
 
- * Alliances and players can both form/own fleets.
-
- * The deputy can move or fight. The commander can do this, and also access
-   certain administration commands.
-
- * Anyone in the group (alliance or player) can join/leave the fleet.
-
- * The commander can kick ships and players from the fleet.
-
- * Certain locked fleets are only allowed to certain players in a subset of
-   the alliance at large.
-
------------
-  Someday
------------
- * Fill in the rest of the sidebar with real-time social updates.
-
- * Handle resolutions smaller than 1024x768.
