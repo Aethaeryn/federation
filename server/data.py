@@ -55,8 +55,7 @@ class Parse():
 
         return yaml_in
 
-# Writes .json and .yml files to html/data.
-# YAML is preferred, where available, but json is more widely supported.
+# Writes .json files to html/data.
 class Write():
     DIR = '../html/'
 
@@ -68,18 +67,12 @@ class Write():
         if directory not in os.listdir(self.DIR):
             os.mkdir(self.directory)
 
-    # Writes a .json and a .yml file containing identical information.
-    # Either file can be fetched by the client to be parsed.
+    # Writes a .json file to be parsed by the client.
     def write(self, filename, dictionary):
         json_msg = json.dumps(dictionary, indent=4)
-        yaml_msg = '# This file is machine generated. Do not edit by hand.\n\n' + yaml.dump(dictionary, default_flow_style=False)
 
         out      = open(self.directory + filename + '.json', 'w')
         out.write(json_msg)
-        out.close()
-
-        out       = open(self.directory + filename + '.yml', 'w')
-        out.write(yaml_msg)
         out.close()
 
 # Provides very limited access to datetime with static methods.
