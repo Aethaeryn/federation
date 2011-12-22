@@ -30,10 +30,28 @@ class Player(GameObject):
         self.join_date = data.Time.get()
 
         self.cash      = 0
+        self.income    = 0
         self.research  = 0
         self.alliance  = False
 
         self.ships     = {}
+
+        self.fleet_count     = 0
+        self.territory_count = 0
+
+    # Returns information the GUI expects.
+    def getPlayerInfo(self):
+        stats = {}
+        stats["name"]       = self.game_name
+        stats["federation"] = self.alliance
+        stats["cash"]       = self.cash
+        stats["income"]     = self.income
+        stats["research"]   = self.research
+        stats["ships"]      = len(self.ships) 
+        stats["fleets"]     = self.fleet_count
+        stats["territory"]  = self.territory_count
+
+        return stats
 
     def addShip(self, ship, custom_name):
         new_ship = self.env.get("spacecraft", ship)

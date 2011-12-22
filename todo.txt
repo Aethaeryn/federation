@@ -21,30 +21,23 @@
  * Redo the keypress system to allow things like diagonal scrolling.
 
 
------------
-  game.py
------------
- * Redo the player class to provide what the new JavaScript GUI will expect.
-
- * Add a mechanism by which the client can send moves to the game engine.
-
-
 ---------------
   location.py
 ---------------
- * Work on new generation algorithms and layouts for Sector/System/Tactical.
-
  * Redo Location to be a static class with class methods that act on certain
    locations to do calculations (distance, radius, etc.)
 
 
---------------------------
-  Economy (various files)
---------------------------
- * Income and money.
+------------
+  Game API
+------------
+ * Add authentication.
 
- * Let players buy/sell environment objects.
+ * Based on your authentication, the available JSON data should change.
 
+ * The clients should be able to send moves back to the game server.
+
+ * One interaction should let players buy/sell environment objects.
 
 ---------
   Also:
@@ -53,8 +46,6 @@
 
  * movement.py
 
- * authentication (various files)
-   * Based on who you're authenticated as, it should affect what data you get.
-
  * fleets
 
+ * map generation algorithms
