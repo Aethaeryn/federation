@@ -338,7 +338,13 @@ function keyActions(event) {
 
     switch (event.keyCode) {
     case 71: // 'g'
-        board.grid();
+        if (board.gridOn == true) {
+            board.gridOn = false;
+        } else {
+            board.gridOn = true;
+        }
+
+        board.board();
         break;
     }
 }
