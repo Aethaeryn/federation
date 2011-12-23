@@ -27,7 +27,7 @@ function Board (hex_grid) {
     this.y      = 0;
     this.moved  = false;
     this.gridOn = false;
-    this.coords = [false, false]
+    this.coords = [false, false];
 
     this.board = function() {
         // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
@@ -45,6 +45,10 @@ function Board (hex_grid) {
         */
 
         this.canvas_set = new setCanvases();
+
+        if (this.x - this.x_height < - this.x_max) {
+            this.x = this.x_height - this.x_max;
+        }
 
         this.canvas_set.setAll();
 

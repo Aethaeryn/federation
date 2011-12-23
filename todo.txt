@@ -1,8 +1,6 @@
 ------------
   board.js
 ------------
- * Have grid turn off with 'g', not just on.
-
  * Start the player's view in the middle of the board, rather than at the
    left corner.
 
@@ -13,12 +11,9 @@
 
  * Add environment object sprites to the board.
 
- * When you are at the right of the board and resize window to the right, you
-   go past the boundary. Fix this.
-
  * Allow mouse movement of the board/minimap.
 
- * Redo the keypress system to allow things like diagonal scrolling.
+ * Redo the keypress system.
 
 
 ------------
