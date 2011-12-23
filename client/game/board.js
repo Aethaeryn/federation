@@ -36,14 +36,6 @@ function Board (hex_grid) {
         // The total hex height, plus the y offset, gives the max.
         this.y_max = (this.HEX_SIZE[this.Y] * this.hex_grid[this.Y] + this.HEX_OFFSET[this.Y]);
 
-        /*
-        // fixme: code to center the board on start
-        if (this.moved == false) {
-           this.x = - this.x_max / 2;
-           this.y = - this.y_max / 2;
-        }
-        */
-
         this.canvas_set = new setCanvases();
 
         if (this.x - this.x_height < - this.x_max) {
@@ -195,6 +187,15 @@ function setCanvases() {
         board.y_height = this.y - 88;
 
         var canvas = this.setStart("board", board.x_height, board.y_height);
+
+        // Moves board to the center at the start.
+        if (board.moved == false) {
+            centerx = - board.x_max / 2;
+            centery = - board.y_max / 2;
+
+            board.x = centerx + board.x_height / 2;
+            board.y = centery + board.y_height / 2;
+        }
     }
 
     this.setSidebar = function () {

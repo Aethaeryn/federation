@@ -1,15 +1,16 @@
 ------------
   board.js
 ------------
- * Start the player's view in the middle of the board, rather than at the
-   left corner.
-
  * Actually read in information text displayed from the game server instead of
    using static mock-up text.
 
- * Add mouseover information of each hex.
-
  * Add environment object sprites to the board.
+
+ * Fix the pixel location detection system and the move to map edge detection
+   system, which seem to have gotten messed up by the centering and the right
+   resizing revisions.
+
+ * Add mouseover information of each hex.
 
  * Allow mouse movement of the board/minimap.
 
