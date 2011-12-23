@@ -190,11 +190,11 @@ function setCanvases() {
         board.x_height = this.x - 260;
         board.y_height = this.y - 88;
 
-        var boardc = this.setStart("board", board.x_height, board.y_height);
+        var canvas = this.setStart("board", board.x_height, board.y_height);
     }
 
     this.setSidebar = function () {
-        var sidebar = this.setStart("sidebar", 220, this.y - 88);
+        var canvas = this.setStart("sidebar", 220, this.y - 88);
 
         var obj = new Image();
         obj.src = "../sphere.png";
@@ -205,10 +205,10 @@ function setCanvases() {
         const mini_corner_x = 10;
         const mini_corner_y = 10;
 
-        sidebar.fillStyle = this.color1;
-        sidebar.fillRect(mini_corner_x, mini_corner_y, mini_x, mini_y);
-        sidebar.fillRect(10, 195, 50, 50);
-        sidebar.drawImage(obj, 25, 210);
+        canvas.fillStyle = this.color1;
+        canvas.fillRect(mini_corner_x, mini_corner_y, mini_x, mini_y);
+        canvas.fillRect(10, 195, 50, 50);
+        canvas.drawImage(obj, 25, 210);
 
         var x_ratio = board.x_height / board.x_max;
         var y_ratio = board.y_height / board.y_max;
@@ -216,80 +216,80 @@ function setCanvases() {
         var mini_start_x = mini_corner_x - (board.x * ((mini_x - 4) / board.x_max));
         var mini_start_y = mini_corner_y - (board.y * (mini_y / board.y_max));
 
-        sidebar.fillStyle = "#000088";
-        sidebar.fillRect(mini_start_x, mini_start_y, mini_x * x_ratio, mini_y * y_ratio);
+        canvas.fillStyle = "#000088";
+        canvas.fillRect(mini_start_x, mini_start_y, mini_x * x_ratio, mini_y * y_ratio);
 
         // Provides information of the mouseover hex.
-        sidebar.fillStyle = "#cccccc";
-        sidebar.textBaseline = 'top';
-        sidebar.font = 'bold 14px sans-serif';
-        sidebar.fillText("Sol", 70, 167 + 30);
-        sidebar.font = 'bold 12px sans-serif';
-        sidebar.fillText("Star", 70, 187 + 30);
-        sidebar.fillText("Earthlings", 70, 202 + 30);
+        canvas.fillStyle = "#cccccc";
+        canvas.textBaseline = 'top';
+        canvas.font = 'bold 14px sans-serif';
+        canvas.fillText("Sol", 70, 167 + 30);
+        canvas.font = 'bold 12px sans-serif';
+        canvas.fillText("Star", 70, 187 + 30);
+        canvas.fillText("Earthlings", 70, 202 + 30);
 
         // Ships
-        sidebar.drawImage(obj, 15, 167);
-        sidebar.fillText("4", 40, 171);
+        canvas.drawImage(obj, 15, 167);
+        canvas.fillText("4", 40, 171);
 
         // Fleets
-        sidebar.drawImage(obj, 90, 167);
-        sidebar.fillText("1", 115, 171);
+        canvas.drawImage(obj, 90, 167);
+        canvas.fillText("1", 115, 171);
 
         // Territories
-        sidebar.drawImage(obj, 165, 167);
-        sidebar.fillText("2", 190, 171);
+        canvas.drawImage(obj, 165, 167);
+        canvas.fillText("2", 190, 171);
     }
 
     this.setFooter = function () {
-        var footer = this.setStart("footer", this.x - 35, 30);
+        var canvas = this.setStart("footer", this.x - 35, 30);
 
-        footer.fillStyle = "#cccccc";
-        footer.textBaseline = 'top';
-        footer.font = 'bold 14px sans-serif';
-        footer.textAlign = "center";
-        footer.fillText("May 2500", 50, 7);
-        footer.fillText("Forums", 200, 7);
-        footer.fillText("Wiki", 350, 7);
-        footer.fillText("Developers", 500, 7);
+        canvas.fillStyle = "#cccccc";
+        canvas.textBaseline = 'top';
+        canvas.font = 'bold 14px sans-serif';
+        canvas.textAlign = "center";
+        canvas.fillText("May 2500", 50, 7);
+        canvas.fillText("Forums", 200, 7);
+        canvas.fillText("Wiki", 350, 7);
+        canvas.fillText("Developers", 500, 7);
     }
 
     this.setHeader = function () {
         var xsize = this.x - 35
 
-        var header = this.setStart("header", xsize, 30);
-        header.fillStyle = "#cccccc";
-        header.textBaseline = 'top';
-        header.font = 'bold 14px sans-serif';
+        var canvas = this.setStart("header", xsize, 30);
+        canvas.fillStyle = "#cccccc";
+        canvas.textBaseline = 'top';
+        canvas.font = 'bold 14px sans-serif';
         var icon = new Image();
         icon.src = "../sphere.png";
-        header.textAlign = "left";
+        canvas.textAlign = "left";
 
         // Server
-        header.fillText("Federation", 10, 7);
+        canvas.fillText("Federation", 10, 7);
 
         // Name
-        header.drawImage(icon, xsize * .15, 3);
-        header.fillText("John Doe", xsize * .15 + 25, 7);
+        canvas.drawImage(icon, xsize * .15, 3);
+        canvas.fillText("John Doe", xsize * .15 + 25, 7);
 
         // Federation
-        header.drawImage(icon, xsize * .25, 3);
-        header.fillText("Pirates", xsize * .25 + 25, 7);
+        canvas.drawImage(icon, xsize * .25, 3);
+        canvas.fillText("Pirates", xsize * .25 + 25, 7);
 
         // Credits
-        header.drawImage(icon, xsize * .50, 3);
-        header.fillText("200,000", xsize * .50 + 25, 7);
+        canvas.drawImage(icon, xsize * .50, 3);
+        canvas.fillText("200,000", xsize * .50 + 25, 7);
 
         // Income
-        header.drawImage(icon, xsize * .60, 3);
-        header.fillText("100", xsize * .60 + 25, 7);
+        canvas.drawImage(icon, xsize * .60, 3);
+        canvas.fillText("100", xsize * .60 + 25, 7);
 
         // Research Points
-        header.drawImage(icon, xsize * .67, 3);
-        header.fillText("20", xsize * .67 + 25, 7);
+        canvas.drawImage(icon, xsize * .67, 3);
+        canvas.fillText("20", xsize * .67 + 25, 7);
 
-        header.textAlign = "right";
-        header.fillText("(" + board.coords[0] + ", " + board.coords[1] + ")", this.x - 35, 7);
+        canvas.textAlign = "right";
+        canvas.fillText("(" + board.coords[0] + ", " + board.coords[1] + ")", this.x - 35, 7);
     }
 }
 
