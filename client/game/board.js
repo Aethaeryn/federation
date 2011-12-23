@@ -27,6 +27,7 @@ function Board (hex_grid) {
     this.y      = 0;
     this.moved  = false;
     this.gridOn = false;
+    this.coords = [false, false]
 
     this.board = function() {
         // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
@@ -43,9 +44,9 @@ function Board (hex_grid) {
         }
         */
 
-        var canvas_set = new setCanvases();
+        this.canvas_set = new setCanvases();
 
-        canvas_set.setAll();
+        this.canvas_set.setAll();
 
         this.hexSetup();
     }
@@ -87,6 +88,15 @@ function Board (hex_grid) {
         }
     }
 
+    // The lines equation is: y = (y2 - y1) / (x2 - x1) * (x - x1) + y1
+    this.diagonal = function (check, pt1, pt2, is_less) {
+        if (is_less) {
+            return (check[this.Y] < (pt2[this.Y] - pt1[this.Y]) / (pt2[this.X] - pt1[this.X]) * (check[this.X] - pt1[this.X]) + pt1[this.Y]);
+        } else {
+            return (check[this.Y] > (pt2[this.Y] - pt1[this.Y]) / (pt2[this.X] - pt1[this.X]) * (check[this.X] - pt1[this.X]) + pt1[this.Y]);
+        }
+    }
+
     // Determines if points are in a given hex.
     this.isInHex = function (hex_coords, check_coords) {
         // The inside rectangle is the easy case.
@@ -97,22 +107,19 @@ function Board (hex_grid) {
             return true;
         }
 
-        // The other case is the side triangles.
-        // The lines are: y = (y2 - y1) / (x2 - x1) * (x - x1) + y1
-
         // This is the left side triangle.
         else if ((check_coords[this.X] > hex_coords[5][this.X]) &&
                  (check_coords[this.X] < hex_coords[0][this.X]) &&
-                 (check_coords[this.Y] < (hex_coords[0][this.Y] - hex_coords[5][this.Y]) / (hex_coords[0][this.X] - hex_coords[5][this.X]) * (check_coords[this.X] - hex_coords[5][this.X]) + hex_coords[5][this.Y]) &&
-                 (check_coords[this.Y] > (hex_coords[4][this.Y] - hex_coords[5][this.Y]) / (hex_coords[4][this.X] - hex_coords[5][this.X]) * (check_coords[this.X] - hex_coords[5][this.X]) + hex_coords[5][this.Y])) {
+                 this.diagonal(check_coords, hex_coords[5], hex_coords[0], true) &&
+                 this.diagonal(check_coords, hex_coords[5], hex_coords[4], false)) {
             return true;
         }
 
         // This is the right side triangle.
         else if ((check_coords[this.X] > hex_coords[1][this.X]) &&
                  (check_coords[this.X] < hex_coords[2][this.X]) &&
-                 (check_coords[this.Y] < (hex_coords[1][this.Y] - hex_coords[2][this.Y]) / (hex_coords[1][this.X] - hex_coords[2][this.X]) * (check_coords[this.X] - hex_coords[2][this.X]) + hex_coords[2][this.Y]) &&
-                 (check_coords[this.Y] > (hex_coords[3][this.Y] - hex_coords[2][this.Y]) / (hex_coords[3][this.X] - hex_coords[2][this.X]) * (check_coords[this.X] - hex_coords[2][this.X]) + hex_coords[2][this.Y])) {
+                 this.diagonal(check_coords, hex_coords[2], hex_coords[1], true) &&
+                 this.diagonal(check_coords, hex_coords[2], hex_coords[3], false)) {
             return true;
         }
 
@@ -200,8 +207,8 @@ function setCanvases() {
 
         sidebar.fillStyle = this.color1;
         sidebar.fillRect(mini_corner_x, mini_corner_y, mini_x, mini_y);
-        sidebar.fillRect(10, 165, 50, 50);
-        sidebar.drawImage(obj, 25, 180);
+        sidebar.fillRect(10, 195, 50, 50);
+        sidebar.drawImage(obj, 25, 210);
 
         var x_ratio = board.x_height / board.x_max;
         var y_ratio = board.y_height / board.y_max;
@@ -212,13 +219,26 @@ function setCanvases() {
         sidebar.fillStyle = "#000088";
         sidebar.fillRect(mini_start_x, mini_start_y, mini_x * x_ratio, mini_y * y_ratio);
 
+        // Provides information of the mouseover hex.
         sidebar.fillStyle = "#cccccc";
         sidebar.textBaseline = 'top';
         sidebar.font = 'bold 14px sans-serif';
-        sidebar.fillText("Sol", 70, 167);
+        sidebar.fillText("Sol", 70, 167 + 30);
         sidebar.font = 'bold 12px sans-serif';
-        sidebar.fillText("Star", 70, 187);
-        sidebar.fillText("Earthlings", 70, 202);
+        sidebar.fillText("Star", 70, 187 + 30);
+        sidebar.fillText("Earthlings", 70, 202 + 30);
+
+        // Ships
+        sidebar.drawImage(obj, 15, 167);
+        sidebar.fillText("4", 40, 171);
+
+        // Fleets
+        sidebar.drawImage(obj, 90, 167);
+        sidebar.fillText("1", 115, 171);
+
+        // Territories
+        sidebar.drawImage(obj, 165, 167);
+        sidebar.fillText("2", 190, 171);
     }
 
     this.setFooter = function () {
@@ -235,42 +255,41 @@ function setCanvases() {
     }
 
     this.setHeader = function () {
-        var header = this.setStart("header", this.x - 35, 30);
+        var xsize = this.x - 35
+
+        var header = this.setStart("header", xsize, 30);
         header.fillStyle = "#cccccc";
         header.textBaseline = 'top';
         header.font = 'bold 14px sans-serif';
-        // Server Name Federation Credits Income Research Points Ships Fleets Territories
         var icon = new Image();
         icon.src = "../sphere.png";
         header.textAlign = "left";
+
+        // Server
         header.fillText("Federation", 10, 7);
 
-        header.drawImage(icon, 110, 3);
-        header.fillText("John Doe", 135, 7);
+        // Name
+        header.drawImage(icon, xsize * .15, 3);
+        header.fillText("John Doe", xsize * .15 + 25, 7);
 
-        header.drawImage(icon, 250, 3);
-        header.fillText("Pirates", 275, 7);
+        // Federation
+        header.drawImage(icon, xsize * .25, 3);
+        header.fillText("Pirates", xsize * .25 + 25, 7);
 
-        header.drawImage(icon, 365, 3);
-        header.fillText("200,000", 390, 7);
+        // Credits
+        header.drawImage(icon, xsize * .50, 3);
+        header.fillText("200,000", xsize * .50 + 25, 7);
 
-        header.drawImage(icon, 475, 3);
-        header.fillText("100", 500, 7);
+        // Income
+        header.drawImage(icon, xsize * .60, 3);
+        header.fillText("100", xsize * .60 + 25, 7);
 
-        header.drawImage(icon, 550, 3);
-        header.fillText("20", 575, 7);
-
-        header.drawImage(icon, 620, 3);
-        header.fillText("4", 645, 7);
-
-        header.drawImage(icon, 675, 3);
-        header.fillText("1", 700, 7);
-
-        header.drawImage(icon, 730, 3);
-        header.fillText("2", 755, 7);
+        // Research Points
+        header.drawImage(icon, xsize * .67, 3);
+        header.fillText("20", xsize * .67 + 25, 7);
 
         header.textAlign = "right";
-        header.fillText("(10, 10)", this.x - 35, 7);
+        header.fillText("(" + board.coords[0] + ", " + board.coords[1] + ")", this.x - 35, 7);
     }
 }
 
@@ -283,6 +302,7 @@ function keyActions(event) {
     if (event.keyCode == 37) {
         if (board.x + SCROLL <= 0) {
             board.x += SCROLL;
+            board.coords[0] -= SCROLL;
         }
     }
 
@@ -290,6 +310,7 @@ function keyActions(event) {
     if (event.keyCode == 38) {
         if (board.y + SCROLL <= 0) {
             board.y += SCROLL;
+            board.coords[1] -= SCROLL;
         }
     }
 
@@ -297,6 +318,7 @@ function keyActions(event) {
     if (event.keyCode == 39) {
         if (board.x - board.x_height >= - board.x_max) {
             board.x -= SCROLL;
+            board.coords[0] += SCROLL;
         }
     }
 
@@ -304,6 +326,7 @@ function keyActions(event) {
     if (event.keyCode == 40) {
         if (board.y - board.y_height >= - board.y_max) {
             board.y -= SCROLL;
+            board.coords[1] += SCROLL;
         }
     }
 
@@ -329,7 +352,12 @@ function mouseMove(event) {
         y = false;
     }
 
-    // alert(x + ', ' + y);
+    if (x != false && y != false) {
+        board.coords[0] = x;
+        board.coords[1] = y;
+
+        board.canvas_set.setHeader();
+    }
 }
 
 window.onresize = function(event) {
