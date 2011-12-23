@@ -223,22 +223,22 @@ function setCanvases() {
         canvas.fillStyle = "#cccccc";
         canvas.textBaseline = 'top';
         canvas.font = 'bold 14px sans-serif';
-        canvas.fillText("Sol", 70, 167 + 30);
+        canvas.fillText("Sol", 70, 197);
         canvas.font = 'bold 12px sans-serif';
-        canvas.fillText("Star", 70, 187 + 30);
-        canvas.fillText("Earthlings", 70, 202 + 30);
+        canvas.fillText("Star", 70, 217);
+        canvas.fillText("Earthlings", 70, 232);
 
         // Ships
         canvas.drawImage(obj, 15, 167);
         canvas.fillText("4", 40, 171);
 
         // Fleets
-        canvas.drawImage(obj, 90, 167);
-        canvas.fillText("1", 115, 171);
+        canvas.drawImage(obj, 85, 167);
+        canvas.fillText("1", 110, 171);
 
         // Territories
-        canvas.drawImage(obj, 165, 167);
-        canvas.fillText("2", 190, 171);
+        canvas.drawImage(obj, 155, 167);
+        canvas.fillText("2", 180, 171);
     }
 
     this.setFooter = function () {
@@ -268,21 +268,25 @@ function setCanvases() {
         // Server
         canvas.fillText("Federation", 10, 7);
 
+        if (xsize > 1200) {
+            xsize = 1200;
+        }
+
         // Name
-        canvas.drawImage(icon, xsize * .15, 3);
-        canvas.fillText("John Doe", xsize * .15 + 25, 7);
+        canvas.drawImage(icon, xsize * .13, 3);
+        canvas.fillText("John Doe", xsize * .13 + 25, 7);
 
         // Federation
-        canvas.drawImage(icon, xsize * .25, 3);
-        canvas.fillText("Pirates", xsize * .25 + 25, 7);
+        canvas.drawImage(icon, xsize * .30, 3);
+        canvas.fillText("Pirates", xsize * .30 + 25, 7);
 
         // Credits
-        canvas.drawImage(icon, xsize * .50, 3);
-        canvas.fillText("200,000", xsize * .50 + 25, 7);
+        canvas.drawImage(icon, xsize * .45, 3);
+        canvas.fillText("200,000", xsize * .45 + 25, 7);
 
         // Income
-        canvas.drawImage(icon, xsize * .60, 3);
-        canvas.fillText("100", xsize * .60 + 25, 7);
+        canvas.drawImage(icon, xsize * .58, 3);
+        canvas.fillText("100", xsize * .58 + 25, 7);
 
         // Research Points
         canvas.drawImage(icon, xsize * .67, 3);
