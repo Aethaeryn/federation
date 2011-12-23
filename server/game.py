@@ -163,10 +163,19 @@ class Game():
         self.out = data.Write('data')
         self.out.write('loc', system.convert())
 
+    def refreshPlayerData(self):
+        player_data = {}
+
+        for player in self.players:
+            player_data[player] = self.players[player].getPlayerInfo()
+
+        self.out = data.Write('data')
+        self.out.write('players', player_data)
+
     # Adds a player.
     def addPlayer(self, username, game_name, email):
         if username not in self.players:
-            self.players[username] = Player(username, game_name, email, env)
+            self.players[username] = Player(username, game_name, email, self.env)
 
         else:
             raise Exception("A player with that username already exists!")
@@ -232,6 +241,10 @@ class Game():
         self.addSector("Test 1")
 
         self.refreshLocationData(self.sectors["Test 1"])
+
+        self.addPlayer("michael", "Mike", "michael@example.com")
+
+        self.refreshPlayerData()
 
         #### Temporary debug thing. Remove me.
         quit()
