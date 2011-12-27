@@ -14,21 +14,29 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// Defines the hexagonal board object to be used for the board canvas.
 function Board (hex_grid) {
+    // Determines the shape of the hexes.
     this.HEX_SIZE   = [57, 54];
     this.HEX_OFFSET = [43, 27];
 
+    // Enhances readability of some of the formulas.
     this.X = 0;
     this.Y = 1;
 
+    // x, y size of the grid.
     this.hex_grid = hex_grid;
 
+    // Current top left location.
     this.x      = 0;
     this.y      = 0;
+
+    // Keeps track of various states.
     this.moved  = false;
     this.gridOn = false;
     this.coords = [false, false];
 
+    // Starts the board set up and drawing.
     this.board = function() {
         // Half of the total hex width, half of the middle (odd) hex width, and an extra 14 gives the max.
         this.x_max = (this.hex_grid[this.X] / 2) * this.HEX_SIZE[this.X] + (this.hex_grid[this.X] / 2) * 29 + 14;
@@ -45,12 +53,19 @@ function Board (hex_grid) {
         this.canvas_set.setAll();
 
         this.hexSetup();
+
+        // Draws the hexes from the coordinate set, if the grid is on.
+        if (this.gridOn == true) {
+            this.grid();
+        }
     }
 
+    // Sets up the hexagons.
     this.hexSetup = function () {
         var off_x = this.x;
         var off_y = this.y;
 
+        // This holds hexagons, which are lists of six coordinate pairs each.
         this.hexagons = [];
 
         for (var i = 0; i < this.hex_grid[this.Y]; i++) {
@@ -68,12 +83,9 @@ function Board (hex_grid) {
                 }
             }
         }
-
-        if (this.gridOn == true) {
-            this.grid();
-        }
     }
 
+    // Draws the grid of hexes.
     this.grid = function () {
         if (this.gridOn == false) {
             this.gridOn = true;
@@ -124,6 +136,7 @@ function Board (hex_grid) {
         }
     }
 
+    // Gets the coordinates for a hexagon based on the shifts.
     this.getCoords = function (x_shift, y_shift) {
         var coords = [[14, 0], [43, 0], [57, 27], [43, 54], [14, 54], [0, 27]];
 
@@ -135,10 +148,13 @@ function Board (hex_grid) {
         return coords;
     }
 
+    // Gets the center of hexagon coordinate list.
+    //// todo: This function hasn't been tested.
     this.getCoordCenter = function (hex_coords) {
         return [(hex_coords[0][this.X] + hex_coords[1][this.X]) / 2, hex_coords[2][this.Y]];
     }
 
+    // Draw a hex outline onto a board.
     this.drawHex = function (coords) {
         var board_canvas = document.getElementById('board').getContext('2d');
 
@@ -157,15 +173,26 @@ function Board (hex_grid) {
     }
 }
 
-var board = new Board([40, 40]);
 
+//// todo: getJSON()
+
+
+// Sets up the canvases that make up the webpage.
 function setCanvases() {
-    this.color1 = "#333333";
-    this.color2 = "#888888";
-
     this.x = window.innerWidth;
     this.y = window.innerHeight;
 
+    /*
+    try {
+        this.player_info = getJSON('players.json');
+        this.player = player_info["michael"];
+        alert(this.player);
+    } catch (e) {
+        alert(e.message);
+    }
+    */
+
+    // Sets all of the canvases.
     this.setAll = function() {
         this.setBoard();
         this.setSidebar();
@@ -173,6 +200,7 @@ function setCanvases() {
         this.setHeader();
     }
 
+    // Starts the set up for any canvas.
     this.setStart = function(id, x, y) {
         var canvas = document.getElementById(id);
 
@@ -182,6 +210,7 @@ function setCanvases() {
         return canvas.getContext("2d");
     }
 
+    // Sets the center, gameboard canvas.
     this.setBoard = function () {
         board.x_height = this.x - 260;
         board.y_height = this.y - 88;
@@ -198,6 +227,7 @@ function setCanvases() {
         }
     }
 
+    // Sets the sidebar canvas.
     this.setSidebar = function () {
         var canvas = this.setStart("sidebar", 220, this.y - 88);
 
@@ -210,7 +240,7 @@ function setCanvases() {
         const mini_corner_x = 10;
         const mini_corner_y = 10;
 
-        canvas.fillStyle = this.color1;
+        canvas.fillStyle = "#333333";
         canvas.fillRect(mini_corner_x, mini_corner_y, mini_x, mini_y);
         canvas.fillRect(10, 195, 50, 50);
         canvas.drawImage(obj, 25, 210);
@@ -246,6 +276,7 @@ function setCanvases() {
         canvas.fillText("2", 180, 171);
     }
 
+    // Sets the footer canvas.
     this.setFooter = function () {
         var canvas = this.setStart("footer", this.x - 35, 30);
 
@@ -259,6 +290,7 @@ function setCanvases() {
         canvas.fillText("Developers", 500, 7);
     }
 
+    // Sets the header canvas.
     this.setHeader = function () {
         var xsize = this.x - 35
 
@@ -302,7 +334,10 @@ function setCanvases() {
     }
 }
 
+
+// Handles keys.
 function keyActions(event) {
+    // Sets the scroll rate.
     const SCROLL = 20;
 
     board.moved = true;
@@ -339,8 +374,7 @@ function keyActions(event) {
         }
     }
 
-    board.board();
-
+    // Reads the other keys that do actions.
     switch (event.keyCode) {
     case 71: // 'g'
         if (board.gridOn == true) {
@@ -349,10 +383,13 @@ function keyActions(event) {
             board.gridOn = true;
         }
 
-        board.board();
         break;
     }
+
+    // Rerenders the board.
+    board.board();
 }
+
 
 // Accurately captures location of mouse on board canvas.
 function mouseMove(event) {
@@ -375,6 +412,12 @@ function mouseMove(event) {
     }
 }
 
+
+// Instantiates the board.
+var board = new Board([40, 40]);
+
+
+// The rest of the file listens for various events.
 window.onresize = function(event) {
     board.board();
 }

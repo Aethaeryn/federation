@@ -1,8 +1,7 @@
 ------------
   board.js
 ------------
- * Actually read in information text displayed from the game server instead of
-   using static mock-up text.
+ * Write getJSON() to read in JSON for board.js
 
  * Add environment object sprites to the board.
 
@@ -27,6 +26,7 @@
  * The clients should be able to send moves back to the game server.
 
  * One interaction should let players buy/sell environment objects.
+
 
 ---------
   Also:
