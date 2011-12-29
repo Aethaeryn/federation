@@ -310,12 +310,7 @@ function setCanvases() {
         }
 
         // Name
-        canvas.drawImage(icon, xsize * .13, 3);
-        canvas.fillText("John Doe", xsize * .13 + 25, 7);
-
-        // Federation
-        canvas.drawImage(icon, xsize * .30, 3);
-        canvas.fillText("Pirates", xsize * .30 + 25, 7);
+        canvas.fillText("Foobar (Pirates)", xsize * .16, 7);
 
         // Credits
         canvas.drawImage(icon, xsize * .45, 3);
@@ -428,3 +423,4 @@ window.onload = function(event) {
 
 window.addEventListener('keydown', keyActions, true);
 document.addEventListener('mousemove', mouseMove, true)
+
