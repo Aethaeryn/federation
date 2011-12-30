@@ -1,6 +1,8 @@
 ------------
   board.js
 ------------
+ * Use the new icons in the GUI instead of the placeholder sphere.
+
  * Write getJSON() to read in JSON for board.js
 
  * Add environment object sprites to the board.
@@ -15,17 +17,26 @@
 
  * Redo the keypress system.
 
+ * Redo the image loading system.
 
-------------
-  Game API
-------------
+
+----------
+  Server
+----------
  * Add authentication.
 
  * Based on your authentication, the available JSON data should change.
 
  * The clients should be able to send moves back to the game server.
 
- * One interaction should let players buy/sell environment objects.
+ * One interaction should let players buy / sell spacecraft / structures.
+
+ * Make sure the paths in the Python code work when run out of the folder and
+   when run with Apache.
+
+ * Troubleshoot and get it to work with Apache's mod_wsgi.
+
+ * Write a replacement main page for the now-gone index.html
 
 
 ---------
@@ -35,9 +46,14 @@
 
  * movement.py
 
- * fleets
+ * Write fleet code.
 
- * map generation algorithms
+ * Write map generation algorithms.
 
- * test the hex location calculations
+ * Test the hex/location calculations.
 
+ * Break the JavaScript down into smaller files and give it its own directory.
+
+ * Write database code.
+
+ * Add the Google analytics code.
