@@ -18,7 +18,7 @@ import yaml, json, os, datetime, time
 
 # Handles .yml files in the server/data directory.
 class Parse():
-    DIR = 'data/'
+    DIR = 'server/data/'
     EXT = '.yml'
 
     # Parses all of the given data into the self.parsed dictionary.
@@ -54,26 +54,6 @@ class Parse():
                 yaml_in[key]['name'] = key
 
         return yaml_in
-
-# Writes .json files to html/data.
-class Write():
-    DIR = '../html/'
-
-    def __init__(self, directory):
-        # The directory must be in the public /html folder, not in /server 
-        self.directory = self.DIR + directory + '/'
-
-        # The directory might not exist at this point.
-        if directory not in os.listdir(self.DIR):
-            os.mkdir(self.directory)
-
-    # Writes a .json file to be parsed by the client.
-    def write(self, filename, dictionary):
-        json_msg = json.dumps(dictionary, indent=4)
-
-        out      = open(self.directory + filename + '.json', 'w')
-        out.write(json_msg)
-        out.close()
 
 # Provides very limited access to datetime with static methods.
 class Time():

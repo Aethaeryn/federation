@@ -14,30 +14,30 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-from flask import Flask
+from server import app
 
-app = Flask(__name__)
+from flask import json
 
-@app.route('/')
-def game():
-    infile  = open('client/game.html')
-    content = infile.read()
-    infile.close()
-    return content
+@app.route('/data/environment')
+def environment():
+    return json.dumps(app.game.env.convert())
 
-@app.route('/board.js')
-def board():
-    infile = open('client/board.js')
-    conent = infile.read()
-    infile.close()
-    return conent
+# @app.route('/data/location')
+# def loc():
+#     return json.dumps(app.game.system.convert())
 
-if __name__ == "__main__":
-    os.chdir("..")
-    app.run()
+# Eventually this will be toggleable, which means that you can force the users to use clients other than the browser-based client the web server provides.
+class Client():
+    @app.route('/')
+    def game():
+        infile  = open('client/game.html')
+        content = infile.read()
+        infile.close()
+        return content
 
-else:
-    # Makes the directory relative to the main Federation folder before running.
-    federation_root = __file__[:-(len("/server/app.py"))]
-    os.chdir(federation_root)
+    @app.route('/board.js')
+    def board():
+        infile = open('client/board.js')
+        content = infile.read()
+        infile.close()
+        return content

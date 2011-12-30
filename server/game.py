@@ -150,27 +150,17 @@ class Game():
         self.start_year    = 2500
         self.turns_per_day = turns_per_day
 
-        # Runs actions.
-        self.refreshEnvironmentData()
-        self.mainLoop()
+        # # Runs actions.
+        # self.mainLoop()
 
-    # Writes env data to a publicly visible html page.
-    def refreshEnvironmentData(self):
-        self.out = data.Write('data')
-        self.out.write('env', self.env.convert())
+    # def refreshPlayerData(self):
+    #     player_data = {}
 
-    def refreshLocationData(self, system):
-        self.out = data.Write('data')
-        self.out.write('loc', system.convert())
+    #     for player in self.players:
+    #         player_data[player] = self.players[player].getPlayerInfo()
 
-    def refreshPlayerData(self):
-        player_data = {}
-
-        for player in self.players:
-            player_data[player] = self.players[player].getPlayerInfo()
-
-        self.out = data.Write('data')
-        self.out.write('players', player_data)
+    #     self.out = data.Write('data')
+    #     self.out.write('players', player_data)
 
     # Adds a player.
     def addPlayer(self, username, game_name, email):
@@ -238,13 +228,13 @@ class Game():
     def mainLoop(self):
         now = data.Time.get()
 
-        self.addSector("Test 1")
+        # self.addSector("Test 1")
 
-        self.refreshLocationData(self.sectors["Test 1"])
+        # self.refreshLocationData(self.sectors["Test 1"])
 
-        self.addPlayer("michael", "Mike", "michael@example.com")
+        # self.addPlayer("michael", "Mike", "michael@example.com")
 
-        self.refreshPlayerData()
+        # self.refreshPlayerData()
 
         #### Temporary debug thing. Remove me.
         quit()
@@ -263,8 +253,3 @@ class Game():
             if now >= self.turn_end:
                 self.nextTurn(now)
                 data.Time.setNextTurnEnd(self, self.turns_per_day)
-
-def main():
-    game = Game(1)
-
-if __name__ == "__main__": main()
