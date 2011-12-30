@@ -28,27 +28,25 @@ def environment():
 # def loc():
 #     return json.dumps(app.game.system.convert())
 
-# Eventually this will be toggleable, which means that you can force the users to use clients other than the browser-based client the web server provides.
-class Client():
-    @app.route('/')
-    def game():
-        return render_template('basic.html',
-                               body       = '<canvas id="header"></canvas> <canvas id="board"></canvas> <canvas id="sidebar"></canvas> <canvas id="footer"></canvas>',
-                               javascript = 'board.js')
+@app.route('/')
+def game():
+    return render_template('basic.html',
+                           body       = '<canvas id="header"></canvas> <canvas id="board"></canvas> <canvas id="sidebar"></canvas> <canvas id="footer"></canvas>',
+                           javascript = 'board.js')
 
-    @app.route('/about.html')
-    def about():
-        infile = open('client/about.txt')
-        content = infile.read()
-        infile.close()
+@app.route('/about.html')
+def about():
+    infile = open('client/about.txt')
+    content = infile.read()
+    infile.close()
 
-        content = re.sub('\n\n', '\n\n  <br><br>\n\n', content)
+    content = re.sub('\n\n', '\n\n  <br><br>\n\n', content)
 
-        return render_template('basic.html', body = content)
+    return render_template('basic.html', body = content)
 
-    @app.route('/board.js')
-    def board():
-        infile = open('client/board.js')
-        content = infile.read()
-        infile.close()
-        return content
+@app.route('/board.js')
+def board():
+    infile = open('client/board.js')
+    content = infile.read()
+    infile.close()
+    return content
