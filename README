@@ -1,5 +1,7 @@
 Federation is an MMO turn based strategy game.
 
+Introduction
+------------
 The code necessary to run a Federation server is located in 'server'. The Federation server only provides the backend of the game and an API to interact with it. There is no user interface, but any official or unofficial interface can interact with the API.
 
 A server for browser-based Federation clients, run on the same web server as the Federation server, is located in 'client'. This is because it accesses the same client-server API as all other Federation clients and has to be located in a separate folder so that the server treats all clients equally. Although the browser is the easiest way to play on a Federation server, it is not going to be the only way.
@@ -9,3 +11,13 @@ The 'html' folder contains the Federation website. If you point your Apache web 
 The 'tools' folder provides various tools used in the development or maintenance of Federation.
 
 More information is available at the website: http://playfederation.com/about.html
+
+Dependencies
+------------
+- PyYAML - http://pyyaml.org/
+- Flask - http://flask.pocoo.org/
+- mod_wsgi - http://modwsgi.org/
+
+Notes
+-----
+1. Point Apache's DirectoryRoot to Federation/html.
