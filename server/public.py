@@ -14,9 +14,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
 from server import app
 
-from flask import json
+from flask import json, render_template
 
 @app.route('/data/environment')
 def environment():
@@ -30,10 +32,19 @@ def environment():
 class Client():
     @app.route('/')
     def game():
-        infile  = open('client/game.html')
+        return render_template('basic.html',
+                               body       = '<canvas id="header"></canvas> <canvas id="board"></canvas> <canvas id="sidebar"></canvas> <canvas id="footer"></canvas>',
+                               javascript = 'board.js')
+
+    @app.route('/about.html')
+    def about():
+        infile = open('client/about.txt')
         content = infile.read()
         infile.close()
-        return content
+
+        content = re.sub('\n\n', '\n\n  <br><br>\n\n', content)
+
+        return render_template('basic.html', body = content)
 
     @app.route('/board.js')
     def board():

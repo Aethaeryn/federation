@@ -1,21 +1,9 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
-  <title>Federation</title>
-  <link href="style.css"
-        rel="stylesheet"
-        type="text/css" />
-  <link rel="shortcut icon"
-        href="federation.ico" />
-</head>
-<body>
+ 
   <b>Note:</b> Federation is still in active development, so this
   document could be out of date. This may not describe the game
   perfectly in its latest state.
 
   <h1>ABOUT FEDERATION</h1>
-
   Federation is a massively multiplayer online turn-based strategy
   (MMOTBS) with a science fiction theme and utilizing a 2D hex-based
   game map. The game has slow-playing, simultaneous turns, intended
@@ -32,7 +20,6 @@
   among themselves.
 
   <h1>TECHNICAL DETAILS</h1>
-
   The server back-end of Federation will initially be coded in Python
   and there will be a public API using JSON. The source code will be
   hosted on Github under the AGPL license, but there will be several
@@ -47,7 +34,6 @@
   and servers are possible.
 
   <h1>PLANNED OFFICIAL SERVERS</h1>
-
   Initially, there will be three official game servers with different
   initial settings so that different play styles can be
   accommodated. The main server will be a slow-playing server with a
@@ -63,8 +49,6 @@
   official servers. There will also be a semi-official development
   server that tests changes before they are pushed onto the main
   servers.
-
-  <br><br>
 
   All official servers will eventually (after alpha is completed) have
   two sectors. The starting sector will take place in a safe galaxy
@@ -84,7 +68,6 @@
   scratch.
 
   <h1>BASIC GAMEPLAY</h1>
-
   In Federation, spaceships are completely modular and consist
   entirely of components. Players can buy, sell, or upgrade
   components, although different ship types may have different
@@ -98,8 +81,6 @@
   into another ship type of the same size by buying and selling the
   necessary components.
 
-  <br><br>
-
   Because different ships have different advantages and disadvantages,
   forming a fleet to balance out the ships is recommended. Any player
   can put their ships in a fleet that they own. Fleets will move as
@@ -109,8 +90,6 @@
   small ships are unable to travel between star systems unless they
   are docked in a ship with a docking bay. They will undock if the
   fleet enters into combat.
-
-  <br><br>
 
   Players who are in federations will be able to participate in fleets
   owned by their federation and will be able to join and leave at any
@@ -122,8 +101,6 @@
   is encouraged. It also allows people from different time zones to
   continuously guard friendly territory in shifts.
 
-  <br><br>
-
   There are several layers of maps. The furthest level of the game map
   is the sector view, which allows the player to view all star systems
   as well as large fleets that are moving between star systems. Fleets
@@ -131,8 +108,6 @@
   in combat because they are locked into the fastest type of
   faster-than-light (FTL) travel and are locked onto their given
   destination. All action will take place within a given star system.
-
-  <br><br>
 
   A star system consists of a 2D representation on a hex map. The star
   is typically near the center of the star system (star systems with
@@ -145,8 +120,6 @@
   slower mode of faster-than-light travel unless they are near a local
   object of significance, such as a planet or an asteroid field.
   
-  <br><br>
-
   The closest level of maps is the tactical view. This centers around
   an object of importance, such as an asteroid field or a planet and
   its moons. Here, fleets can position themselves without needing to
@@ -156,16 +129,12 @@
   spacecraft, and other significant areas can also provide various
   forms of interaction and economic development.
 
-  <br><br>
-
   Planets and moons are ownable by players. The player that owns the
   planet or moon can launch various orbital stations around the
   object. Friendly fleets and space platforms around the planet are
   safer than in deep space. The player can build certain settlements
   on the surface (for solid planets) or in the atmosphere (for gas
   planets) that can provide a source of moderate economic revenue.
-
-  <br><br>
 
   Asteroid fields are a special type of object because they obstruct
   movement and visibility. Unless the player owns an asteroid field,
@@ -177,8 +146,6 @@
   systems with many asteroid fields are great for guerilla warfare
   against a superior foe.
 
-  <br><br>
-
   Asteroids are economically advantageous and can be mined by special
   spacecraft and refined in an asteroid base. Refined asteroids can
   either be sold directly at the base or transported further away. The
@@ -186,7 +153,6 @@
   are being sold from the nearest asteroid field.
 
   <h1>MANY WAYS TO PLAY</h1>
-
   Players will be able to form federations and federations will be
   able to ally each other and declare war on each other. Players in a
   federation will be unable to attack a federation or the allies of
@@ -205,8 +171,6 @@
   game because friends can join your fleet, thus providing strength in
   numbers.
 
-  <br><br>
-
   Players will be able to, through special events or by purchase with
   real life money, obtain research points that can be spent on
   technologies. Most technologies unlock certain special components
@@ -221,8 +185,6 @@
   of selling research points is to provide some incentive for those to
   help with game development costs and server bills, not to be unfair
   on those unable or unwilling to spend money on a free game.
-
-  <br><br>
 
   Federation, unlike many traditional strategy games, is designed so
   that there is a multiplicity of gameplay styles possible on the main
@@ -240,9 +202,3 @@
   opportunity. The strongest player on paper will not necessarily win
   every war because this is a strategy game, not a level grinding
   game.
-
-  <br><br>
-
-  <a href="index.html"><b>Return Home</b></a>
-</body>
-</html>

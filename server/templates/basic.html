@@ -4,9 +4,14 @@
     <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
     <title>Federation</title>
     <link href="static/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="static/federation.ico" />
   </head>
   <body>
-    <canvas id="header"></canvas> <canvas id="board"></canvas> <canvas id="sidebar"></canvas> <canvas id="footer"></canvas>
+  {% if body %}
+    {{ body|safe }}
+  {% endif %}
   </body>
-  <script src="board.js"></script>
+  {% if javascript %}
+  <script src="{{ javascript }}"></script>
+  {% endif %}
 </html>
