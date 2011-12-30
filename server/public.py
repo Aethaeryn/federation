@@ -36,17 +36,10 @@ def game():
 
 @app.route('/about.html')
 def about():
-    infile = open('client/about.txt')
+    infile = open('server/data/about.txt')
     content = infile.read()
     infile.close()
 
     content = re.sub('\n\n', '\n\n  <br><br>\n\n', content)
 
     return render_template('basic.html', body = content)
-
-@app.route('/board.js')
-def board():
-    infile = open('client/board.js')
-    content = infile.read()
-    infile.close()
-    return content
