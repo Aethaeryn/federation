@@ -310,15 +310,14 @@ function setCanvases() {
         }
 
         // Name
-        canvas.fillText("Foobar (Pirates)", xsize * .16, 7);
+        canvas.fillText("Michael (Pirates)", xsize * .16, 7);
 
         // Credits
         canvas.drawImage(icon, xsize * .45, 3);
         canvas.fillText("200,000", xsize * .45 + 25, 7);
 
         // Income
-        canvas.drawImage(icon, xsize * .58, 3);
-        canvas.fillText("100", xsize * .58 + 25, 7);
+        canvas.fillText("(+ 100)", xsize * .45 + 100, 7);
 
         // Research Points
         canvas.drawImage(icon, xsize * .67, 3);
