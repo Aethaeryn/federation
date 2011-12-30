@@ -19,21 +19,25 @@ from flask import Flask
 
 app = Flask(__name__)
 
-# Makes the directory relative to the main Federation folder before running.
-federation_root = __file__[:-(len("/server/app.py"))]
-os.chdir(federation_root)
-
-@app.route('/game')
+@app.route('/')
 def game():
-    # For now, it just serves the file without changes.
-    infile = open('client/game/test.html')
-    return infile.read()
+    infile  = open('client/game.html')
+    content = infile.read()
+    infile.close()
+    return content
 
 @app.route('/board.js')
 def board():
-    # For now, it just serves the file without changes.
-    infile = open('client/game/board.js')
-    return infile.read()
+    infile = open('client/board.js')
+    conent = infile.read()
+    infile.close()
+    return conent
 
 if __name__ == "__main__":
+    os.chdir("..")
     app.run()
+
+else:
+    # Makes the directory relative to the main Federation folder before running.
+    federation_root = __file__[:-(len("/server/app.py"))]
+    os.chdir(federation_root)
