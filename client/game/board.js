@@ -232,7 +232,7 @@ function setCanvases() {
         var canvas = this.setStart("sidebar", 220, this.y - 88);
 
         var obj = new Image();
-        obj.src = "../sphere.png";
+        obj.src = "static/sphere.png";
 
         var mini_x = 200;
         var mini_y = 150;
@@ -299,7 +299,7 @@ function setCanvases() {
         canvas.textBaseline = 'top';
         canvas.font = 'bold 14px sans-serif';
         var icon = new Image();
-        icon.src = "../sphere.png";
+        icon.src = "static/sphere.png";
         canvas.textAlign = "left";
 
         // Server
