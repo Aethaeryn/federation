@@ -17,9 +17,11 @@
 import copy
 from server import data
 
-# An environment object is something that exists as a physical object in the game world.
+# An environment object is something that exists as a physical object in the
+# game world and on the game board.
 class EnvironmentObject(object):
-    # Makes sure the dictionary can be appropriately instantiated as an object, and then does so.
+    # Makes sure the dictionary can be appropriately instantiated as an object,
+    # and then does so.
     def __init__(self, dictionary):
         # Popping the required and optional so they're not checked against below.
         required = self.__dict__.pop('required')
@@ -33,7 +35,8 @@ class EnvironmentObject(object):
         # Every new required instance variable must be provided.
         for entry in required:
             if entry not in dictionary and 'name' in dictionary:
-                raise Exception('Missing entry ' + entry + ' not in data file for item ' + dictionary.name)
+                raise Exception('Missing entry ' + entry +
+                                ' not in data file for item ' + dictionary.name)
 
             elif 'name' not in dictionary:
                 raise Exception('Missing name for an entry!')
@@ -43,7 +46,8 @@ class EnvironmentObject(object):
             if entry not in dictionary:
                 self.__dict__[entry] = False
 
-        # Every entry in the dictionary, assuming no exception has been thrown, is added as an instance variable.
+        # Every entry in the dictionary, assuming no exception has been thrown, 
+        # is added as an instance variable.
         self.__dict__.update(dictionary)
 
     # Printing an environmental object gives its name.
@@ -53,7 +57,10 @@ class EnvironmentObject(object):
 class Component(EnvironmentObject):
     def __init__(self, dictionary):
         self.required = set(['name', 'description', 'size', 'cost'])
-        self.optional = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'special', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special', 'unsellable'])
+        self.optional = set(['hitpoints', 'shields', 'sensors', 'speed',
+                             'cargo', 'dock', 'crew', 'hyperspace', 'special',
+                             'wep_damage', 'wep_speed', 'wep_type',
+                             'wep_special', 'unsellable'])
 
         # Reads in the ship data to create a component object.
         super(Component, self).__init__(dictionary)
@@ -76,18 +83,23 @@ class Component(EnvironmentObject):
 class Spacecraft(EnvironmentObject):
     def __init__(self, dictionary):
         # These stats are read in from outside.
-        self.required = set(['name', 'description', 'size', 'base_cost', 'component_list', 'component_max'])
+        self.required = set(['name', 'description', 'size', 'base_cost',
+                             'component_list', 'component_max'])
         self.optional = set(['special', 'inherits'])
 
         super(Spacecraft, self).__init__(dictionary)
 
         # These are stats set elsewhere, not by the config dictionary.
-        customized_stats = ['custom_name', 'hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace', 'damage_hitpoints', 'damage_shields', 'components_in', 'component_stat']
+        customized_stats = ['custom_name', 'hitpoints', 'shields', 'sensors',
+                            'speed', 'cargo', 'dock', 'crew', 'hyperspace',
+                            'damage_hitpoints', 'damage_shields',
+                            'components_in', 'component_stat']
 
         for stat in customized_stats:
             self.__dict__[stat] = False
 
-        # The value is first set to the base cost. Any component then adds to its value.
+        # The value is first set to the base cost.
+        # Any component should add to its value.
         self.value = self.base_cost
 
     # Uses the components in component_list to modify the spacecraft stats.
@@ -104,7 +116,8 @@ class Spacecraft(EnvironmentObject):
 
     def enableComponent(self, component, position):
         # Allowed stats to read.
-        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
+        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
+                     'dock', 'crew', 'hyperspace'])
 
         for stat in dir(component):
             if stat in stats:
@@ -120,7 +133,8 @@ class Spacecraft(EnvironmentObject):
 
     def disableComponent(self, component, position, change_status):
         # Allowed stats to read.
-        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo', 'dock', 'crew', 'hyperspace'])
+        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
+                     'dock', 'crew', 'hyperspace'])
 
         for stat in dir(component):
             if stat in stats:
@@ -160,7 +174,8 @@ class Spacecraft(EnvironmentObject):
         self.components_in -= component.exp_size
         self.value         -= component.cost
 
-        # Reverses the damage if it exists, since the spacecraft total HP is going to go down.
+        # Reverses the damage if it exists, since the spacecraft total HP is
+        # going to go down.
         self.damage_hitpoints -= self.component_stat["damage_hitpoints"] 
 
         if self.component_stat["enabled"]:
@@ -193,7 +208,8 @@ class Spacecraft(EnvironmentObject):
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
         self.required = set(['name', 'description', 'hitpoints', 'cost'])
-        self.optional = set(['special', 'shields', 'wep_damage', 'wep_speed', 'wep_type', 'wep_special'])
+        self.optional = set(['special', 'shields', 'wep_damage', 'wep_speed',
+                             'wep_type', 'wep_special'])
 
         super(Structure, self).__init__(dictionary)
 
@@ -278,8 +294,9 @@ class Environment():
                 elif filename == "body":
                     self.obj[filename][key] = Body(in_data)
 
-    # Increments the unique identifier of environment objects and returns a copy.
-    # Use this to place a copy of an environmental object in the game environment.
+    # Increments the unique identifier of environment objects and returns a
+    # copy of that object.Use this to place a copy of an environmental object
+    # in the game environment.
     def get(self, obj_type, obj_name):
         self.obj_id += 1
         

@@ -149,8 +149,8 @@ class System(Map):
 
         self.typeZeroSystem()
 
-    # A type zero star system has a star at the center and looks like our system.
-    # This is being used for debug purposes.
+    # A type zero star system has a star at the center and looks like the
+    # solar system. This is being used for debug purposes.
     def typeZeroSystem(self):
         center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
 
@@ -164,7 +164,8 @@ class System(Map):
 
         # The planets start in x alignment with each other.
         for distance in distances:
-            self.setCoords(center[0], center[1] + distance, Tactical(self.env, planet))
+            self.setCoords(center[0], center[1] + distance,
+                           Tactical(self.env, planet))
 
         # Use radius to generate belt instead.
 
@@ -192,6 +193,7 @@ class Sector(Map):
     # Places stars randomly in the map.
     def generateSector(self):
         for i in range(self.x * self.y / 5):
-            coords = (random.randint(0, self.x - 1), random.randint(0, self.y - 1))
+            coords = (random.randint(0, self.x - 1),
+                      random.randint(0, self.y - 1))
 
             self.setCoords(coords[0], coords[1], System(self.env))

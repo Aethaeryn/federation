@@ -165,7 +165,8 @@ class Game():
     # Adds a player.
     def addPlayer(self, username, game_name, email):
         if username not in self.players:
-            self.players[username] = Player(username, game_name, email, self.env)
+            self.players[username] = Player(username, game_name,
+                                            email, self.env)
 
         else:
             raise Exception("A player with that username already exists!")
@@ -214,8 +215,9 @@ class Game():
     # Turns the turn into a month and year.
     def getTurnDate(self):
         # Each month value is an index for months.
-        months = ["January", "February", "March", "April", "May", "June", "July",
-                  "August", "September", "October", "November", "December"]
+        months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November",
+                  "December"]
 
         # Every 12 turns is another year. Within a year, are 12 months.
         month = self.turn % 12

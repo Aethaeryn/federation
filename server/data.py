@@ -36,9 +36,10 @@ class Parse():
             try:
                 self.parsed[filename] = self.parse(directory, filename)
             except:
-                raise Exception('Error in parsing Federation/server/' + self.DIR + directory + filename + self.EXT)
+                raise Exception('Error in parsing Federation/server/'
+                                + self.DIR + directory + filename + self.EXT)
 
-    # Opens the yaml data from a given file and returns it as a Python dictionary.
+    # Opens the yaml data from a given file and returns it as a dictionary.
     @classmethod
     def parse(self, directory, filename):
         if directory[-1] != '/':
@@ -48,7 +49,8 @@ class Parse():
         yaml_in = yaml.load(conf)
         conf.close()
 
-        # Environmental objects are dictionaries, and they key also becomes the 'name' entry.
+        # If we're parsing an environment object here, we'll make a new entry
+        # called name and make it the name of the object.
         if 'environment' in directory:
             for key in yaml_in:
                 yaml_in[key]['name'] = key
@@ -73,7 +75,8 @@ class Time():
 
         # Otherwise, escalate the day's subdivision.
         else:
-            return datetime.datetime(now.year, now.month, now.day, hour_length * (now.hour / hour_length) + 1)
+            return datetime.datetime(now.year, now.month, now.day,
+                                     hour_length * (now.hour / hour_length) + 1)
 
     @classmethod
     def get(self):
