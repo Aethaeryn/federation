@@ -40,7 +40,7 @@ class Player(GameObject):
         self.territory_count = 0
 
     # Returns information the GUI expects.
-    def getPlayerInfo(self):
+    def get_player_info(self):
         stats = {}
         stats["name"]       = self.game_name
         stats["federation"] = self.alliance
@@ -53,21 +53,21 @@ class Player(GameObject):
 
         return stats
 
-    def addShip(self, ship, custom_name):
+    def add_ship(self, ship, custom_name):
         new_ship = self.env.get("spacecraft", ship)
         new_ship.custom_name = custom_name
         self.ships[new_ship.obj_id] = new_ship
 
-    def delShip(self, ship):
+    def del_ship(self, ship):
         self.ships.pop(ship.obj_id)
 
-    def renamePlayer(self, new_name):
+    def rename_player(self, new_name):
         self.game_name = new_name
 
-    def changeEmail(self, new_email):
+    def change_email(self, new_email):
         self.email = new_email
 
-    def leaveAlliance(self):
+    def leave_alliance(self):
         self.alliance = False
 
     def __str__(self):
@@ -94,21 +94,21 @@ class Alliance(GameObject):
         self.leaders[founder.username] = founder
         self.members[founder.username] = founder
 
-    def addMember(self, player):
+    def add_member(self, player):
         self.members[player.username] = player
         player.alliance = self.name
 
-    def removeMember(self, player):
+    def remove_member(self, player):
         self.members.pop(player.username)
-        player.leaveAlliance()
+        player.leave_alliance()
 
-    def setTaxRate(self, rate):
+    def set_tax_rate(self, rate):
         self.tax_rate = rate
 
-    def setSharedView(self, toggle_view):
+    def set_shared_view(self, toggle_view):
         self.shared_view = toggle_view
 
-    def setSharedFleet(self, toggle_fleet):
+    def set_shared_fleet(self, toggle_fleet):
         self.shared_fleet = toggle_fleet
 
 class Fleet(GameObject):
@@ -129,10 +129,10 @@ class Fleet(GameObject):
         self.commander = player.username
         self.deputy    = None
 
-    def addShip(self, ship):
+    def add_ship(self, ship):
         self.ships[ship.obj_id] = ship
 
-    def delShip(self, ship):
+    def del_ship(self, ship):
         self.ships.pop(ship.obj_id)
 
 class Game():
@@ -151,19 +151,19 @@ class Game():
         self.turns_per_day = turns_per_day
 
         # # Runs actions.
-        # self.mainLoop()
+        # self.main_loop()
 
     # def refreshPlayerData(self):
     #     player_data = {}
 
     #     for player in self.players:
-    #         player_data[player] = self.players[player].getPlayerInfo()
+    #         player_data[player] = self.players[player].get_player_info()
 
     #     self.out = data.Write('data')
     #     self.out.write('players', player_data)
 
     # Adds a player.
-    def addPlayer(self, username, game_name, email):
+    def add_player(self, username, game_name, email):
         if username not in self.players:
             self.players[username] = Player(username, game_name,
                                             email, self.env)
@@ -172,7 +172,7 @@ class Game():
             raise Exception("A player with that username already exists!")
 
     # Transfers cash and research from one player to another.
-    def transferFunds(self, original, target, amount_cash, amount_research):
+    def transfer_funds(self, original, target, amount_cash, amount_research):
         self.players[original].cash -= amount_cash
         self.players[target].cash   += amount_cash
 
@@ -180,7 +180,7 @@ class Game():
         self.players[target].research   += amount_research
 
     # Adds an alliance.
-    def addAlliance(self, name, founder):
+    def add_alliance(self, name, founder):
         if name not in self.alliance:
             self.alliance[name] = Alliance(name, founder)
 
@@ -188,7 +188,7 @@ class Game():
             raise Exception("An alliance with that name already exists!")
 
     # Adds a sector.
-    def addSector(self, name):
+    def add_sector(self, name):
         if name not in self.sectors:
             self.sectors[name] = location.Sector(self.env, 40, 40)
 
@@ -196,15 +196,15 @@ class Game():
             raise Exception("A sector with that name already exists!")
 
     # Adds a fleet.
-    def addFleet(self, name, player, ships):
+    def add_fleet(self, name, player, ships):
         self.fleets[str(Fleet.fleet_counter)] = Fleet(name, player, ships)
 
     # Deletes a fleet.
-    def delFleet(self, fleet_id):
+    def del_fleet(self, fleet_id):
         return self.fleets.pop(str(fleet_id))
 
     # These events are called on every new turn.
-    def nextTurn(self, time):
+    def next_turn(self, time):
         self.turn     += 1
         self.turn_time = time
 
@@ -213,7 +213,7 @@ class Game():
         #### Do other on-turn-start changes.
 
     # Turns the turn into a month and year.
-    def getTurnDate(self):
+    def get_turn_date(self):
         # Each month value is an index for months.
         months = ["January", "February", "March", "April", "May", "June",
                   "July", "August", "September", "October", "November",
@@ -227,14 +227,14 @@ class Game():
         
         return months[month], year
 
-    def mainLoop(self):
+    def main_loop(self):
         now = data.Time.get()
 
-        # self.addSector("Test 1")
+        # self.add_sector("Test 1")
 
         # self.refreshLocationData(self.sectors["Test 1"])
 
-        # self.addPlayer("michael", "Mike", "michael@example.com")
+        # self.add_player("michael", "Mike", "michael@example.com")
 
         # self.refreshPlayerData()
 
@@ -243,7 +243,7 @@ class Game():
 
         data.Time.setNextTurnEnd(self, self.turns_per_day)
 
-        self.nextTurn(now)
+        self.next_turn(now)
 
         #### Listen for player-submitted moves/actions/combat/etc.
 
@@ -253,5 +253,5 @@ class Game():
             now = data.Time.get()
 
             if now >= self.turn_end:
-                self.nextTurn(now)
-                data.Time.setNextTurnEnd(self, self.turns_per_day)
+                self.next_turn(now)
+                data.Time.set_next_turn_end(self, self.turns_per_day)

@@ -64,10 +64,10 @@ class Component(EnvironmentObject):
 
         # Reads in the ship data to create a component object.
         super(Component, self).__init__(dictionary)
-        self.sizeTraits()
+        self.size_traits()
 
     # Sets the size and HP based on component size.
-    def sizeTraits(self):
+    def size_traits(self):
         if self.size == "Small Component":
             self.hitpoints += 5
             self.exp_size   = 1
@@ -103,18 +103,18 @@ class Spacecraft(EnvironmentObject):
         self.value = self.base_cost
 
     # Uses the components in component_list to modify the spacecraft stats.
-    def initializeComponents(self, components):
+    def initialize_components(self, components):
         self.component_stat = []
 
         for component in self.component_list:
-            self.addComponent(components, component)
+            self.add_component(components, component)
 
     # Checks to make sure a component position is valid before acting.
-    def checkPosition(self, position):
+    def check_position(self, position):
         if position >= len(component_list) or position < 0:
             raise Exception("Invalid component list position.")
 
-    def enableComponent(self, component, position):
+    def enable_component(self, component, position):
         # Allowed stats to read.
         stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
                      'dock', 'crew', 'hyperspace'])
@@ -131,7 +131,7 @@ class Spacecraft(EnvironmentObject):
 
         self.component_stat[position]["enabled"] = True
 
-    def disableComponent(self, component, position, change_status):
+    def disable_component(self, component, position, change_status):
         # Allowed stats to read.
         stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
                      'dock', 'crew', 'hyperspace'])
@@ -150,7 +150,7 @@ class Spacecraft(EnvironmentObject):
         if change_status:
             self.component_stat[position]["enabled"] = False
 
-    def addComponent(self, components, component_name):
+    def add_component(self, components, component_name):
         component = components[component_name]
 
         if self.components_in + component.exp_size >= self.component_max:
@@ -163,10 +163,10 @@ class Spacecraft(EnvironmentObject):
         # Keeps track of damage information for each component.
         self.component_stat.append({"damage_hitpoints": 0})
 
-        self.enableComponent(component, len(self.component_stat) - 1)
+        self.enable_component(component, len(self.component_stat) - 1)
 
-    def delComponent(self, components, position):
-        self.checkPosition(position)
+    def del_component(self, components, position):
+        self.check_position(position)
 
         component = components[self.component_list.pop(position)]
         comp_stat = self.component_stat.pop(position)
@@ -179,23 +179,23 @@ class Spacecraft(EnvironmentObject):
         self.damage_hitpoints -= self.component_stat["damage_hitpoints"] 
 
         if self.component_stat["enabled"]:
-            self.disableComponent(component, position, False)
+            self.disable_component(component, position, False)
 
-    def damageComponent(self, components, position, damage):
-        self.changeComponentHitpoints(components, position, damage)
+    def damage_component(self, components, position, damage):
+        self.change_component_hitpoints(components, position, damage)
 
-    def repairComponent(self, components, position, repair):
-        self.changeComponentHitpoints(components, position, -repair)
+    def repair_component(self, components, position, repair):
+        self.change_component_hitpoints(components, position, -repair)
 
-    def changeComponentHitpoints(self, components, position, hp_change):
-        self.checkPosition(position)
+    def change_component_hitpoints(self, components, position, hp_change):
+        self.check_position(position)
 
         component = components[self.component_list[position]]
         comp_stat = self.component_stat[position]
 
         # Reducing the damage on an entirely damaged component will enable it.
         if comp_stat["damage_hitpoints"] == component.hitpoints and hp_change < 0:
-            self.enableComponent(component, position)
+            self.enable_component(component, position)
 
         comp_stat["damage_hitpoints"] += hp_change
 
@@ -203,7 +203,7 @@ class Spacecraft(EnvironmentObject):
         if comp_stat["damage_hitpoints"] >= component.hitpoints:
             self.comp_stat["damage_hitpoints"] = component.hitpoints
 
-            self.disableComponent(component, position, True)
+            self.disable_component(component, position, True)
 
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
@@ -246,15 +246,15 @@ class Environment():
         # Parses the data files for environment objects.
         parse    = data.Parse(directory, filenames)
         self.obj = parse.parsed
-        self.inheritSpacecraft()
-        self.objectifyDictionary()
+        self.inherit_spacecraft()
+        self.objectify_dictionary()
 
         # Has the spacecrafts' component lists modify spacecraft stats. 
         for craft_type in self.obj["spacecraft"]:
-            self.obj["spacecraft"][craft_type].initializeComponents(self.obj["component"])
+            self.obj["spacecraft"][craft_type].initialize_components(self.obj["component"])
 
     # Handles spacecraft inheritance.
-    def inheritSpacecraft(self):
+    def inherit_spacecraft(self):
         for spacecraft in self.obj['spacecraft']:
             if 'inherits' in self.obj['spacecraft'][spacecraft]:
                 old_data = self.obj['spacecraft'][spacecraft]
@@ -274,7 +274,7 @@ class Environment():
                 self.obj['spacecraft'][spacecraft].update(old_data)
 
     # Turns the parsed dictionaries into Python objects.
-    def objectifyDictionary(self):
+    def objectify_dictionary(self):
         for filename in self.obj:
             for key in self.obj[filename]:
                 in_data = self.obj[filename].pop(key)

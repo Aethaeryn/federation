@@ -147,11 +147,11 @@ class System(Map):
 
         Map.__init__(self, self.size[0], self.size[1])
 
-        self.typeZeroSystem()
+        self.type_zero_system()
 
     # A type zero star system has a star at the center and looks like the
     # solar system. This is being used for debug purposes.
-    def typeZeroSystem(self):
+    def type_zero_system(self):
         center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
 
         star     = self.env.get("body", "Star")
@@ -184,14 +184,14 @@ class Sector(Map):
         
         self.env    = env
 
-        # self.generateSector()
+        # self.generate_sector()
 
         self.setCoords(0, 0, System(self.env))
 
         self.name = "Sector"
 
     # Places stars randomly in the map.
-    def generateSector(self):
+    def generate_sector(self):
         for i in range(self.x * self.y / 5):
             coords = (random.randint(0, self.x - 1),
                       random.randint(0, self.y - 1))

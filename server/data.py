@@ -60,7 +60,7 @@ class Parse():
 # Provides very limited access to datetime with static methods.
 class Time():
     @classmethod
-    def setNextTurnEnd(self, turns_per_day):
+    def set_next_turn_end(self, turns_per_day):
         now = datetime.datetime.utcnow()
 
         hour_length = 24 / turns_per_day
@@ -83,7 +83,7 @@ class Time():
         return datetime.datetime.utcnow()
 
     @classmethod
-    def getMinutes(self, mins):
+    def get_minutes(self, mins):
         return datetime.timedelta(minutes=mins)
 
     @classmethod
