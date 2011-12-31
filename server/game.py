@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import environment, location, data
+from server import environment, location, data
 
 class GameObject(object):
     def __str__(self):

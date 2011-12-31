@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import data
+from server import data
 
 class Mission():
     def __init__(self, name, directory = 'missions/'):

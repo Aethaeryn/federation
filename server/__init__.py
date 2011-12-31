@@ -18,7 +18,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-import game, public
+from server import game, public
 
 app.game = game.Game(1)
 

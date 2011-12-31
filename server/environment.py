@@ -14,7 +14,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import copy, data
+import copy
+from server import data
 
 # An environment object is something that exists as a physical object in the game world.
 class EnvironmentObject(object):
