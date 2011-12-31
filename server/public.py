@@ -30,9 +30,13 @@ def environment():
 
 @app.route('/')
 def game():
-    return render_template('basic.html',
-                           body       = '<canvas id="header"></canvas> <canvas id="board"></canvas> <canvas id="sidebar"></canvas> <canvas id="footer"></canvas>',
-                           javascript = 'board.js')
+    canvases = ['header', 'board', 'sidebar', 'footer']
+    html     = ''
+
+    for canvas in canvases:
+        html += '<canvas id="%s"></canvas> ' % canvas
+
+    return render_template('basic.html', body = html, javascript = 'board.js')
 
 @app.route('/about.html')
 def about():
