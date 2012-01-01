@@ -29,12 +29,26 @@ def print_dictionary(data, level):
             section += "\n" + print_dictionary(data[key], level + 1)
 
         elif type(data[key]) == list:
-            for item in data[key]:
-                section += str(item) + ", "
-            section += "\n"
+            section += "\n" + print_list(data[key], level + 1)
 
         else:
             section += str(data[key]) + "\n"
+
+    return section
+
+def print_list(data, level):
+    spacing = "  " * level
+    section = ""
+
+    for item in data:
+        if type(item) == dict:
+            section += print_dictionary(item, level + 1) + "\n"
+
+        elif type(item) == list:
+            section += spacing + "- " + print_list(item, level + 1) + "\n"
+
+        else:
+            section += spacing + "- " + str(item) + "\n"
 
     return section
 
