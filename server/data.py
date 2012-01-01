@@ -15,10 +15,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import yaml, datetime, time
+from os import path
 
 # Handles .yml files in the server/data directory.
 class Parse():
-    DIR = 'server/data/'
+    DIR = path.join(path.dirname(__file__), "data/")
     EXT = '.yml'
 
     # Parses all of the given data into the self.parsed dictionary.
@@ -36,7 +37,7 @@ class Parse():
             try:
                 self.parsed[filename] = self.parse(directory, filename)
             except:
-                raise Exception('Error in parsing Federation/server/'
+                raise Exception('Error in parsing '
                                 + self.DIR + directory + filename + self.EXT)
 
     # Opens the yaml data from a given file and returns it as a dictionary.

@@ -19,6 +19,7 @@ import re
 from server import app
 
 from flask import json, render_template
+from os import path
 
 @app.route('/data/environment')
 def environment():
@@ -40,7 +41,7 @@ def game():
 
 @app.route('/about.html')
 def about():
-    infile = open('server/data/about.txt')
+    infile = open(path.join(path.dirname(__file__), 'data/about.txt'))
     content = infile.read()
     infile.close()
 

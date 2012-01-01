@@ -19,8 +19,6 @@ from flask import Flask
 app = Flask(__name__)
 
 from server import game, public
+from os import path
 
 app.game = game.Game(1)
-
-app.run()
-
