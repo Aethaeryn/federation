@@ -18,25 +18,25 @@ from sys import argv
 import urllib2
 import json
 
-def parse_json(json_data):
-    dictionary = json.loads(json_data)
+def print_dictionary(data, level):
+    spacing = "  " * level
+    section = ""
 
-    for key1 in dictionary:
-        section = "%s:" % key1
-        print section.upper()
+    for key in data:
+        section += "%s%-15s: " % (spacing, key)
 
-        for key2 in dictionary[key1]:
-            print "  %s:" % key2
+        if type(data[key]) == dict:
+            section += "\n" + print_dictionary(data[key], level + 1)
 
-            for key3 in dictionary[key1][key2]:
-                attribute = key3 + ":"
-                value     = dictionary[key1][key2][key3]
+        elif type(data[key]) == list:
+            for item in data[key]:
+                section += str(item) + ", "
+            section += "\n"
 
-                print "    %-12s %s" % (attribute, value)
+        else:
+            section += str(data[key]) + "\n"
 
-            print
-
-        print
+    return section
 
 def parse_data(url):
     if url[-1] != '/':
@@ -51,8 +51,7 @@ def parse_data(url):
     for data_file in data_files:
         data_url = url + data_file
         response = urllib2.urlopen(data_url)
-        parse_json(response.read())
-
+        print print_dictionary(json.loads(response.read()), 0)
 
 def main():
     if len(argv) == 2:
