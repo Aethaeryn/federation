@@ -14,11 +14,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""simple_client -- A simple Federation client.
+
+This client simply parses URLs containing game data as a way of testing
+the server-to-client API on third party clients.
+"""
+
 from sys import argv
 import urllib2
 import json
 
 def print_dictionary(data, level):
+    """Recursively prints the contents of a dictionary in a format for
+    human reading in terminals.
+    """
     spacing = "  " * level
     section = ""
 
@@ -37,6 +46,9 @@ def print_dictionary(data, level):
     return section
 
 def print_list(data, level):
+    """Recursively prints the contents of a list in a format for human
+    reading in terminals.
+    """
     spacing = "  " * level
     section = ""
 
@@ -53,6 +65,9 @@ def print_list(data, level):
     return section
 
 def parse_data(url):
+    """Handles a URL that points either to the root of a Federation game
+    server or the root of its data directory.
+    """
     if url[-1] != '/':
         url += '/'
 
