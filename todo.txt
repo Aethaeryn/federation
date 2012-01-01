@@ -1,3 +1,5 @@
+* Move work into 'next' branch and leave 'master' for stable stuff.
+
 ------------
   board.js
 ------------
