@@ -1,5 +1,3 @@
-* Move work into 'next' branch and leave 'master' for stable stuff.
-
 ------------
   board.js
 ------------
@@ -20,6 +18,8 @@
  * Redo the keypress system.
 
  * Redo the image loading system.
+
+ * Break into smaller files.
 
 
 ----------
@@ -44,8 +44,6 @@
  * Write map generation algorithms.
 
  * Test/fix the hex/location calculations.
-
- * Break the JavaScript down into smaller files and give it its own directory.
 
  * Write database code and add real (not test) authentication.
 
