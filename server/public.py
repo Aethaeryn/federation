@@ -27,25 +27,26 @@ import re
 def login():
     """Authenticates a user.
     """
-
     status = {}
 
-    if 'password' in request.form and 'user' in request.form:
-        if (request.form['password'] == 'correcthorsebatterystaple' and
-            request.form['user'] == 'user'):
-            status['success'] = True
-
-        else:
-            status['success'] = False
-
-    else:
-        status['success'] = False
+    status['success'] = check_login(request.form)
 
     if status['success']:
         # Do stuff...
         pass
 
     return json.dumps(status)
+
+def check_login(data):
+    """Verifies the login information.
+    """
+    if ('password' in data and 'user' in data and
+        data['password'] == 'correcthorsebatterystaple' and
+        data['user'] == 'user'):
+        return True
+
+    else:
+        return False
 
 @app.route('/data/')
 def data():
