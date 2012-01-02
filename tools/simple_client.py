@@ -18,10 +18,13 @@
 
 This client simply parses URLs containing game data as a way of testing
 the server-to-client API on third party clients.
+
+This client does not handle errors very well and so is only useful for
+development purposes. It breaks very easily.
 """
 
 from sys import argv
-import urllib2
+import urllib, urllib2
 import json
 
 def print_dictionary(data, level):
@@ -64,24 +67,41 @@ def print_list(data, level):
 
     return section
 
+def login(url):
+    """Tests the login system by using a test user and password and then
+    trying to access restricted JSON data.
+    """
+
+    # http://xkcd.com/936
+    data = {'user' : 'user',
+            'password' : 'correcthorsebatterystaple'}
+
+    data = urllib.urlencode(data)
+
+    request = urllib2.Request(url, data)
+
+    response = urllib2.urlopen(request)
+    print json.loads(response.read())["success"]
+
 def parse_data(url):
-    """Handles a URL that points either to the root of a Federation game
-    server or the root of its data directory.
+    """Handles a URL that points either to the root of a Federation game server.
     """
     if url[-1] != '/':
         url += '/'
 
-    if url[-5:] != 'data/':
-        url += 'data/'
+    data_url  = url + 'data/'
+    login_url = url + 'login'
 
-    response = urllib2.urlopen(url)
+    response = urllib2.urlopen(data_url)
     data_files = json.loads(response.read())
 
     for data_file in data_files:
         if data_files[data_file] == True:
-            data_url = url + data_file
-            response = urllib2.urlopen(data_url)
+            new_url = data_url + data_file
+            response = urllib2.urlopen(new_url)
             print print_dictionary(json.loads(response.read()), 0)
+
+    login(login_url)
 
 def main():
     # You should provide a full url as its sole argument.

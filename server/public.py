@@ -19,9 +19,33 @@ dynamic rendering of the content.
 """
 
 from server import app
-from flask import json, render_template
+from flask import json, render_template, request
 from os import path
 import re
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    """Authenticates a user.
+    """
+
+    status = {}
+
+    if 'password' in request.form and 'user' in request.form:
+        if (request.form['password'] == 'correcthorsebatterystaple' and
+            request.form['user'] == 'user'):
+            status['success'] = True
+
+        else:
+            status['success'] = False
+
+    else:
+        status['success'] = False
+
+    if status['success']:
+        # Do stuff...
+        pass
+
+    return json.dumps(status)
 
 @app.route('/data/')
 def data():
