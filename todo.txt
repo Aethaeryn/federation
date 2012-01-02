@@ -31,8 +31,6 @@
 
  * Troubleshoot and get it to work with Apache's mod_wsgi.
 
- * Write a replacement main page for the now-gone index.html
-
 
 ---------------
   Game Engine
@@ -45,7 +43,7 @@
 
  * Write map generation algorithms.
 
- * Test the hex/location calculations.
+ * Test/fix the hex/location calculations.
 
  * Break the JavaScript down into smaller files and give it its own directory.
 

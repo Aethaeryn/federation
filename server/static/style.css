@@ -5,6 +5,7 @@ body { font-family: "DejaVu Sans", "Helvetica", "Arial";
 h1   { font-size:14pt; }
 
 a:link    { text-decoration: none;
+            font-weight: bold;
             color: #ffffff }
 a:visited { text-decoration: none;
             color: #ffffff }
