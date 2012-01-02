@@ -25,9 +25,7 @@
 ----------
   Server
 ----------
- * Use cookies to serve custom JSON based on authentication data.
-
- * The clients should be able to send moves back to the game server.
+ * Get simple_client.py to store cookies to fully test authentication.
 
  * Troubleshoot and get it to work with Apache's mod_wsgi.
 
@@ -39,9 +37,13 @@
 
  * movement.py
 
+ * Fix the turn mechanism in game.py and get it to work with the new server.
+
  * Write fleet code.
 
  * Write map generation algorithms.
+
+ * Write the moves API for client-to-server orders.
 
  * Test/fix the hex/location calculations.
 

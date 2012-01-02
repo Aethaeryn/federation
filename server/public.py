@@ -65,6 +65,18 @@ def check_login(data, user, password):
     else:
         return False
 
+def check_cookie():
+    """Checks the cookie for the appropriate user.
+    """
+    # If no cookie, the user is None
+    cookie = request.cookies.get('username')
+
+    if cookie == 'michael':
+        return True
+
+    else:
+        return False
+
 @app.route('/data/')
 def data():
     """Tells the client which pages to look for in the data directory for
@@ -72,7 +84,8 @@ def data():
     """
     available = {}
     available["environment"] = True
-    available["secret"] = False
+
+    available["secret"] = check_cookie()
 
     return json.dumps(available)
 
@@ -87,10 +100,7 @@ def environment():
 def secret():
     """This is a temporary test to show data only to an authenticated user.
     """
-    # If no cookie, the user is "None"
-    cookie = request.cookies.get('user')
-
-    if cookie == 'michael':
+    if check_cookie():
         return json.dumps({'private' : 'Hello world!'})
     
     else:

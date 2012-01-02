@@ -77,12 +77,10 @@ def login(url):
     data = {'user' : 'michael',
             'password' : 'correcthorsebatterystaple'}
 
-    data = urllib.urlencode(data)
-
-    request = urllib2.Request(url, data)
-
+    data     = urllib.urlencode(data)
+    request  = urllib2.Request(url, data)
     response = urllib2.urlopen(request)
-    print json.loads(response.read())["success"]
+    status   = json.loads(response.read())["success"]
 
 def data(url):
     """Handles reading the data aspect of the Federation game server.
@@ -104,8 +102,8 @@ def use_url(url):
     if url[-1] != '/':
         url += '/'
 
-    data(url)
     login(url)
+    data(url)
 
 def main():
     # You should provide a full url as its sole argument.
