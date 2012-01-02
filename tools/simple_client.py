@@ -74,17 +74,24 @@ def parse_data(url):
     if url[-5:] != 'data/':
         url += 'data/'
 
-    #### fixme: Perhaps have data/ provide a list of available data files.
-    data_files = ['environment']
+    response = urllib2.urlopen(url)
+    data_files = json.loads(response.read())
 
     for data_file in data_files:
-        data_url = url + data_file
-        response = urllib2.urlopen(data_url)
-        print print_dictionary(json.loads(response.read()), 0)
+        if data_files[data_file] == True:
+            data_url = url + data_file
+            response = urllib2.urlopen(data_url)
+            print print_dictionary(json.loads(response.read()), 0)
 
 def main():
+    # You should provide a full url as its sole argument.
     if len(argv) == 2:
         parse_data(argv[1])
+
+    # Otherwise, it assumes you're connecting to a local test server.
+    elif len(argv) == 1:
+        parse_data("http://localhost:8080/")
+
     else:
         print 'You need to specify a server URL!'
 

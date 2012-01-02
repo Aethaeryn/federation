@@ -14,15 +14,27 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
+"""Serves the public data API json and game client html using flask for
+dynamic rendering of the content.
+"""
 
 from server import app
-
 from flask import json, render_template
 from os import path
+import re
+
+@app.route('/data/')
+def data():
+    """Tells the client which pages to look for in the data directory for
+    JSON information to parse.
+    """
+    return json.dumps({'environment' : True})
 
 @app.route('/data/environment')
 def environment():
+    """Displays the public data from server/data/environment in a way that
+    the clients can parse using JSON.
+    """
     return json.dumps(app.game.env.convert())
 
 # @app.route('/data/location')
@@ -31,6 +43,10 @@ def environment():
 
 @app.route('/')
 def game():
+    """Creates an html page that uses javascript with canvas to format the
+    main game board. This serves as a client built into the server so that
+    downloading an external client is not required.
+    """
     canvases = ['header', 'board', 'sidebar', 'footer']
     html     = ''
 
@@ -41,6 +57,9 @@ def game():
 
 @app.route('/about.html')
 def about():
+    """Provides an about page that explains what Federation is going to be
+    to the public while Federation is still a work in progress.
+    """
     infile = open(path.join(path.dirname(__file__), 'data/about.txt'))
     content = infile.read()
     infile.close()
