@@ -71,6 +71,7 @@ def login(url):
     """Tests the login system by using a test user and password and then
     trying to access restricted JSON data.
     """
+    url += 'login'
 
     # http://xkcd.com/936
     data = {'user' : 'user',
@@ -83,30 +84,33 @@ def login(url):
     response = urllib2.urlopen(request)
     print json.loads(response.read())["success"]
 
-def parse_data(url):
-    """Handles a URL that points either to the root of a Federation game server.
+def data(url):
+    """Handles reading the data aspect of the Federation game server.
     """
-    if url[-1] != '/':
-        url += '/'
+    url += 'data/'
 
-    data_url  = url + 'data/'
-    login_url = url + 'login'
-
-    response = urllib2.urlopen(data_url)
+    response = urllib2.urlopen(url)
     data_files = json.loads(response.read())
 
     for data_file in data_files:
         if data_files[data_file] == True:
-            new_url = data_url + data_file
+            new_url = url + data_file
             response = urllib2.urlopen(new_url)
             print print_dictionary(json.loads(response.read()), 0)
 
-    login(login_url)
+def use_url(url):
+    """Uses the URL to test the various aspects of the API.
+    """
+    if url[-1] != '/':
+        url += '/'
+
+    # data(url)
+    login(url)
 
 def main():
     # You should provide a full url as its sole argument.
     if len(argv) == 2:
-        parse_data(argv[1])
+        use_url(argv[1])
 
     # Otherwise, it assumes you're connecting to a local test server.
     elif len(argv) == 1:
