@@ -19,7 +19,7 @@ dynamic rendering of the content.
 """
 
 from server import app
-from flask import json, render_template, request
+from flask import json, render_template, request, make_response
 from os import path
 import re
 
@@ -29,20 +29,23 @@ def login():
     """
     status = {}
 
-    status['success'] = check_login(request.form)
+    user = 'michael'
+    password = 'correcthorsebatterystaple'
+
+    status['success'] = check_login(request.form, user, password)
+
+    response = make_response(json.dumps(status))
 
     if status['success']:
-        # Do stuff...
-        pass
+        response.set_cookie('username', user)
 
-    return json.dumps(status)
+    return response
 
-def check_login(data):
+def check_login(data, user, password):
     """Verifies the login information.
     """
     if ('password' in data and 'user' in data and
-        data['password'] == 'correcthorsebatterystaple' and
-        data['user'] == 'user'):
+        data['password'] == password and data['user'] == user):
         return True
 
     else:
@@ -66,7 +69,7 @@ def environment():
 # def loc():
 #     return json.dumps(app.game.system.convert())
 
-@app.route('/')
+@app.route('/game.html')
 def game():
     """Creates an html page that uses javascript with canvas to format the
     main game board. This serves as a client built into the server so that

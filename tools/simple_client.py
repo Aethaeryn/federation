@@ -24,7 +24,7 @@ development purposes. It breaks very easily.
 """
 
 from sys import argv
-import urllib, urllib2
+import urllib, urllib2, cookielib
 import json
 
 def print_dictionary(data, level):
@@ -74,7 +74,7 @@ def login(url):
     url += 'login'
 
     # http://xkcd.com/936
-    data = {'user' : 'user',
+    data = {'user' : 'michael',
             'password' : 'correcthorsebatterystaple'}
 
     data = urllib.urlencode(data)
