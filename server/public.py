@@ -70,7 +70,11 @@ def data():
     """Tells the client which pages to look for in the data directory for
     JSON information to parse.
     """
-    return json.dumps({'environment' : True})
+    available = {}
+    available["environment"] = True
+    available["secret"] = False
+
+    return json.dumps(available)
 
 @app.route('/data/environment')
 def environment():
@@ -78,6 +82,19 @@ def environment():
     the clients can parse using JSON.
     """
     return json.dumps(app.game.env.convert())
+
+@app.route('/data/secret')
+def secret():
+    """This is a temporary test to show data only to an authenticated user.
+    """
+    # If no cookie, the user is "None"
+    cookie = request.cookies.get('user')
+
+    if cookie == 'michael':
+        return json.dumps({'private' : 'Hello world!'})
+    
+    else:
+        return json.dumps({'restricted' : True}), 403
 
 # @app.route('/data/location')
 # def loc():

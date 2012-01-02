@@ -104,7 +104,7 @@ def use_url(url):
     if url[-1] != '/':
         url += '/'
 
-    # data(url)
+    data(url)
     login(url)
 
 def main():
@@ -114,7 +114,7 @@ def main():
 
     # Otherwise, it assumes you're connecting to a local test server.
     elif len(argv) == 1:
-        parse_data("http://localhost:8080/")
+        use_url("http://localhost:8080/")
 
     else:
         print 'You need to specify a server URL!'
