@@ -1,6 +1,6 @@
-------------
-  board.js
-------------
+--------------
+  JavaScript
+--------------
  * Use the new icons in the GUI instead of the placeholder sphere.
 
  * Write getJSON() to read in JSON for board.js
@@ -21,18 +21,14 @@
 
  * Break into smaller files.
 
+ * Add the Google analytics code.
+
 
 ----------
-  Server
+  Python
 ----------
  * Get simple_client.py to store cookies to fully test authentication.
 
- * Troubleshoot and get it to work with Apache's mod_wsgi.
-
-
----------------
-  Game Engine
----------------
  * combat.py
 
  * movement.py
@@ -49,4 +45,3 @@
 
  * Write database code and add real (not test) authentication.
 
- * Add the Google analytics code.
