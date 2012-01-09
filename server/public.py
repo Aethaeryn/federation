@@ -21,13 +21,13 @@ dynamic rendering of the content.
 from server import app
 from flask import json, render_template, request, make_response
 from os import path
-import re
 
+# *** Index page
 @app.route('/')
 def index():
     """Serves as the main page that greets people when they visit the website.
     """
-    desc = 'Federation is a massively multiplayer turn based strategy game with a space setting. For more information about the game, see <a href="about.html">the about page</a> and to play the game in your browser, visit <a href="game.html">the game page</a>.'
+    desc = 'Federation is a massively multiplayer turn based strategy game with a space setting. To play the game in your browser, visit <a href="game.html">the game page</a>.'
 
     return render_template('basic.html', body = desc)
 
@@ -37,6 +37,8 @@ def index2():
     """
     return index()
 
+
+# *** Authentication and authenticated actions.
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     """Authenticates a user.
@@ -54,6 +56,19 @@ def login():
         response.set_cookie('username', user)
 
     return response
+
+@app.route('/move', method=['POST', 'GET'])
+def move():
+    """Sends a game move to the game server.
+    """
+
+    moves = request.form
+
+    status = {}
+
+    status['success'] = check_cookie()
+
+    return json.dumps(status)
 
 def check_login(data, user, password):
     """Verifies the login information.
@@ -77,6 +92,8 @@ def check_cookie():
     else:
         return False
 
+
+# *** Retrieve JSON data
 @app.route('/data/')
 def data():
     """Tells the client which pages to look for in the data directory for
@@ -110,6 +127,8 @@ def secret():
 # def loc():
 #     return json.dumps(app.game.system.convert())
 
+
+# *** Play the game
 @app.route('/game.html')
 def game():
     """Creates an html page that uses javascript with canvas to format the
@@ -124,15 +143,3 @@ def game():
 
     return render_template('basic.html', body = html, javascript = 'board.js')
 
-@app.route('/about.html')
-def about():
-    """Provides an about page that explains what Federation is going to be
-    to the public while Federation is still a work in progress.
-    """
-    infile = open(path.join(path.dirname(__file__), 'data/about.txt'))
-    content = infile.read()
-    infile.close()
-
-    content = re.sub('\n\n', '\n\n  <br><br>\n\n', content)
-
-    return render_template('basic.html', body = content)
