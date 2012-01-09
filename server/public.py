@@ -57,7 +57,7 @@ def login():
 
     return response
 
-@app.route('/move', method=['POST', 'GET'])
+@app.route('/move', methods=['POST', 'GET'])
 def move():
     """Sends a game move to the game server.
     """
