@@ -17,10 +17,6 @@
 
  * Redo the keypress system.
 
- * Redo the image loading system.
-
- * Break into smaller files.
-
  * Add the Google analytics code.
 
 
