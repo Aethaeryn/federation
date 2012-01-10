@@ -141,5 +141,5 @@ def game():
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return render_template('basic.html', body = html, javascript = 'board.js')
+    return render_template('basic.html', body = html, javascript = ['board.js', 'foo.js'])
 
