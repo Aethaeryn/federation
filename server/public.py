@@ -144,12 +144,12 @@ def game():
     downloading an external client is not required.
     """
     canvases = ['header', 'board', 'sidebar', 'footer']
+    scripts  = ['jquery.js', 'board.js', 'load.js', 'actions.js']
 
     html     = ''
 
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return render_template('basic.html', body = html,
-                           javascript = ["jquery.js", 'board.js', 'load.js', 'actions.js'])
+    return render_template('basic.html', body = html, javascript = scripts)
 
