@@ -22,6 +22,14 @@ from server import app
 from flask import json, render_template, request, make_response
 from os import path
 
+def make_json(data):
+    """Helper function that makes sure that the data served is recognized
+    by browers as JSON.
+    """
+    response = make_response(json.dumps(data))
+    response.mimetype = "application/json"
+    return response
+
 # *** Index page
 @app.route('/')
 def index():
@@ -50,7 +58,7 @@ def login():
 
     status['success'] = check_login(request.form, user, password)
 
-    response = make_response(json.dumps(status))
+    response = make_json(status)
 
     if status['success']:
         response.set_cookie('username', user)
@@ -68,7 +76,7 @@ def move():
 
     status['success'] = check_cookie()
 
-    return json.dumps(status)
+    return make_json(status)
 
 def check_login(data, user, password):
     """Verifies the login information.
@@ -104,24 +112,24 @@ def data():
 
     available["secret"] = check_cookie()
 
-    return json.dumps(available)
+    return make_json(available)
 
 @app.route('/data/environment')
 def environment():
     """Displays the public data from server/data/environment in a way that
     the clients can parse using JSON.
     """
-    return json.dumps(app.game.env.convert())
+    return make_json(app.game.env.convert())
 
 @app.route('/data/secret')
 def secret():
     """This is a temporary test to show data only to an authenticated user.
     """
     if check_cookie():
-        return json.dumps({'private' : 'Hello world!'})
+        return make_json({'private' : 'Hello world!'})
     
     else:
-        return json.dumps({'restricted' : True}), 403
+        return make_json({'restricted' : True})
 
 # @app.route('/data/location')
 # def loc():
@@ -136,10 +144,15 @@ def game():
     downloading an external client is not required.
     """
     canvases = ['header', 'board', 'sidebar', 'footer']
+
+    SCRIPT = 'static/script/'
+
     html     = ''
 
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return render_template('basic.html', body = html, javascript = ['board.js', 'load.js', 'actions.js'])
+    return render_template('basic.html', body = html,
+                           javascript = ["http://code.jquery.com/jquery-1.7.1.min.js",
+                           SCRIPT + 'board.js', SCRIPT + 'load.js', SCRIPT + 'actions.js'])
 
