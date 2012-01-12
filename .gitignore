@@ -3,6 +3,3 @@
 
 # Ignore hidden directories and files.
 .*
-
-# Ignore server configuration.
-server/data/config.yml
