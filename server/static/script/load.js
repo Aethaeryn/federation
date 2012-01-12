@@ -27,4 +27,16 @@ function preloader() {
     loadImage("static/icons.png");
 }
 
+// Loads json.
+function getJSON(location) {
+    var file = "data/" + location;
+
+    $.getJSON(file, function(data, status) {
+        alert(data);
+    })
+}
+
+getJSON("environment");
+
+// Makes sure the images are loaded into browser cache before used.
 preloader();
