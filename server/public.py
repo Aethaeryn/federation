@@ -145,14 +145,11 @@ def game():
     """
     canvases = ['header', 'board', 'sidebar', 'footer']
 
-    SCRIPT = 'static/script/'
-
     html     = ''
 
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
     return render_template('basic.html', body = html,
-                           javascript = ["http://code.jquery.com/jquery-1.7.1.min.js",
-                           SCRIPT + 'board.js', SCRIPT + 'load.js', SCRIPT + 'actions.js'])
+                           javascript = ["jquery.js", 'board.js', 'load.js', 'actions.js'])
 
