@@ -118,23 +118,6 @@ class Map():
 
         return converted
 
-class Tactical(Map):
-    # Planet or asteroid field.
-    def __init__(self, env, body):
-        self.env  = env
-        self.body = body
-        self.name = self.body.name
-
-        self.size = (40, 40)
-
-        Map.__init__(self, self.size[0], self.size[1])
-
-        center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
-
-        self.setCoords(center[0], center[1], self.body)
-
-        # Generator goes here.
-
 # Holds the large environmental objects in a star system.
 class System(Map):
     def __init__(self, env):
@@ -164,14 +147,13 @@ class System(Map):
 
         # The planets start in x alignment with each other.
         for distance in distances:
-            self.setCoords(center[0], center[1] + distance,
-                           Tactical(self.env, planet))
+            self.setCoords(center[0], center[1] + distance, planet)
 
         # Use radius to generate belt instead.
 
         # belt_distance = 6
-        # self.accessCoords(center[0], center[1] + belt_distance).addBody(Tactical(self.env, asteroid))
-        # self.accessCoords(center[0], center[1] + belt_distance + 1).addBody(Tactical(self.env, asteroid))
+        # self.accessCoords(center[0], center[1] + belt_distance).addBody(asteroid)
+        # self.accessCoords(center[0], center[1] + belt_distance + 1).addBody(asteroid)
 
     def longInfo(self):
         return "%s System %3i x %3i" % (self.name, self.size[0], self.size[1])
