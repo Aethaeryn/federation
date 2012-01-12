@@ -18,15 +18,14 @@
 dynamic rendering of the content.
 """
 
-from server import app
+from server import app, data
 from flask import json, render_template, request, make_response
-from os import path
 
-def make_json(data):
+def make_json(dictionary):
     """Helper function that makes sure that the data served is recognized
     by browers as JSON.
     """
-    response = make_response(json.dumps(data))
+    response = make_response(json.dumps(dictionary))
     response.mimetype = "application/json"
     return response
 
@@ -37,13 +36,9 @@ def index():
     """
     desc = 'Federation is a massively multiplayer turn based strategy game with a space setting. To play the game in your browser, visit <a href="game.html">the game page</a>.'
 
-    return render_template('basic.html', body = desc)
+    header = data.parse_header()
 
-@app.route('/index.html')
-def index2():
-    """Points to the index page at '/' for compatability reasons.
-    """
-    return index()
+    return render_template('basic.html', body = desc, head = header)
 
 
 # *** Authentication and authenticated actions.
@@ -78,11 +73,11 @@ def move():
 
     return make_json(status)
 
-def check_login(data, user, password):
+def check_login(login_data, user, password):
     """Verifies the login information.
     """
-    if ('password' in data and 'user' in data and
-        data['password'] == password and data['user'] == user):
+    if ('password' in login_data and 'user' in login_data and
+        login_data['password'] == password and login_data['user'] == user):
         return True
 
     else:
@@ -103,7 +98,7 @@ def check_cookie():
 
 # *** Retrieve JSON data
 @app.route('/data/')
-def data():
+def data_folder():
     """Tells the client which pages to look for in the data directory for
     JSON information to parse.
     """
@@ -148,8 +143,10 @@ def game():
 
     html     = ''
 
+    header   = data.parse_header()
+
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return render_template('basic.html', body = html, javascript = scripts)
+    return render_template('basic.html', body = html, javascript = scripts, head = header)
 

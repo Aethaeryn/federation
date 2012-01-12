@@ -3,3 +3,6 @@
 
 # Ignore hidden directories and files.
 .*
+
+# Ignores server customizations.
+server/templates/header.html

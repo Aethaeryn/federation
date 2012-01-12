@@ -17,9 +17,6 @@
 
  * Redo the keypress system.
 
- * Add the Google analytics code.
-
-
 ----------
   Python
 ----------

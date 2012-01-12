@@ -15,7 +15,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import yaml, datetime, time
-from os import path
+from os import path, listdir
 
 # Handles .yml files in the server/data directory.
 class Parse():
@@ -90,3 +90,17 @@ class Time():
     @classmethod
     def sleep(self, seconds):
         return time.sleep(seconds)
+
+# Gets server customizations.
+def parse_header():
+    template_path = path.join(path.dirname(__file__), 'templates')
+    templates     = listdir(template_path)
+
+    if 'header.html' in templates:
+        header = open(path.join(template_path, 'header.html'), 'r')
+        text   = header.read()
+        return text
+
+    else:
+        return ''
+
