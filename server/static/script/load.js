@@ -21,6 +21,19 @@ function loadImage(location) {
     return img;
 }
 
+// Draws an image from a sprite sheet onto a canvas.
+function drawFromSheet(canvas, image, canvas_x, canvas_y, grid_x, grid_y) {
+    // It only works for 28x28 sprites because only that kind exists at the moment.
+    const HEIGHT = 28;
+    const WIDTH  = 28;
+
+    source_x = WIDTH * (grid_x - 1) + grid_x;
+    source_y = HEIGHT * (grid_y - 1) + grid_y;
+
+    canvas.drawImage(image, source_x, source_y, WIDTH, HEIGHT,
+                     canvas_x, canvas_y, WIDTH, HEIGHT);
+}
+
 // Preloads images for the game board.
 function preloader() {
     loadImage("static/sphere.png");

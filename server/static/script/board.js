@@ -228,6 +228,7 @@ function setCanvases() {
         var canvas = this.setStart("sidebar", 220, this.y - 88);
 
         var obj = loadImage("static/sphere.png");
+        var img = loadImage("static/icons.png");
 
         var mini_x = 200;
         var mini_y = 150;
@@ -259,15 +260,15 @@ function setCanvases() {
         canvas.fillText("Earthlings", 70, 232);
 
         // Ships
-        canvas.drawImage(obj, 15, 167);
+        drawFromSheet(canvas, img, 11, 162, 3, 2);
         canvas.fillText(stats.ships, 40, 171);
 
         // Fleets
-        canvas.drawImage(obj, 85, 167);
+        drawFromSheet(canvas, img, 81, 162, 4, 2);
         canvas.fillText(stats.fleets, 110, 171);
 
         // Territories
-        canvas.drawImage(obj, 155, 167);
+        drawFromSheet(canvas, img, 151, 162, 4, 1);
         canvas.fillText(stats.territory, 180, 171);
     }
 
@@ -293,8 +294,9 @@ function setCanvases() {
         canvas.fillStyle = "#cccccc";
         canvas.textBaseline = 'top';
         canvas.font = 'bold 14px sans-serif';
-        icon = loadImage('static/sphere.png');
         canvas.textAlign = "left";
+
+        var img = loadImage("static/icons.png");
 
         // Server
         canvas.fillText("Federation", 10, 7);
@@ -307,11 +309,11 @@ function setCanvases() {
         canvas.fillText(stats.name + " (" + stats.federation + ")", xsize * .16, 7);
 
         // Credits and Income
-        canvas.drawImage(icon, xsize * .45, 3);
+        drawFromSheet(canvas, img, xsize * .445, 0, 1, 1);
         canvas.fillText(stats.cash + "  (+" + stats.income + ")", xsize * .45 + 25, 7);
 
         // Research Points
-        canvas.drawImage(icon, xsize * .67, 3);
+        drawFromSheet(canvas, img, xsize * .665, 0, 3, 1);
         canvas.fillText(stats.research, xsize * .67 + 25, 7);
 
         canvas.textAlign = "right";

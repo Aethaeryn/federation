@@ -1,8 +1,6 @@
 --------------
   JavaScript
 --------------
- * Use the new icons in the GUI instead of the placeholder sphere.
-
  * Redo the keypress system.
 
  * Add test authentication to the browser client.
