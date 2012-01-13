@@ -3,36 +3,46 @@
 --------------
  * Use the new icons in the GUI instead of the placeholder sphere.
 
- * Add environment object sprites to the board.
-
- * Fix the pixel location detection system and the move to map edge detection
-   system, which seem to have gotten messed up by the centering and the right
-   resizing revisions.
-
- * Add mouseover information of each hex.
-
- * Allow mouse movement of the board/minimap.
-
  * Redo the keypress system.
+
+ * Add test authentication to the browser client.
+
+ * Fix the pixel and hex system:
+
+   * Add environment object sprites to the board.
+
+   * Fix the pixel location detection system and the move to map edge detection
+     system, which seem to have gotten messed up by the centering and the right
+     resizing revisions.
+
+   * Add mouseover information of each hex.
+
+   * Allow mouse movement of the board/minimap.
+
 
 ----------
   Python
 ----------
- * Get simple_client.py to store cookies to fully test authentication.
+ * game.py
 
- * combat.py
+   * turns
 
- * movement.py
+ * interaction with the game
 
- * Fix the turn mechanism in game.py and get it to work with the new server.
+   * combat.py
 
- * Write fleet code.
+   * movement.py
 
- * Write map generation algorithms.
+   * fleets
 
- * Write the moves API for client-to-server orders.
+ * location.py
 
- * Test/fix the hex/location calculations.
+   * map generation
 
- * Write database code and add real (not test) authentication.
+   * hex / location calcuations
 
+ * public.py
+
+   * moves API
+
+ * database and authentication
