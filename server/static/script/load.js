@@ -31,12 +31,19 @@ function preloader() {
 function getJSON(location) {
     var file = "data/" + location;
 
-    $.getJSON(file, function(data, status) {
-        alert(data);
+    var foo = $.getJSON(file, function(data, status) {
+        //// fixme: Make this work on all JSON data, not just the player named "michael"
+        stats = data.michael;
+
+        board.board();
     })
+
+
 }
 
-getJSON("environment");
+var stats = {player : "Anonymous"}
+
+getJSON("player");
 
 // Makes sure the images are loaded into browser cache before used.
 preloader();

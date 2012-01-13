@@ -104,6 +104,7 @@ def data_folder():
     """
     available = {}
     available["environment"] = True
+    available["player"]      = True
 
     available["secret"] = check_cookie()
 
@@ -115,6 +116,12 @@ def environment():
     the clients can parse using JSON.
     """
     return make_json(app.game.env.convert())
+
+@app.route('/data/player')
+def player():
+    """Displays the public information of players in the game.
+    """
+    return make_json(app.game.get_player_data())
 
 @app.route('/data/secret')
 def secret():

@@ -47,7 +47,7 @@ class Player(GameObject):
         stats["cash"]       = self.cash
         stats["income"]     = self.income
         stats["research"]   = self.research
-        stats["ships"]      = len(self.ships) 
+        stats["ships"]      = len(self.ships)
         stats["fleets"]     = self.fleet_count
         stats["territory"]  = self.territory_count
 
@@ -150,17 +150,26 @@ class Game():
         self.start_year    = 2500
         self.turns_per_day = turns_per_day
 
-        # # Runs actions.
+        # Creates a dummy player to make sure the GUI can render player info.
+        self.add_player("michael", "Mike", "michael@example.com")
+        self.players["michael"].cash = 20
+        self.players["michael"].income = 2
+        self.players["michael"].research = 4
+        self.players["michael"].alliance = "Empire"
+        self.players["michael"].ships = [None, None, None, None]
+        self.players["michael"].fleet_count = 1
+        self.players["michael"].territory_count = 2
+
         # self.main_loop()
 
-    # def refreshPlayerData(self):
-    #     player_data = {}
+    # Retrieves the player data in a processable format.
+    def get_player_data(self):
+         player_data = {}
 
-    #     for player in self.players:
-    #         player_data[player] = self.players[player].get_player_info()
+         for player in self.players:
+             player_data[player] = self.players[player].get_player_info()
 
-    #     self.out = data.Write('data')
-    #     self.out.write('players', player_data)
+         return player_data
 
     # Adds a player.
     def add_player(self, username, game_name, email):
@@ -233,8 +242,6 @@ class Game():
         # self.add_sector("Test 1")
 
         # self.refreshLocationData(self.sectors["Test 1"])
-
-        # self.add_player("michael", "Mike", "michael@example.com")
 
         # self.refreshPlayerData()
 

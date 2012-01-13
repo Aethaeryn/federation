@@ -260,15 +260,15 @@ function setCanvases() {
 
         // Ships
         canvas.drawImage(obj, 15, 167);
-        canvas.fillText("4", 40, 171);
+        canvas.fillText(stats.ships, 40, 171);
 
         // Fleets
         canvas.drawImage(obj, 85, 167);
-        canvas.fillText("1", 110, 171);
+        canvas.fillText(stats.fleets, 110, 171);
 
         // Territories
         canvas.drawImage(obj, 155, 167);
-        canvas.fillText("2", 180, 171);
+        canvas.fillText(stats.territory, 180, 171);
     }
 
     // Sets the footer canvas.
@@ -304,18 +304,15 @@ function setCanvases() {
         }
 
         // Name
-        canvas.fillText("Michael (Pirates)", xsize * .16, 7);
+        canvas.fillText(stats.name + " (" + stats.federation + ")", xsize * .16, 7);
 
-        // Credits
+        // Credits and Income
         canvas.drawImage(icon, xsize * .45, 3);
-        canvas.fillText("200,000", xsize * .45 + 25, 7);
-
-        // Income
-        canvas.fillText("(+ 100)", xsize * .45 + 100, 7);
+        canvas.fillText(stats.cash + "  (+" + stats.income + ")", xsize * .45 + 25, 7);
 
         // Research Points
         canvas.drawImage(icon, xsize * .67, 3);
-        canvas.fillText("20", xsize * .67 + 25, 7);
+        canvas.fillText(stats.research, xsize * .67 + 25, 7);
 
         canvas.textAlign = "right";
         canvas.fillText("(" + board.coords[0] + ", " + board.coords[1] + ")", this.x - 35, 7);

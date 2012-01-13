@@ -3,8 +3,6 @@
 --------------
  * Use the new icons in the GUI instead of the placeholder sphere.
 
- * Write getJSON() to read in JSON for board.js
-
  * Add environment object sprites to the board.
 
  * Fix the pixel location detection system and the move to map edge detection
