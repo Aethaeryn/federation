@@ -14,13 +14,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from server import environment, location, data
+from server import environment, location, data, database
 
-class GameObject(object):
-    def __str__(self):
-        return self.name
-
-class Player(GameObject):
+class Player(object):
     def __init__(self, username, game_name, email, env):
         self.env       = env
 
@@ -53,97 +49,12 @@ class Player(GameObject):
 
         return stats
 
-    def add_ship(self, ship, custom_name):
-        new_ship = self.env.get("spacecraft", ship)
-        new_ship.custom_name = custom_name
-        self.ships[new_ship.obj_id] = new_ship
-
-    def del_ship(self, ship):
-        self.ships.pop(ship.obj_id)
-
-    def rename_player(self, new_name):
-        self.game_name = new_name
-
-    def change_email(self, new_email):
-        self.email = new_email
-
-    def leave_alliance(self):
-        self.alliance = False
-
-    def __str__(self):
-        return self.username
-
-class Alliance(GameObject):
-    def __init__(self, name, founder):
-        # This holds the members.
-        self.leaders      = {}
-        self.members      = {}
-
-        # Having the founder join the alliance.
-        founder.alliance  = name
-
-        # Various stats for the alliance.
-        self.name         = name
-        self.founder      = founder
-        self.date         = data.Time.get()
-        self.cash         = 0
-        self.tax_rate     = 0
-        self.shared_view  = False
-        self.shared_fleet = False
-
-        self.leaders[founder.username] = founder
-        self.members[founder.username] = founder
-
-    def add_member(self, player):
-        self.members[player.username] = player
-        player.alliance = self.name
-
-    def remove_member(self, player):
-        self.members.pop(player.username)
-        player.leave_alliance()
-
-    def set_tax_rate(self, rate):
-        self.tax_rate = rate
-
-    def set_shared_view(self, toggle_view):
-        self.shared_view = toggle_view
-
-    def set_shared_fleet(self, toggle_fleet):
-        self.shared_fleet = toggle_fleet
-
-class Fleet(GameObject):
-    fleet_counter = 0
-
-    def __init__(self, name, player, ships):
-        self.fleet_id = self.fleet_counter
-        Fleet.fleet_counter += 1
-
-        self.ships   = {}
-        self.players = {}
-
-        self.ships[player.username]   = ships
-        self.players[player.username] = player
-
-        self.name      = name
-        self.alliance  = player.alliance
-        self.commander = player.username
-        self.deputy    = None
-
-    def add_ship(self, ship):
-        self.ships[ship.obj_id] = ship
-
-    def del_ship(self, ship):
-        self.ships.pop(ship.obj_id)
-
 class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
 
         # These hold various data.
-        self.sectors     = {}
         self.players     = {}
-        self.alliance    = {}
-        self.fleets      = {}
 
         # Keeps track of the turn.
         self.turn          = 0
@@ -159,8 +70,6 @@ class Game():
         self.players["michael"].ships = [None, None, None, None]
         self.players["michael"].fleet_count = 1
         self.players["michael"].territory_count = 2
-
-        # self.main_loop()
 
     # Retrieves the player data in a processable format.
     def get_player_data(self):
@@ -188,30 +97,6 @@ class Game():
         self.players[original].research -= amount_research
         self.players[target].research   += amount_research
 
-    # Adds an alliance.
-    def add_alliance(self, name, founder):
-        if name not in self.alliance:
-            self.alliance[name] = Alliance(name, founder)
-
-        else:
-            raise Exception("An alliance with that name already exists!")
-
-    # Adds a sector.
-    def add_sector(self, name):
-        if name not in self.sectors:
-            self.sectors[name] = location.Sector(self.env, 40, 40)
-
-        else:
-            raise Exception("A sector with that name already exists!")
-
-    # Adds a fleet.
-    def add_fleet(self, name, player, ships):
-        self.fleets[str(Fleet.fleet_counter)] = Fleet(name, player, ships)
-
-    # Deletes a fleet.
-    def del_fleet(self, fleet_id):
-        return self.fleets.pop(str(fleet_id))
-
     # These events are called on every new turn.
     def next_turn(self, time):
         self.turn     += 1
@@ -235,30 +120,3 @@ class Game():
         year += self.start_year
         
         return months[month], year
-
-    def main_loop(self):
-        now = data.Time.get()
-
-        # self.add_sector("Test 1")
-
-        # self.refreshLocationData(self.sectors["Test 1"])
-
-        # self.refreshPlayerData()
-
-        #### Temporary debug thing. Remove me.
-        quit()
-
-        data.Time.setNextTurnEnd(self, self.turns_per_day)
-
-        self.next_turn(now)
-
-        #### Listen for player-submitted moves/actions/combat/etc.
-
-        while True:
-            data.Time.sleep(.1)
-
-            now = data.Time.get()
-
-            if now >= self.turn_end:
-                self.next_turn(now)
-                data.Time.set_next_turn_end(self, self.turns_per_day)
