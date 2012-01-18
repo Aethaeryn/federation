@@ -27,20 +27,14 @@
 
  * interaction with the game
 
-   * combat.py
+   * combat and fleets
 
-   * movement.py
-
-   * fleets
+   * movement (movement.py && public.py)
 
  * location.py
 
    * map generation
 
    * hex / location calcuations
-
- * public.py
-
-   * moves API
 
  * database and authentication
