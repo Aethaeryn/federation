@@ -1,5 +1,5 @@
 #    Federation
-#    Copyright (C) 2011 Michael Babich
+#    Copyright (C) 2011, 2012 Michael Babich
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import sys
 
 class Header():
     agpl = '''#    Federation
-#    Copyright (C) 2011 Michael Babich
+#    Copyright (C) 2011, 2012 Michael Babich
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -38,7 +38,7 @@ class Header():
 '''
 
     gpl = '''#    Federation
-#    Copyright (C) 2011 Michael Babich
+#    Copyright (C) 2011, 2012 Michael Babich
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
