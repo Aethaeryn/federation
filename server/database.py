@@ -27,8 +27,8 @@ Base = declarative_base()
 Session = sessionmaker()
 Session.configure(bind=engine)
 
-class Alliance(Base):
-    __tablename__ = 'alliance'
+class Federation(Base):
+    __tablename__ = 'federation'
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80), unique=True)
@@ -45,7 +45,7 @@ class Alliance(Base):
         self.date    = data.Time.get()
 
     def __repr__(self):
-        return '<Alliance %s>' % (self.name)
+        return '<Federation %s>' % (self.name)
 
 class Player(Base):
     __tablename__ = 'player'
@@ -61,7 +61,7 @@ class Player(Base):
     federation = Column(String(80))
     #### count fleets, territories, ships
     #### associate ownership with player
-    #### associate with membership in the actual alliance
+    #### associate with membership in the actual federation
 
     def __init__(self, username, game_name, email):
         self.username  = username
@@ -94,7 +94,7 @@ class Fleet(Base):
 
 Base.metadata.create_all(engine)
 
-foo = Alliance("me", "you")
+foo = Federation("me", "you")
 session = Session()
 session.add(foo)
 session.commit()

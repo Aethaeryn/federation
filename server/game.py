@@ -18,19 +18,19 @@ from server import environment, location, data, database
 
 class Player(object):
     def __init__(self, username, game_name, email, env):
-        self.env       = env
+        self.env         = env
 
-        self.username  = username
-        self.game_name = game_name
-        self.email     = email
-        self.join_date = data.Time.get()
+        self.username    = username
+        self.game_name   = game_name
+        self.email       = email
+        self.join_date   = data.Time.get()
 
-        self.cash      = 0
-        self.income    = 0
-        self.research  = 0
-        self.alliance  = False
+        self.cash        = 0
+        self.income      = 0
+        self.research    = 0
+        self.federation  = False
 
-        self.ships     = {}
+        self.ships       = {}
 
         self.fleet_count     = 0
         self.territory_count = 0
@@ -39,7 +39,7 @@ class Player(object):
     def get_player_info(self):
         stats = {}
         stats["name"]       = self.game_name
-        stats["federation"] = self.alliance
+        stats["federation"] = self.federation
         stats["cash"]       = self.cash
         stats["income"]     = self.income
         stats["research"]   = self.research
@@ -66,7 +66,7 @@ class Game():
         self.players["michael"].cash = 20
         self.players["michael"].income = 2
         self.players["michael"].research = 4
-        self.players["michael"].alliance = "Empire"
+        self.players["michael"].federation = "Empire"
         self.players["michael"].ships = [None, None, None, None]
         self.players["michael"].fleet_count = 1
         self.players["michael"].territory_count = 2
@@ -103,7 +103,7 @@ class Game():
         self.turn_time = time
 
         #### Refresh unit move points and do queued actions.
-        #### Update the economic income for player and alliance (including tax).
+        #### Update the economic income for player and federation (including tax).
         #### Do other on-turn-start changes.
 
     # Turns the turn into a month and year.
