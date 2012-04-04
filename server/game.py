@@ -30,9 +30,10 @@ class Player():
 
         self.__dict__.update(self.db_copy(q.filter(database.Player.id == self.id).first()))
 
-        self.ships = self.has_id(database.Spacecraft, "owner")
+        self.ships  = self.has_id(database.Spacecraft, "owner")
+        self.fleets = self.has_id(database.Fleet, "commander")
 
-        #### TODO: Also read in fleets and territory.
+        #### TODO: Also read in territory.
 
     def has_id(self, db, id_key):
         q = database.session.query(db)
@@ -52,6 +53,9 @@ class Player():
 
     # Returns information that the GUI expects.
     def get_player_info(self):
+        #### Temporary, remove me when it works!
+        self.territory = [None, None]
+
         stats               = {}
         stats["name"]       = self.game_name
         stats["federation"] = self.federation
@@ -59,8 +63,8 @@ class Player():
         stats["income"]     = self.income
         stats["research"]   = self.research
         stats["ships"]      = len(self.ships)
-        stats["fleets"]     = 1 #### fixme fleet_count
-        stats["territory"]  = 2 #### fixme territory_count
+        stats["fleets"]     = len(self.fleets)
+        stats["territory"]  = len(self.territory)
 
         return stats
 
@@ -91,6 +95,10 @@ class Game():
             db_spaceship = database.Spacecraft(spaceship, "Foobar", " --- ", 1)
             database.session.add(db_spaceship)
 
+        # Creates a dummy fleet.
+        database.session.add(database.Fleet("Zombie Raptor", 1))
+
+        # This must come last!
         database.session.commit()
 
     # Retrieves the player data in a processable format.

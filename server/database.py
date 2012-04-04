@@ -56,6 +56,7 @@ class Spacecraft(Base):
     custom_name = Column(String(80))
     components  = Column(String(800))
     owner       = Column(Integer)
+    fleet       = Column(Integer)
 
     def __init__(self, name, custom_name, components, owner):
         self.name        = name
@@ -98,7 +99,6 @@ class Player(Base):
     income     = Column(Integer)
     research   = Column(Integer)
     federation = Column(String(80))
-    #### count fleets, territories
 
     def __init__(self, username, game_name, email):
         self.username   = username
@@ -116,15 +116,11 @@ class Player(Base):
 class Fleet(Base):
     __tablename__ = 'fleet'
 
-    #### hold ships
-    #### hold players
-    #### count ships/players
-
     id         = Column(Integer, primary_key=True)
     name       = Column(String(80))
-    federation = Column(String(80))
-    commander  = Column(String(80))
-    deputy     = Column(String(80))
+    federation = Column(Integer)
+    commander  = Column(Integer)
+    deputy     = Column(Integer)
 
     def __init__(self, name, commander):
         self.name = name
