@@ -2,6 +2,17 @@
 TODO LIST
 =========
 
+Python
+------
+ * Get the database code working.
+ * Allow proper interaction between the database and game.py and environment.py
+ * Get authentication to work and store passwords safely.
+ * Add a movement system.
+ * Add a combat and fleet system.
+ * Work on the map generation.
+ * Work on the hex calculations.
+ * Work on territories and bodies.
+
 JavaScript
 ----------
  * Allow arrow key, WASD, and HJKL navigation and get movement to work properly.
@@ -13,14 +24,3 @@ JavaScript
  * Add mouseover information of each hex.
  * Allow mouse movement of the board/minimap.
  * Rework the GUI to use just one <canvas>
-
-Python
-------
- * Get the database code working.
- * Allow proper interaction between the database and game.py and environment.py
- * Get authentication to work and store passwords safely.
- * Add a movement system.
- * Add a combat and fleet system.
- * Work on the map generation.
- * Work on the hex calculations.
- * Work on territories and bodies.
