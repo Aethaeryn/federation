@@ -4,67 +4,67 @@ TODO LIST
 
 Python
 ------
- * Database code.
+* Database code.
 
-   * Items not yet in the db:
+  * Items not yet in the db:
 
-     * Structure
+    * Structure
 
-     * Unit
+    * Unit
 
-     * Body
+    * Body
 
-     * System
+    * System
 
-     * Sector
+    * Sector
 
-   * Make the translation between the three forms painless:
+  * Make the translation between the three forms painless.
 
-      * db <---> game <---> json
+    * db <---> game <---> json
 
- * Authentication and registration needs to be added.
+* Authentication and registration needs to be added.
 
-   * Extend player code in db to store passwords safely.
+  * Extend player code in db to store passwords safely.
 
- * Location code.
+* Location code.
 
-   * Map generation.
+  * Map generation.
 
-   * Hex calculation algorithms.
+  * Hex calculation algorithms.
 
- * Environment code.
+* Environment code.
 
-   * Territories and bodies.
+  * Territories and bodies.
 
-   * Individual "instances" of spacecraft.
+  * Individual "instances" of spacecraft.
 
- * Game code.
+* Game code.
 
-   * Turns.
+  * Turns.
 
-   * Movement.
+  * Movement.
 
-   * Combat.
+  * Combat.
 
 
 JavaScript
 ----------
- * Map grid navigation.
+* Map grid navigation.
 
-   * Fix keyboard scrolling.
+  * Fix keyboard scrolling.
 
-   * Arrow key, WASD, and HJKL need to work.
+  * Arrow key, WASD, and HJKL need to work.
 
-   * Allow mouse click+drag movement on both board and mini-map.
+  * Allow mouse click+drag movement on both board and mini-map.
 
- * Rework the GUI to use just one <canvas>
+* Rework the GUI to use just one <canvas>
 
- * Add (test) authentication for browser clients.
+* Add (test) authentication for browser clients.
 
- * Add environment object sprites to the board.
+* Add environment object sprites to the board.
 
- * Fix the pixel location detection system and the move to map edge detection
-   system, which seem to have gotten messed up by the centering and the right
-   resizing revisions.
+* Fix the pixel location detection system and the move to map edge detection
+  system, which seem to have gotten messed up by the centering and the right
+  resizing revisions.
 
- * Add mouseover information of each hex.
+* Add mouseover information of each hex.
