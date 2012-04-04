@@ -26,14 +26,19 @@ class Player():
 
     # Reads in the data from the database matching the ID.
     def load_from_db(self):
-        q = database.session.query(database.Player)
+        self.__dict__.update(self.is_id(database.Player, self.id))
 
-        self.__dict__.update(self.db_copy(q.filter(database.Player.id == self.id).first()))
+        self.federation = self.is_id(database.Federation, self.federation)['name']
 
-        self.ships  = self.has_id(database.Spacecraft, "owner")
-        self.fleets = self.has_id(database.Fleet, "commander")
+        self.ships      = self.has_id(database.Spacecraft, "owner")
+        self.fleets     = self.has_id(database.Fleet, "commander")
 
         #### TODO: Also read in territory.
+
+    def is_id(self, db, use_id):
+        q = database.session.query(db)
+
+        return self.db_copy(q.filter(database.Player.id == self.id).first())
 
     def has_id(self, db, id_key):
         q = database.session.query(db)
@@ -78,25 +83,28 @@ class Game():
         self.debug()
 
     def debug(self):
-        # Creates a dummy player to make sure the GUI can render player info.
+        # Player
         self.player = database.Player("michael", "Mike", "michael@example.com")
         self.player.cash = 20
         self.player.income = 2
         self.player.research = 4
-        self.player.federation = "Empire"
+        self.player.federation = 1
 
         database.session.add(self.player)
         database.session.add(self.game)
 
-        # Creates dummy spacecraft for the db.
+        # Spacecraft
         spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
 
         for spaceship in spaceships:
             db_spaceship = database.Spacecraft(spaceship, "Foobar", " --- ", 1)
             database.session.add(db_spaceship)
 
-        # Creates a dummy fleet.
+        # Fleet
         database.session.add(database.Fleet("Zombie Raptor", 1))
+
+        # Federation
+        database.session.add(database.Federation("Empire", 1))
 
         # This must come last!
         database.session.commit()

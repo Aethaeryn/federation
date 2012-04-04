@@ -47,8 +47,8 @@ class Game(Base):
     def __repr(self):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
+#### add all other things that can be customized
 class Spacecraft(Base):
-    #### add all other things that can be customized
     __tablename__ = 'spacecraft'
 
     id          = Column(Integer, primary_key=True)
@@ -67,17 +67,17 @@ class Spacecraft(Base):
     def __repr__(self):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
 
+#### Also store custom names for Federation ranks.
 class Federation(Base):
     __tablename__ = 'federation'
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80), unique=True)
-    founder     = Column(String(80))
+    founder     = Column(Integer)
     date        = Column(DateTime())
     cash        = Column(Integer)
     tax_rate    = Column(Integer)
     shared_view = Column(Boolean)
-    #### store leaders/ranks/roles/etc.
 
     def __init__(self, name, founder):
         self.name    = name
@@ -98,7 +98,10 @@ class Player(Base):
     cash       = Column(Integer)
     income     = Column(Integer)
     research   = Column(Integer)
-    federation = Column(String(80))
+    federation = Column(Integer)
+    fed_leader = Column(Boolean)
+    fed_rank   = Column(Integer)
+    fed_role   = Column(String(80))
 
     def __init__(self, username, game_name, email):
         self.username   = username
