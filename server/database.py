@@ -20,8 +20,9 @@ from sqlalchemy.types import DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-#### TODO: Put in an actual location and turn off echo
-# engine = create_engine('sqlite:///:memory:', echo=True)
+#### TODO: Put in an actual final location.
+# also try sqlite:///foo.sqlite
+# also try echo=True
 engine = create_engine('sqlite:///:memory:', echo=False)
 
 Base = declarative_base()
@@ -54,11 +55,13 @@ class Spacecraft(Base):
     name        = Column(String(80))
     custom_name = Column(String(80))
     components  = Column(String(800))
+    owner       = Column(Integer)
 
-    def __init__(self, name, custom_name, components):
+    def __init__(self, name, custom_name, components, owner):
         self.name        = name
         self.custom_name = custom_name
         self.components  = components
+        self.owner       = owner
 
     def __repr__(self):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
@@ -95,9 +98,7 @@ class Player(Base):
     income     = Column(Integer)
     research   = Column(Integer)
     federation = Column(String(80))
-    #### count fleets, territories, ships
-    #### associate ownership with player
-    #### associate with membership in the actual federation
+    #### count fleets, territories
 
     def __init__(self, username, game_name, email):
         self.username   = username
@@ -108,20 +109,6 @@ class Player(Base):
         self.cash       = 0
         self.income     = 0
         self.research   = 0
-
-    # Returns information that the GUI expects.
-    def get_player_info(self):
-        stats               = {}
-        stats["name"]       = self.game_name
-        stats["federation"] = self.federation
-        stats["cash"]       = self.cash
-        stats["income"]     = self.income
-        stats["research"]   = self.research
-        stats["ships"]      = 4 #### fixme len(ships)
-        stats["fleets"]     = 1 #### fixme fleet_count
-        stats["territory"]  = 2 #### fixme territory_count
-
-        return stats
 
     def __repr__(self):
         return '<Player %s (%s)>' % (self.game_name, self.username)
