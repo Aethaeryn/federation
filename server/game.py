@@ -28,26 +28,24 @@ class Player():
     def load_from_db(self):
         q = database.session.query(database.Player)
 
-        self.__dict__.update(self.db_copy(q.filter(database.Player.id == self.id).first().__dict__))
+        self.__dict__.update(self.db_copy(q.filter(database.Player.id == self.id).first()))
 
         self.ships = self.has_id(database.Spacecraft, "owner")
 
         #### TODO: Also read in fleets and territory.
 
     def has_id(self, db, id_key):
-        match_list = []
-
         q = database.session.query(db)
 
-        matches = q.filter(db.__dict__[id_key] == self.id)
+        matches = q.filter(db.__dict__[id_key] == self.id).all()
 
-        for match in matches:
-            match_list.append(self.db_copy(match.__dict__))
+        for i in range(len(matches)):
+            matches[i] = self.db_copy(matches[i])
 
-        return match_list
+        return matches
 
-    def db_copy(self, db_return):
-        dict_copy = copy(db_return)
+    def db_copy(self, db_item):
+        dict_copy = copy(db_item.__dict__)
         dict_copy.pop('_sa_instance_state')
 
         return dict_copy
