@@ -21,29 +21,36 @@ from copy import copy
 # other tables that have player as their 
 class Player():
     def __init__(self, id):
-        self.load_from_db(id)
+        self.id = id
+        self.load_from_db()
 
     # Reads in the data from the database matching the ID.
-    def load_from_db(self, id):
-        q1 = database.session.query(database.Player)
-        match = copy(q1.filter(database.Player.id == id).first().__dict__)
+    def load_from_db(self):
+        q = database.session.query(database.Player)
 
-        match.pop('_sa_instance_state')
+        self.__dict__.update(self.db_copy(q.filter(database.Player.id == self.id).first().__dict__))
 
-        self.__dict__.update(match)
-
-        q2 = database.session.query(database.Spacecraft)
-        matches = q2.filter(database.Spacecraft.owner == id)
-
-        self.ships = []
-
-        for match in matches:
-            ship = copy(match.__dict__)
-            ship.pop('_sa_instance_state')
-
-            self.ships.append(ship)
+        self.ships = self.has_id(database.Spacecraft, "owner")
 
         #### TODO: Also read in fleets and territory.
+
+    def has_id(self, db, id_key):
+        match_list = []
+
+        q = database.session.query(db)
+
+        matches = q.filter(db.__dict__[id_key] == self.id)
+
+        for match in matches:
+            match_list.append(self.db_copy(match.__dict__))
+
+        return match_list
+
+    def db_copy(self, db_return):
+        dict_copy = copy(db_return)
+        dict_copy.pop('_sa_instance_state')
+
+        return dict_copy
 
     # Returns information that the GUI expects.
     def get_player_info(self):
@@ -59,12 +66,16 @@ class Player():
 
         return stats
 
+
 class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
 
         self.game = database.Game("Test", 2500, turns_per_day)
 
+        self.debug()
+
+    def debug(self):
         # Creates a dummy player to make sure the GUI can render player info.
         self.player = database.Player("michael", "Mike", "michael@example.com")
         self.player.cash = 20
