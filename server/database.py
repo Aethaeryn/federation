@@ -21,11 +21,47 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 #### TODO: Put in an actual location and turn off echo
-engine = create_engine('sqlite:///:memory:', echo=True)
+# engine = create_engine('sqlite:///:memory:', echo=True)
+engine = create_engine('sqlite:///:memory:', echo=False)
 
 Base = declarative_base()
 Session = sessionmaker()
 Session.configure(bind=engine)
+
+class Game(Base):
+    __tablename__ = 'game'
+
+    id            = Column(Integer, primary_key=True)
+    server_name   = Column(String(80), unique=True)
+    turn          = Column(Integer)
+    start_year    = Column(Integer)
+    turns_per_day = Column(Integer)
+
+    def __init__(self, server_name, start_year, turns_per_day):
+        self.server_name   = server_name
+        self.start_year    = start_year
+        self.turns_per_day = turns_per_day
+        self.turn          = 0
+
+    def __repr(self):
+        return '<Game %s (%s)>' % (self.server_name, self.id)
+
+class Spacecraft(Base):
+    #### add all other things that can be customized
+    __tablename__ = 'spacecraft'
+
+    id          = Column(Integer, primary_key=True)
+    name        = Column(String(80))
+    custom_name = Column(String(80))
+    components  = Column(String(800))
+
+    def __init__(self, name, custom_name, components):
+        self.name        = name
+        self.custom_name = custom_name
+        self.components  = components
+
+    def __repr__(self):
+        return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
 
 class Federation(Base):
     __tablename__ = 'federation'
@@ -64,10 +100,28 @@ class Player(Base):
     #### associate with membership in the actual federation
 
     def __init__(self, username, game_name, email):
-        self.username  = username
-        self.game_name = game_name
-        self.email     = email
-        self.date      = date.Time.get()
+        self.username   = username
+        self.game_name  = game_name
+        self.email      = email
+        self.date       = data.Time.get()
+        self.federation = "None"
+        self.cash       = 0
+        self.income     = 0
+        self.research   = 0
+
+    # Returns information that the GUI expects.
+    def get_player_info(self):
+        stats               = {}
+        stats["name"]       = self.game_name
+        stats["federation"] = self.federation
+        stats["cash"]       = self.cash
+        stats["income"]     = self.income
+        stats["research"]   = self.research
+        stats["ships"]      = 4 #### fixme len(ships)
+        stats["fleets"]     = 1 #### fixme fleet_count
+        stats["territory"]  = 2 #### fixme territory_count
+
+        return stats
 
     def __repr__(self):
         return '<Player %s (%s)>' % (self.game_name, self.username)
@@ -94,7 +148,4 @@ class Fleet(Base):
 
 Base.metadata.create_all(engine)
 
-foo = Federation("me", "you")
 session = Session()
-session.add(foo)
-session.commit()

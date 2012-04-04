@@ -16,45 +16,9 @@
 
 from server import environment, location, data, database
 
-class Player(object):
-    def __init__(self, username, game_name, email, env):
-        self.env         = env
-
-        self.username    = username
-        self.game_name   = game_name
-        self.email       = email
-        self.join_date   = data.Time.get()
-
-        self.cash        = 0
-        self.income      = 0
-        self.research    = 0
-        self.federation  = False
-
-        self.ships       = {}
-
-        self.fleet_count     = 0
-        self.territory_count = 0
-
-    # Returns information the GUI expects.
-    def get_player_info(self):
-        stats = {}
-        stats["name"]       = self.game_name
-        stats["federation"] = self.federation
-        stats["cash"]       = self.cash
-        stats["income"]     = self.income
-        stats["research"]   = self.research
-        stats["ships"]      = len(self.ships)
-        stats["fleets"]     = self.fleet_count
-        stats["territory"]  = self.territory_count
-
-        return stats
-
 class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
-
-        # These hold various data.
-        self.players     = {}
 
         # Keeps track of the turn.
         self.turn          = 0
@@ -62,32 +26,23 @@ class Game():
         self.turns_per_day = turns_per_day
 
         # Creates a dummy player to make sure the GUI can render player info.
-        self.add_player("michael", "Mike", "michael@example.com")
-        self.players["michael"].cash = 20
-        self.players["michael"].income = 2
-        self.players["michael"].research = 4
-        self.players["michael"].federation = "Empire"
-        self.players["michael"].ships = [None, None, None, None]
-        self.players["michael"].fleet_count = 1
-        self.players["michael"].territory_count = 2
+        self.player = database.Player("michael", "Mike", "michael@example.com")
+        self.player.cash = 20
+        self.player.income = 2
+        self.player.research = 4
+        self.player.federation = "Empire"
+
+        database.session.add(self.player)
+        database.session.commit()
 
     # Retrieves the player data in a processable format.
+    # Currently a messy hack to keep the UI working while the database is being written.
     def get_player_data(self):
          player_data = {}
 
-         for player in self.players:
-             player_data[player] = self.players[player].get_player_info()
+         player_data["michael"] = self.player.get_player_info()
 
          return player_data
-
-    # Adds a player.
-    def add_player(self, username, game_name, email):
-        if username not in self.players:
-            self.players[username] = Player(username, game_name,
-                                            email, self.env)
-
-        else:
-            raise Exception("A player with that username already exists!")
 
     # Transfers cash and research from one player to another.
     def transfer_funds(self, original, target, amount_cash, amount_research):
