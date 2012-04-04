@@ -47,7 +47,24 @@ class Game(Base):
     def __repr(self):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
-#### add all other things that can be customized
+class Component(Base):
+    __tablename__ = 'component'
+
+    id         = Column(Integer, primary_key=True)
+    name       = Column(String(80))
+    spacecraft = Column(Integer)
+    enabled    = Column(Boolean)
+    damage     = Column(Integer)
+
+    def __init__(self, name, spacecraft):
+        self.name       = name
+        self.spacecraft = spacecraft
+        self.enabled    = True
+        self.damage     = 0
+
+    def __repr__(self):
+        return '<Component %s>' % (self.name)
+
 class Spacecraft(Base):
     __tablename__ = 'spacecraft'
 

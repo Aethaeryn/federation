@@ -17,28 +17,16 @@
 from server import environment, location, data, database
 from copy import copy
 
-# Contains the relevant player from the player table, and lists of things from
-# other tables that have player as their 
-class Player():
+# Reads in a database table to a form recognized by Python and JSON.
+# This prevents the same data from being stored in multiple locations in the db.
+class ImportedObject():
     def __init__(self, id):
         self.id = id
-        self.load_from_db()
-
-    # Reads in the data from the database matching the ID.
-    def load_from_db(self):
-        self.__dict__.update(self.is_id(database.Player, self.id))
-
-        self.federation = self.is_id(database.Federation, self.federation)['name']
-
-        self.ships      = self.has_id(database.Spacecraft, "owner")
-        self.fleets     = self.has_id(database.Fleet, "commander")
-
-        #### TODO: Also read in territory.
 
     def is_id(self, db, use_id):
         q = database.session.query(db)
 
-        return self.db_copy(q.filter(database.Player.id == self.id).first())
+        return self.db_copy(q.filter(db.id == use_id).first())
 
     def has_id(self, db, id_key):
         q = database.session.query(db)
@@ -55,6 +43,25 @@ class Player():
         dict_copy.pop('_sa_instance_state')
 
         return dict_copy
+
+
+# Contains the relevant player from the player table, and lists of things from
+# other tables that have this player mentioned.
+class Player(ImportedObject):
+    def __init__(self, id):
+        ImportedObject.__init__(self, id)
+        self.load_from_db()
+
+    # Reads in the data from the database matching the ID.
+    def load_from_db(self):
+        self.__dict__.update(self.is_id(database.Player, self.id))
+
+        self.federation = self.is_id(database.Federation, self.federation)['name']
+
+        self.ships      = self.has_id(database.Spacecraft, "owner")
+        self.fleets     = self.has_id(database.Fleet, "commander")
+
+        #### TODO: Also read in territory.
 
     # Returns information that the GUI expects.
     def get_player_info(self):

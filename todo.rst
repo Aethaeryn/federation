@@ -6,14 +6,25 @@ Python
 ------
  * Database code.
 
-   * Every persistent item in the game needs to be in the database,
-     unless the item does not change during the game.
+   * Items not yet in the db:
 
-   * Needs to interact with game.py, environment.py, and others.
+     * Structure
 
-   * Needs to store passwords safely.
+     * Unit
+
+     * Body
+
+     * System
+
+     * Sector
+
+   * Make the translation between the three forms painless:
+
+      * db <---> game <---> json
 
  * Authentication and registration needs to be added.
+
+   * Extend player code in db to store passwords safely.
 
  * Location code.
 
