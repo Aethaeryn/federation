@@ -13,14 +13,16 @@ More information is available at the website: http://playfederation.com/about.ht
 
 Dependencies
 ------------
-+----------+-------------------------+
-| Package  | Website                 |
-+==========+=========================+
-| Python   | http://python.org/      |
-+----------+-------------------------+
-| PyYAML   | http://pyyaml.org/      |
-+----------+-------------------------+
-| Flask    | http://flask.pocoo.org/ |
-+----------+-------------------------+
-| mod_wsgi | http://modwsgi.org/     |
-+----------+-------------------------+
++------------+-------------------------+
+| Package    | Website                 |
++============+=========================+
+| Python     | http://python.org/      |
++------------+-------------------------+
+| PyYAML     | http://pyyaml.org/      |
++------------+-------------------------+
+| Flask      | http://flask.pocoo.org/ |
++------------+-------------------------+
+| SQLAlchemy | http://sqlalchemy.org/  |
++------------+-------------------------+
+| mod_wsgi   | http://modwsgi.org/     |
++------------+-------------------------+
