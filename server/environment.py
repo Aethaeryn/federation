@@ -46,7 +46,7 @@ class EnvironmentObject(object):
             if entry not in dictionary:
                 self.__dict__[entry] = False
 
-        # Every entry in the dictionary, assuming no exception has been thrown, 
+        # Every entry in the dictionary, assuming no exception has been thrown,
         # is added as an instance variable.
         self.__dict__.update(dictionary)
 
@@ -176,7 +176,7 @@ class Spacecraft(EnvironmentObject):
 
         # Reverses the damage if it exists, since the spacecraft total HP is
         # going to go down.
-        self.damage_hitpoints -= self.component_stat["damage_hitpoints"] 
+        self.damage_hitpoints -= self.component_stat["damage_hitpoints"]
 
         if self.component_stat["enabled"]:
             self.disable_component(component, position, False)
@@ -243,7 +243,7 @@ class Environment():
         self.inherit_spacecraft()
         self.objectify_dictionary()
 
-        # Has the spacecrafts' component lists modify spacecraft stats. 
+        # Has the spacecrafts' component lists modify spacecraft stats.
         for craft_type in self.obj["spacecraft"]:
             self.obj["spacecraft"][craft_type].initialize_components(self.obj["component"])
 
@@ -293,7 +293,7 @@ class Environment():
     # in the game environment.
     def get(self, obj_type, obj_name):
         self.obj_id += 1
-        
+
         obj_copy = copy.copy(self.obj[obj_type][obj_name])
         obj_copy.__dict__["obj_id"] = self.obj_id
         return obj_copy

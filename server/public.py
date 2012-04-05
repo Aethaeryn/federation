@@ -129,7 +129,7 @@ def secret():
     """
     if check_cookie():
         return make_json({'private' : 'Hello world!'})
-    
+
     else:
         return make_json({'restricted' : True})
 

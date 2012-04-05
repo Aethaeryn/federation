@@ -165,7 +165,7 @@ function Board (hex_grid) {
         board_canvas.moveTo(coords[0][0], coords[0][1]);
 
         for (var i = 1; i < coords.length; i++) {
-            board_canvas.lineTo(coords[i][0], coords[i][1]);        
+            board_canvas.lineTo(coords[i][0], coords[i][1]);
         }
 
         board_canvas.closePath();

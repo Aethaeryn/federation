@@ -118,7 +118,7 @@ Light Armor:
   description : "Boosts the hitpoints of the spacecraft."
   hitpoints   : 10
   cost        : 30
-    
+
 Medium Armor:
   size        : "Medium Component"
   description : "Boosts the hitpoints of the spacecraft."

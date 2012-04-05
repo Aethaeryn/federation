@@ -148,5 +148,5 @@ class Game():
         year  = self.game.turn / 12
 
         year += self.game.start_year
-        
+
         return months[month], year

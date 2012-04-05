@@ -99,5 +99,5 @@ def main():
 
         except Exception:
             print 'Error with stamping file "' + sys.argv[2] + '"'
- 
+
 main()

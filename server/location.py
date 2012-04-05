@@ -163,7 +163,7 @@ class Sector(Map):
     # Creates a star sector with an environment.py instance, and a max x and y.
     def __init__(self, env, x, y):
         Map.__init__(self, x, y)
-        
+
         self.env    = env
 
         # self.generate_sector()
