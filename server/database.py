@@ -14,7 +14,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from server import app, data
+from server import app
+from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, Boolean, String
 from sqlalchemy.types import DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -99,7 +100,7 @@ class Federation(Base):
     def __init__(self, name, founder):
         self.name    = name
         self.founder = founder
-        self.date    = data.Time.get()
+        self.date    = datetime.utcnow()
 
     def __repr__(self):
         return '<Federation %s>' % (self.name)
@@ -124,7 +125,7 @@ class Player(Base):
         self.username   = username
         self.game_name  = game_name
         self.email      = email
-        self.date       = data.Time.get()
+        self.date       = datetime.utcnow()
         self.federation = "None"
         self.cash       = 0
         self.income     = 0
