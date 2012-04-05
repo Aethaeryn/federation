@@ -44,7 +44,7 @@ class Game(Base):
         self.turns_per_day = turns_per_day
         self.turn          = 0
 
-    def __repr(self):
+    def __repr__(self):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
 class Component(Base):

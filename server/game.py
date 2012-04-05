@@ -44,7 +44,6 @@ class ImportedObject():
 
         return dict_copy
 
-
 # Contains the relevant player from the player table, and lists of things from
 # other tables that have this player mentioned.
 class Player(ImportedObject):
@@ -80,7 +79,6 @@ class Player(ImportedObject):
 
         return stats
 
-
 class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
@@ -112,6 +110,9 @@ class Game():
 
         # Federation
         database.session.add(database.Federation("Empire", 1))
+
+        # Component
+        database.session.add(database.Component("Small Hull", 3))
 
         # This must come last!
         database.session.commit()

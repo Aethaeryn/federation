@@ -181,12 +181,6 @@ class Spacecraft(EnvironmentObject):
         if self.component_stat["enabled"]:
             self.disable_component(component, position, False)
 
-    def damage_component(self, components, position, damage):
-        self.change_component_hitpoints(components, position, damage)
-
-    def repair_component(self, components, position, repair):
-        self.change_component_hitpoints(components, position, -repair)
-
     def change_component_hitpoints(self, components, position, hp_change):
         self.check_position(position)
 
