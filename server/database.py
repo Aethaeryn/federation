@@ -16,10 +16,13 @@
 
 from server import app
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, Boolean, String
-from sqlalchemy.types import DateTime
+from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+
+# LOCATION = 'sqlite:////tmp/foo.sqlite'
+LOCATION = 'sqlite:///:memory:'
+Base     = declarative_base()
 
 class Database():
     def __init__(self, location):
@@ -27,11 +30,9 @@ class Database():
         self.Session = sessionmaker()
         self.Session.configure(bind=self.engine)
         self.session = self.Session()
-        self.Base = declarative_base()
+        Base.metadata.create_all(self.engine)
 
-db = Database('sqlite:///:memory:')
-
-class Game(db.Base):
+class Game(Base):
     __tablename__ = 'game'
 
     id            = Column(Integer, primary_key=True)
@@ -49,7 +50,7 @@ class Game(db.Base):
     def __repr__(self):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
-class Component(db.Base):
+class Component(Base):
     __tablename__ = 'component'
 
     id         = Column(Integer, primary_key=True)
@@ -67,7 +68,7 @@ class Component(db.Base):
     def __repr__(self):
         return '<Component %s>' % (self.name)
 
-class Spacecraft(db.Base):
+class Spacecraft(Base):
     __tablename__ = 'spacecraft'
 
     id          = Column(Integer, primary_key=True)
@@ -87,13 +88,13 @@ class Spacecraft(db.Base):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
 
 #### Also store custom names for Federation ranks.
-class Federation(db.Base):
+class Federation(Base):
     __tablename__ = 'federation'
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80), unique=True)
     founder     = Column(Integer)
-    date        = Column(DateTime())
+    date        = Column(DateTime)
     cash        = Column(Integer)
     tax_rate    = Column(Integer)
     shared_view = Column(Boolean)
@@ -106,14 +107,14 @@ class Federation(db.Base):
     def __repr__(self):
         return '<Federation %s>' % (self.name)
 
-class Player(db.Base):
+class Player(Base):
     __tablename__ = 'player'
 
     id         = Column(Integer, primary_key=True)
     username   = Column(String(80), unique=True)
     game_name  = Column(String(80))
     email      = Column(String(80))
-    date       = Column(DateTime())
+    date       = Column(DateTime)
     cash       = Column(Integer)
     income     = Column(Integer)
     research   = Column(Integer)
@@ -135,7 +136,7 @@ class Player(db.Base):
     def __repr__(self):
         return '<Player %s (%s)>' % (self.game_name, self.username)
 
-class Fleet(db.Base):
+class Fleet(Base):
     __tablename__ = 'fleet'
 
     id         = Column(Integer, primary_key=True)
@@ -151,5 +152,5 @@ class Fleet(db.Base):
     def __repr__(self):
         return '<Fleet %s %s (%s)>' % (self.id, self.name, self.commander)
 
-db.Base.metadata.create_all(db.engine)
-
+db      = Database(LOCATION)
+session = db.session

@@ -24,12 +24,12 @@ class ImportedObject():
         self.id = id
 
     def is_id(self, db, use_id):
-        q = database.db.session.query(db)
+        q = database.session.query(db)
 
         return self.db_copy(q.filter(db.id == use_id).first())
 
     def has_id(self, db, id_key):
-        q = database.db.session.query(db)
+        q = database.session.query(db)
 
         matches = q.filter(db.__dict__[id_key] == self.id).all()
 
@@ -95,27 +95,27 @@ class Game():
         self.player.research = 4
         self.player.federation = 1
 
-        database.db.session.add(self.player)
-        database.db.session.add(self.game)
+        database.session.add(self.player)
+        database.session.add(self.game)
 
         # Spacecraft
         spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
 
         for spaceship in spaceships:
             db_spaceship = database.Spacecraft(spaceship, "Foobar", " --- ", 1)
-            database.db.session.add(db_spaceship)
+            database.session.add(db_spaceship)
 
         # Fleet
-        database.db.session.add(database.Fleet("Zombie Raptor", 1))
+        database.session.add(database.Fleet("Zombie Raptor", 1))
 
         # Federation
-        database.db.session.add(database.Federation("Empire", 1))
+        database.session.add(database.Federation("Empire", 1))
 
         # Component
-        database.db.session.add(database.Component("Small Hull", 3))
+        database.session.add(database.Component("Small Hull", 3))
 
         # This must come last!
-        database.db.session.commit()
+        database.session.commit()
 
     # Retrieves the player data in a processable format.
     # Currently a messy hack to keep the UI working while the database is being written.
