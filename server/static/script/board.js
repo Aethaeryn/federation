@@ -185,16 +185,6 @@ function setCanvases() {
     this.x = window.innerWidth;
     this.y = window.innerHeight;
 
-    /*
-    try {
-        this.player_info = getJSON('players.json');
-        this.player = player_info["michael"];
-        alert(this.player);
-    } catch (e) {
-        alert(e.message);
-    }
-    */
-
     // Sets all of the canvases.
     this.setAll = function() {
         this.setBoard();

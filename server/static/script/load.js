@@ -52,8 +52,8 @@ function getJSON(location) {
     var file = "data/" + location;
 
     var foo = $.getJSON(file, function(data, status) {
-        //// fixme: Make this work on all JSON data, not just the player named "michael"
-        stats = data.michael;
+
+        stats = data;
 
         board.board();
     })
@@ -63,7 +63,9 @@ function getJSON(location) {
 
 var stats = {player : "Anonymous"}
 
-getJSON("player");
+//// fixme: Make this work on all JSON data, not just the player named "michael"
+//// including error handling if the player is not found
+getJSON("player/michael");
 
 // Makes sure the images are loaded into browser cache before used.
 preloader();

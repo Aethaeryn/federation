@@ -124,14 +124,25 @@ class Game():
         # This must come last!
         database.session.commit()
 
-    # Retrieves the player data in a processable format.
-    # Currently a messy hack to keep the UI working while the database is being written.
-    def get_player_data(self):
-         player_data = {}
+    # Retrieves the player names and IDs in a processable format.
+    def get_all_players(self):
+        q     = database.session.query(database.Player)
+        users = q.all()
+        names = {}
 
-         player_data["michael"] = Player(1).get_player_info()
+        for user in users:
+            names[user.username] = user.id
 
-         return player_data
+        return names
+
+    def get_player(self, username):
+        players = self.get_all_players()
+
+        if username in players:
+            return Player(players[username]).get_player_info()
+
+        else:
+            return {'Error' : '%s not found!' % (username) }
 
     # These events are called on every new turn.
     def next_turn(self, time):

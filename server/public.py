@@ -124,11 +124,19 @@ def environment():
     """
     return make_json(app.game.env.convert())
 
-@app.route('/data/player')
-def player():
-    """Displays the public information of players in the game.
+@app.route('/data/player/')
+def players():
+    """Displays the username and IDs of all the players in the game.
     """
-    return make_json(app.game.get_player_data())
+
+    return make_json(app.game.get_all_players())
+
+@app.route('/data/player/<username>')
+def player(username):
+    """Displays the public stats of any given user.
+    """
+
+    return make_json(app.game.get_player(username))
 
 @app.route('/data/secret')
 def secret():
