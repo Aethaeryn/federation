@@ -21,16 +21,17 @@ from sqlalchemy.types import DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-#### TODO: Put in an actual final location.
-# also try sqlite:///foo.sqlite
-# also try echo=True
-engine = create_engine('sqlite:///:memory:', echo=False)
+class Database():
+    def __init__(self, location):
+        self.engine = create_engine(location, echo=False)
+        self.Session = sessionmaker()
+        self.Session.configure(bind=self.engine)
+        self.session = self.Session()
+        self.Base = declarative_base()
 
-Base = declarative_base()
-Session = sessionmaker()
-Session.configure(bind=engine)
+db = Database('sqlite:///:memory:')
 
-class Game(Base):
+class Game(db.Base):
     __tablename__ = 'game'
 
     id            = Column(Integer, primary_key=True)
@@ -48,7 +49,7 @@ class Game(Base):
     def __repr__(self):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
-class Component(Base):
+class Component(db.Base):
     __tablename__ = 'component'
 
     id         = Column(Integer, primary_key=True)
@@ -66,7 +67,7 @@ class Component(Base):
     def __repr__(self):
         return '<Component %s>' % (self.name)
 
-class Spacecraft(Base):
+class Spacecraft(db.Base):
     __tablename__ = 'spacecraft'
 
     id          = Column(Integer, primary_key=True)
@@ -86,7 +87,7 @@ class Spacecraft(Base):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
 
 #### Also store custom names for Federation ranks.
-class Federation(Base):
+class Federation(db.Base):
     __tablename__ = 'federation'
 
     id          = Column(Integer, primary_key=True)
@@ -105,7 +106,7 @@ class Federation(Base):
     def __repr__(self):
         return '<Federation %s>' % (self.name)
 
-class Player(Base):
+class Player(db.Base):
     __tablename__ = 'player'
 
     id         = Column(Integer, primary_key=True)
@@ -134,7 +135,7 @@ class Player(Base):
     def __repr__(self):
         return '<Player %s (%s)>' % (self.game_name, self.username)
 
-class Fleet(Base):
+class Fleet(db.Base):
     __tablename__ = 'fleet'
 
     id         = Column(Integer, primary_key=True)
@@ -150,6 +151,5 @@ class Fleet(Base):
     def __repr__(self):
         return '<Fleet %s %s (%s)>' % (self.id, self.name, self.commander)
 
-Base.metadata.create_all(engine)
+db.Base.metadata.create_all(db.engine)
 
-session = Session()
