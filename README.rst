@@ -85,3 +85,12 @@ have a way to find out the minimum required version of each
 dependency, please tell us so we can add it to the dependency table
 above. If additional code is needed for portability to other
 platforms, contributions are welcome!
+
+
+Legal
+-----
+
+The source code of this software is licensed under the MIT
+license. For more information, see LICENSE.txt or go to:
+
+    http://www.opensource.org/licenses/mit-license.php
