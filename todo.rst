@@ -4,39 +4,27 @@ TODO LIST
 
 Python
 ------
-* Database code.
+* Game elements.
 
-  * Items not yet in the db:
+  * Map generation.
 
-    * Structure
+  * A location system.
 
-    * Unit
+  * Territories and bodies.
 
-    * Body
+    * Ownership and stats.
 
-    * System
+* db <---> game <---> json
 
-    * Sector
+  * Spacecraft and components: individual "instances".
 
-  * Make the translation between the three forms painless.
-
-    * db <---> game <---> json
+  * Structure, Unit, Body, Map (System, Sector)
 
 * Authentication and registration needs to be added.
 
   * Extend player code in db to store passwords safely.
 
-* Location code.
-
-  * Map generation.
-
-  * Hex calculation algorithms.
-
-* Environment code.
-
-  * Territories and bodies.
-
-  * Individual "instances" of spacecraft.
+* Hex calculation algorithms.
 
 * Game code.
 
