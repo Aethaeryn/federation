@@ -4,31 +4,37 @@ TODO LIST
 
 Python
 ------
+* db <---> game <---> json
+
+  * Finish: Spacecraft, Component
+
+  * Then: Game
+
+  * Add: Structure, Unit, Body, Map (System, Sector)
+
 * Game elements.
 
   * Map generation.
-
-  * A location system.
 
   * Territories and bodies.
 
     * Ownership and stats.
 
-* db <---> game <---> json
+    * clean up location.py
 
-  * Spacecraft and components: individual "instances".
-
-  * Structure, Unit, Body, Map (System, Sector)
+    * Hex grid calculation algorithms.
 
 * Authentication and registration needs to be added.
 
   * Extend player code in db to store passwords safely.
 
-* Hex calculation algorithms.
-
 * Game code.
 
   * Turns.
+
+    * Implement turns.
+
+    * Implement things that change on turn switch.
 
   * Movement.
 

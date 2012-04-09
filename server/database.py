@@ -84,6 +84,9 @@ class Spacecraft(Base):
     components  = Column(String(800))
     owner       = Column(Integer)
     fleet       = Column(Integer)
+    system      = Column(Integer)
+    x_position  = Column(Integer)
+    y_position  = Column(Integer)
 
     def __init__(self, name, custom_name, components, owner):
         self.name        = name
