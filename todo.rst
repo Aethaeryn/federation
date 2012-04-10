@@ -24,10 +24,6 @@ Python
 
     * Hex grid calculation algorithms.
 
-* Authentication and registration needs to be added.
-
-  * Extend player code in db to store passwords safely.
-
 * Game code.
 
   * Turns.
@@ -40,25 +36,29 @@ Python
 
   * Combat.
 
+* Eventually: Authentication.
+
 
 CoffeeScript
 ------------
+* Rewrite board.js in CoffeeScript.
+
 * Map grid navigation.
 
-  * Fix keyboard scrolling.
-
-  * Arrow key, WASD, and HJKL need to work.
+  * Fix the keyboard scrolling so that diagonals, etc., work.
 
   * Allow mouse click+drag movement on both board and mini-map.
 
-* Rework the GUI to use just one <canvas>
-
-* Add (test) authentication for browser clients.
+* Rework the GUI to use just one <canvas> if possible
 
 * Add environment object sprites to the board.
 
-* Fix the pixel location detection system and the move to map edge detection
-  system, which seem to have gotten messed up by the centering and the right
-  resizing revisions.
+* Fix map edge detection system.
 
-* Add mouseover information of each hex.
+* Add back in the mouseover information.
+
+  * Find out which pixel-sized square the mouse is over on the board.
+
+  * Find out which hex that square is in.
+
+  * Find out what is located on that hex.
