@@ -30,4 +30,13 @@
 # More sophisticated conditionals will be added when Federation is ready. 
 
 cd $( dirname "${BASH_SOURCE[0]}" )"/.."
+
+if [ ! -d "server/static/script" ]; then
+    mkdir "server/static/script"
+fi
+
+if [ ! -f "server/static/script/jquery.js" ]; then
+    curl -o server/static/script/jquery.js http://code.jquery.com/jquery-1.7.2.min.js
+fi
+
 coffee --compile --output server/static/script/ src/
