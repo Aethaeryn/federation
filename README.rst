@@ -21,22 +21,34 @@ maintenance of Federation.
 More information is available at the website: http://playfederation.com/
 
 
-Dependencies
-------------
+Python Dependencies
+-------------------
 
-+------------+-------------------------+
-| Package    | Website                 |
-+============+=========================+
-| Python     | http://python.org/      |
-+------------+-------------------------+
-| PyYAML     | http://pyyaml.org/      |
-+------------+-------------------------+
-| Flask      | http://flask.pocoo.org/ |
-+------------+-------------------------+
-| SQLAlchemy | http://sqlalchemy.org/  |
-+------------+-------------------------+
-| mod_wsgi   | http://modwsgi.org/     |
-+------------+-------------------------+
++-------------+--------------------------+
+| Package     | Website                  |
++=============+==========================+
+| Python      | http://python.org/       |
++-------------+--------------------------+
+| PyYAML      | http://pyyaml.org/       |
++-------------+--------------------------+
+| Flask       | http://flask.pocoo.org/  |
++-------------+--------------------------+
+| SQLAlchemy  | http://sqlalchemy.org/   |
++-------------+--------------------------+
+
+
+Other Dependencies
+------------------
+
++-------------+--------------------------+
+| Package     | Website                  |
++=============+==========================+
+| mod_wsgi    | http://modwsgi.org/      |
++-------------+--------------------------+
+| node.js     | http://nodejs.org/       |
++-------------+--------------------------+
+| CoffeScript | http://coffeescript.org/ |
++-------------+--------------------------+
 
 
 Federation Clients

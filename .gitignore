@@ -1,8 +1,9 @@
-# Ignore compiled Python files.
+# Ignore compiled files.
 *.pyc
+*.js
 
 # Ignore hidden directories and files.
 .*
 
-# Ignores server customizations.
+# Ignores local customized code.
 server/templates/header.html
