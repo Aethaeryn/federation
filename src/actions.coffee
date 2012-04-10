@@ -21,38 +21,51 @@
 #    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-# Turns an image into an object.
-loadImage = (location) ->
-  img     = new Image()
-  img.src = location
-  return img
+# Handles the keys.
+keyActions = (event) ->
+  scroll = 20;
 
-# Draws an image from a sprite sheet onto a canvas.
-# It assumes it's a 28x28 sprite.
-drawFromSheet = (canvas, image, canvas_x, canvas_y, grid_x, grid_y) ->
-  HEIGHT = 28
-  WIDTH  = 28
+  # Three ways to navigate with the keyboard:
+  # UP, DOWN, LEFT, RIGHT; W, S, A, D; K, J, H, L
+  up    = [38, 87, 75]
+  down  = [40, 83, 74]
+  left  = [37, 65, 72]
+  right = [39, 68, 76]
 
-  source_x = WIDTH * (grid_x - 1) + grid_x
-  source_y = HEIGHT * (grid_y - 1) + grid_y
+  board.moved = true
 
-  canvas.drawImage(image, source_x, source_y, WIDTH, HEIGHT, canvas_x, canvas_y, WIDTH, HEIGHT);
+  if (event.keyCode in up) and (board.y + scroll <= 0)
+    board.y += scroll
+    board.coords[1] -= scroll
 
-# Preloads images for the game board into the browser cache.
-preloader = ->
-  loadImage("static/sphere.png")
-  loadImage("static/icons.png")
+  if event.keyCode in left and (board.x + scroll <= 0)
+    board.x += scroll
+    board.coords[0] -= scroll
 
-stats = {player : "Anonymous"}
+  if event.keyCode in right and (board.x - board.x_height >= - board.x_max)
+    board.x -= scroll
+    board.coords[0] += scroll
 
-# Loads json.
-getJSON = (location) ->
-  file = "data/" + location;
-  foo  = $.getJSON(file, (data, status) ->
-    stats = data
-    board.board())
+  if event.keyCode in down and (board.y - board.y_height >= - board.y_max)
+    board.y -= scroll
+    board.coords[1] += scroll
 
-#### fixme: generalize this to more players
-getJSON("player/michael")
+  # 'g' toggles grid
+  if event.keyCode is 71
+    if board.gridOn is true
+      board.gridOn = false
+    else
+      board.gridOn = true
 
-preloader()
+  # Renders the board again.
+  board.board()
+
+# The mouseMove function has been removed until it works again.
+
+window.onresize = (event) ->
+  board.board()
+
+window.onload = (event) ->
+  board.board()
+
+window.addEventListener('keydown', keyActions, true)
