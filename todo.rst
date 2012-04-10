@@ -41,8 +41,8 @@ Python
   * Combat.
 
 
-JavaScript
-----------
+CoffeeScript
+------------
 * Map grid navigation.
 
   * Fix keyboard scrolling.
