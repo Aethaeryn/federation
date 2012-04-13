@@ -67,59 +67,13 @@ class Location:
 
         return radius_set
 
-# Holds locations of significance.
-class Map():
-    name = 'Map'
-
-    # Creates a map with given x, y size limits.
-    def __init__(self, x, y):
-        self.map = {}
-        self.x   = x
-        self.y   = y
-
-    def setCoords(self, x, y, body):
-        location_key = '%3i, %3i' % (x, y)
-
-        self.map[location_key] = body
-
-    def delCoords(self, x, y, body):
-        location_key = '%3i, %3i' % (x, y)
-
-        try:
-            return self.map.pop(location_key)
-
-        except KeyError:
-            return None
-
-    def convert(self):
-        converted = copy.copy(self.__dict__)
-
-        if hasattr(self, 'body'):
-            converted['body'] = converted['body'].__dict__
-
-        converted.pop('env')
-
-        # If there's a convert method, use it instead of a dictionary.
-        for location in converted['map']:
-            if hasattr(converted['map'][location], 'convert'):
-                converted['map'][location] = converted['map'][location].convert()
-
-            else:
-                converted['map'][location] = converted['map'][location].__dict__
-
-        return converted
+# *** TODO: REWRITE TO GENERATE USING THE DB. *** #
 
 # Holds the large environmental objects in a star system.
-class System(Map):
-    def __init__(self, env):
-        self.env  = env
-
-        # Random size/name of star system.
-        self.name = 'Star'
+class System():
+    def __init__(self):
         # self.size = (random.randint(60, 70), random.randint(60, 70))
         self.size = (40, 40)
-
-        Map.__init__(self, self.size[0], self.size[1])
 
         self.type_zero_system()
 
@@ -128,9 +82,9 @@ class System(Map):
     def type_zero_system(self):
         center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
 
-        star     = self.env.get('body', 'Star')
-        planet   = self.env.get('body', 'Planet')
-        asteroid = self.env.get('body', 'Asteroid Field')
+        star     = ('body', 'Star')
+        planet   = ('body', 'Planet')
+        asteroid = ('body', 'Asteroid Field')
 
         self.setCoords(center[0], center[1], star)
 
@@ -146,20 +100,15 @@ class System(Map):
         # self.accessCoords(center[0], center[1] + belt_distance).addBody(asteroid)
         # self.accessCoords(center[0], center[1] + belt_distance + 1).addBody(asteroid)
 
-    def longInfo(self):
-        return '%s System %3i x %3i' % (self.name, self.size[0], self.size[1])
-
 # Holds star systems.
 class Sector(Map):
     # Creates a star sector with an environment.py instance, and a max x and y.
-    def __init__(self, env, x, y):
+    def __init__(self, x, y):
         Map.__init__(self, x, y)
-
-        self.env    = env
 
         # self.generate_sector()
 
-        self.setCoords(0, 0, System(self.env))
+        self.setCoords(0, 0, System())
 
         self.name = 'Sector'
 
@@ -169,4 +118,4 @@ class Sector(Map):
             coords = (random.randint(0, self.x - 1),
                       random.randint(0, self.y - 1))
 
-            self.setCoords(coords[0], coords[1], System(self.env))
+            self.setCoords(coords[0], coords[1], System())
