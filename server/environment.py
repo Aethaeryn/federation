@@ -59,15 +59,15 @@ class Component(EnvironmentObject):
 
     # Sets the size and HP based on component size.
     def size_traits(self):
-        if self.size == "Small Component":
+        if self.size == 'Small Component':
             self.hitpoints += 5
             self.exp_size   = 1
 
-        elif self.size == "Medium Component":
+        elif self.size == 'Medium Component':
             self.hitpoints += 10
             self.exp_size   = 2
 
-        elif self.size == "Large Component":
+        elif self.size == 'Large Component':
             self.hitpoints += 20
             self.exp_size   = 4
 
@@ -103,7 +103,7 @@ class Spacecraft(EnvironmentObject):
     # Checks to make sure a component position is valid before acting.
     def check_position(self, position):
         if position >= len(component_list) or position < 0:
-            raise Exception("Invalid component list position.")
+            raise Exception('Invalid component list position.')
 
     def enable_component(self, component, position):
         # Allowed stats to read.
@@ -120,7 +120,7 @@ class Spacecraft(EnvironmentObject):
                 if value and type(value) is bool:
                     self.__dict__[stat] = True
 
-        self.component_stat[position]["enabled"] = True
+        self.component_stat[position]['enabled'] = True
 
     def disable_component(self, component, position, change_status):
         # Allowed stats to read.
@@ -139,20 +139,20 @@ class Spacecraft(EnvironmentObject):
                     self.__dict__[stat] = False
 
         if change_status:
-            self.component_stat[position]["enabled"] = False
+            self.component_stat[position]['enabled'] = False
 
     def add_component(self, components, component_name):
         component = components[component_name]
 
         if self.components_in + component.exp_size >= self.component_max:
             self.component_list.remove(component.name)
-            raise Exception("Not enough room for component " + component.name)
+            raise Exception('Not enough room for component ' + component.name)
 
         self.components_in += component.exp_size
         self.value         += component.cost
 
         # Keeps track of damage information for each component.
-        self.component_stat.append({"damage_hitpoints": 0})
+        self.component_stat.append({'damage_hitpoints': 0})
 
         self.enable_component(component, len(self.component_stat) - 1)
 
@@ -167,9 +167,9 @@ class Spacecraft(EnvironmentObject):
 
         # Reverses the damage if it exists, since the spacecraft total HP is
         # going to go down.
-        self.damage_hitpoints -= self.component_stat["damage_hitpoints"]
+        self.damage_hitpoints -= self.component_stat['damage_hitpoints']
 
-        if self.component_stat["enabled"]:
+        if self.component_stat['enabled']:
             self.disable_component(component, position, False)
 
     def change_component_hitpoints(self, components, position, hp_change):
@@ -179,14 +179,14 @@ class Spacecraft(EnvironmentObject):
         comp_stat = self.component_stat[position]
 
         # Reducing the damage on an entirely damaged component will enable it.
-        if comp_stat["damage_hitpoints"] == component.hitpoints and hp_change < 0:
+        if comp_stat['damage_hitpoints'] == component.hitpoints and hp_change < 0:
             self.enable_component(component, position)
 
-        comp_stat["damage_hitpoints"] += hp_change
+        comp_stat['damage_hitpoints'] += hp_change
 
         # Maxing out the damage on a component will diable it.
-        if comp_stat["damage_hitpoints"] >= component.hitpoints:
-            self.comp_stat["damage_hitpoints"] = component.hitpoints
+        if comp_stat['damage_hitpoints'] >= component.hitpoints:
+            self.comp_stat['damage_hitpoints'] = component.hitpoints
 
             self.disable_component(component, position, True)
 
@@ -225,8 +225,8 @@ class Environment():
 
     # Creates a database of object types.
     def __init__(self):
-        directory = "environment"
-        filenames = ["component", "spacecraft", "structure", "unit", "body"]
+        directory = 'environment'
+        filenames = ['component', 'spacecraft', 'structure', 'unit', 'body']
 
         # Parses the data files for environment objects.
         parse    = data.Parse(directory, filenames)
@@ -235,8 +235,8 @@ class Environment():
         self.objectify_dictionary()
 
         # Has the spacecrafts' component lists modify spacecraft stats.
-        for craft_type in self.obj["spacecraft"]:
-            self.obj["spacecraft"][craft_type].initialize_components(self.obj["component"])
+        for craft_type in self.obj['spacecraft']:
+            self.obj['spacecraft'][craft_type].initialize_components(self.obj['component'])
 
     # Handles spacecraft inheritance.
     def inherit_spacecraft(self):
@@ -264,19 +264,19 @@ class Environment():
             for key in self.obj[filename]:
                 in_data = self.obj[filename].pop(key)
 
-                if filename == "component":
+                if filename == 'component':
                     self.obj[filename][key] = Component(in_data)
 
-                elif filename == "spacecraft":
+                elif filename == 'spacecraft':
                     self.obj[filename][key] = Spacecraft(in_data)
 
-                elif filename == "structure":
+                elif filename == 'structure':
                     self.obj[filename][key] = Structure(in_data)
 
-                elif filename == "unit":
+                elif filename == 'unit':
                     self.obj[filename][key] = Unit(in_data)
 
-                elif filename == "body":
+                elif filename == 'body':
                     self.obj[filename][key] = Body(in_data)
 
     # Increments the unique identifier of environment objects and returns a
@@ -286,7 +286,7 @@ class Environment():
         self.obj_id += 1
 
         obj_copy = copy.copy(self.obj[obj_type][obj_name])
-        obj_copy.__dict__["obj_id"] = self.obj_id
+        obj_copy.__dict__['obj_id'] = self.obj_id
         return obj_copy
 
     # Converts objects into a dictionary for parsing elsewhere.

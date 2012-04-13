@@ -17,7 +17,7 @@ def make_json(dictionary):
     by browers as JSON.
     """
     response = make_response(json.dumps(dictionary))
-    response.mimetype = "application/json"
+    response.mimetype = 'application/json'
     return response
 
 # *** Index page
@@ -94,10 +94,10 @@ def data_folder():
     JSON information to parse.
     """
     available = {}
-    available["environment"] = True
-    available["player"]      = True
+    available['environment'] = True
+    available['player']      = True
 
-    available["secret"] = check_cookie()
+    available['secret'] = check_cookie()
 
     return make_json(available)
 

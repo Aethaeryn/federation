@@ -12,7 +12,7 @@ class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
 
-#        self.game = database.Game("Test", 2500, turns_per_day)
+#        self.game = database.Game('Test', 2500, turns_per_day)
 
         database.debug()
 
@@ -52,9 +52,9 @@ class Game():
     # Turns the turn into a month and year.
     def get_turn_date(self):
         # Each month value is an index for months.
-        months = ["January", "February", "March", "April", "May", "June",
-                  "July", "August", "September", "October", "November",
-                  "December"]
+        months = ['January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November',
+                  'December']
 
         # Every 12 turns is another year. Within a year, are 12 months.
         month = self.game.turn % 12

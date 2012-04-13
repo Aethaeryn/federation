@@ -10,7 +10,7 @@ from os import path, listdir
 
 # Handles .yml files in the server/data directory.
 class Parse():
-    DIR = path.join(path.dirname(__file__), "data/")
+    DIR = path.join(path.dirname(__file__), 'data/')
     EXT = '.yml'
 
     # Parses all of the given data into the self.parsed dictionary.

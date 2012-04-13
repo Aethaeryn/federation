@@ -22,20 +22,20 @@ def print_dictionary(data, level):
     """Recursively prints the contents of a dictionary in a format for
     human reading in terminals.
     """
-    spacing = "  " * level
-    section = ""
+    spacing = '  ' * level
+    section = ''
 
     for key in data:
-        section += "%s%-15s: " % (spacing, key)
+        section += '%s%-15s: ' % (spacing, key)
 
         if type(data[key]) == dict:
-            section += "\n" + print_dictionary(data[key], level + 1)
+            section += '\n' + print_dictionary(data[key], level + 1)
 
         elif type(data[key]) == list:
-            section += "\n" + print_list(data[key], level + 1)
+            section += '\n' + print_list(data[key], level + 1)
 
         else:
-            section += str(data[key]) + "\n"
+            section += str(data[key]) + '\n'
 
     return section
 
@@ -43,18 +43,18 @@ def print_list(data, level):
     """Recursively prints the contents of a list in a format for human
     reading in terminals.
     """
-    spacing = "  " * level
-    section = ""
+    spacing = '  ' * level
+    section = ''
 
     for item in data:
         if type(item) == dict:
-            section += print_dictionary(item, level + 1) + "\n"
+            section += print_dictionary(item, level + 1) + '\n'
 
         elif type(item) == list:
-            section += spacing + "- " + print_list(item, level + 1) + "\n"
+            section += spacing + '- ' + print_list(item, level + 1) + '\n'
 
         else:
-            section += spacing + "- " + str(item) + "\n"
+            section += spacing + '- ' + str(item) + '\n'
 
     return section
 
@@ -71,7 +71,7 @@ def login(url):
     data     = urllib.urlencode(data)
     request  = urllib2.Request(url, data)
     response = urllib2.urlopen(request)
-    status   = json.loads(response.read())["success"]
+    status   = json.loads(response.read())['success']
 
 def data(url):
     """Handles reading the data aspect of the Federation game server.
@@ -103,7 +103,7 @@ def main():
 
     # Otherwise, it assumes you're connecting to a local test server.
     elif len(argv) == 1:
-        use_url("http://localhost:8080/")
+        use_url('http://localhost:8080/')
 
     else:
         print 'You need to specify a server URL!'

@@ -69,7 +69,7 @@ class Location:
 
 # Holds locations of significance.
 class Map():
-    name = "Map"
+    name = 'Map'
 
     # Creates a map with given x, y size limits.
     def __init__(self, x, y):
@@ -78,12 +78,12 @@ class Map():
         self.y   = y
 
     def setCoords(self, x, y, body):
-        location_key = "%3i, %3i" % (x, y)
+        location_key = '%3i, %3i' % (x, y)
 
         self.map[location_key] = body
 
     def delCoords(self, x, y, body):
-        location_key = "%3i, %3i" % (x, y)
+        location_key = '%3i, %3i' % (x, y)
 
         try:
             return self.map.pop(location_key)
@@ -94,18 +94,18 @@ class Map():
     def convert(self):
         converted = copy.copy(self.__dict__)
 
-        if hasattr(self, "body"):
-            converted["body"] = converted["body"].__dict__
+        if hasattr(self, 'body'):
+            converted['body'] = converted['body'].__dict__
 
-        converted.pop("env")
+        converted.pop('env')
 
         # If there's a convert method, use it instead of a dictionary.
-        for location in converted["map"]:
-            if hasattr(converted["map"][location], "convert"):
-                converted["map"][location] = converted["map"][location].convert()
+        for location in converted['map']:
+            if hasattr(converted['map'][location], 'convert'):
+                converted['map'][location] = converted['map'][location].convert()
 
             else:
-                converted["map"][location] = converted["map"][location].__dict__
+                converted['map'][location] = converted['map'][location].__dict__
 
         return converted
 
@@ -115,7 +115,7 @@ class System(Map):
         self.env  = env
 
         # Random size/name of star system.
-        self.name = "Star"
+        self.name = 'Star'
         # self.size = (random.randint(60, 70), random.randint(60, 70))
         self.size = (40, 40)
 
@@ -128,9 +128,9 @@ class System(Map):
     def type_zero_system(self):
         center = ((self.size[0] - 1) / 2, (self.size[1] - 1) / 2)
 
-        star     = self.env.get("body", "Star")
-        planet   = self.env.get("body", "Planet")
-        asteroid = self.env.get("body", "Asteroid Field")
+        star     = self.env.get('body', 'Star')
+        planet   = self.env.get('body', 'Planet')
+        asteroid = self.env.get('body', 'Asteroid Field')
 
         self.setCoords(center[0], center[1], star)
 
@@ -147,7 +147,7 @@ class System(Map):
         # self.accessCoords(center[0], center[1] + belt_distance + 1).addBody(asteroid)
 
     def longInfo(self):
-        return "%s System %3i x %3i" % (self.name, self.size[0], self.size[1])
+        return '%s System %3i x %3i' % (self.name, self.size[0], self.size[1])
 
 # Holds star systems.
 class Sector(Map):
@@ -161,7 +161,7 @@ class Sector(Map):
 
         self.setCoords(0, 0, System(self.env))
 
-        self.name = "Sector"
+        self.name = 'Sector'
 
     # Places stars randomly in the map.
     def generate_sector(self):

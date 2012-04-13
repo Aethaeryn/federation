@@ -24,19 +24,19 @@ drawFromSheet = (canvas, image, canvas_x, canvas_y, grid_x, grid_y) ->
 
 # Preloads images for the game board into the browser cache.
 preloader = ->
-  loadImage("static/sphere.png")
-  loadImage("static/icons.png")
+  loadImage('static/sphere.png')
+  loadImage('static/icons.png')
 
-stats = {player : "Anonymous"}
+stats = {player : 'Anonymous'}
 
 # Loads json.
 getJSON = (location) ->
-  file = "data/" + location;
+  file = 'data/' + location;
   foo  = $.getJSON(file, (data, status) ->
     stats = data
     board.board())
 
 #### fixme: generalize this to more players
-getJSON("player/michael")
+getJSON('player/michael')
 
 preloader()

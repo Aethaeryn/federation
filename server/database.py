@@ -140,14 +140,14 @@ class Player(Base):
         territory = [None, None]
 
         stats               = {}
-        stats["name"]       = self.game_name
-        stats["federation"] = self.federation.name
-        stats["cash"]       = self.cash
-        stats["income"]     = self.income
-        stats["research"]   = self.research
-        stats["ships"]      = len(self.spacecraft)
-        stats["fleets"]     = len(self.fleets)
-        stats["territory"]  = len(territory)
+        stats['name']       = self.game_name
+        stats['federation'] = self.federation.name
+        stats['cash']       = self.cash
+        stats['income']     = self.income
+        stats['research']   = self.research
+        stats['ships']      = len(self.spacecraft)
+        stats['fleets']     = len(self.fleets)
+        stats['territory']  = len(territory)
 
         return stats
 
@@ -163,11 +163,11 @@ class Fleet(Base):
     fed_id     = Column(Integer, ForeignKey('federation.id'))
     cmd_id     = Column(Integer, ForeignKey('player.id'))
     dep_id     = Column(Integer, ForeignKey('player.id'))
-    federation = relationship("Federation", backref=backref('fleets', order_by=id))
-    commander  = relationship("Player", backref=backref('fleets', order_by=id),
-                              primaryjoin="Player.id==Fleet.cmd_id")
-    deputy     = relationship("Player", backref=backref('fleets_d', order_by=id),
-                              primaryjoin="Player.id==Fleet.dep_id")
+    federation = relationship('Federation', backref=backref('fleets', order_by=id))
+    commander  = relationship('Player', backref=backref('fleets', order_by=id),
+                              primaryjoin='Player.id==Fleet.cmd_id')
+    deputy     = relationship('Player', backref=backref('fleets_d', order_by=id),
+                              primaryjoin='Player.id==Fleet.dep_id')
 
     def __init__(self, name, commander):
         self.name = name
@@ -181,33 +181,33 @@ session = db.session
 
 def debug():
     # Player
-    player = Player("michael", "Mike", "michael@example.com")
+    player = Player('michael', 'Mike', 'michael@example.com')
     player.cash = 20
     player.income = 2
     player.research = 4
 
-    federation = Federation("Empire", 1)
+    federation = Federation('Empire', 1)
     player.federation = federation
 
     session.add(player)
 
     # Spacecraft
-    spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
+    spaceships = ['Battle Frigate', 'Battle Frigate', 'Basic Fighter', 'Cruiser']
 
     for spaceship in spaceships:
-        db_spaceship = Spacecraft(spaceship, "Foobar", player)
+        db_spaceship = Spacecraft(spaceship, 'Foobar', player)
         session.add(db_spaceship)
 
-    spaceship_foo = Spacecraft("Carrier", "Barfoo", player)
+    spaceship_foo = Spacecraft('Carrier', 'Barfoo', player)
 
     # Fleet
-    session.add(Fleet("Zombie Raptor", player))
+    session.add(Fleet('Zombie Raptor', player))
         
     # Federation
     session.add(federation)
 
     # Component
-    session.add(Component("Small Hull", spaceship_foo))
+    session.add(Component('Small Hull', spaceship_foo))
 
     # This must come last!
     session.commit()
