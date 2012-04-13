@@ -4,13 +4,13 @@ TODO LIST
 
 Python
 ------
-* db <---> game <---> json
+* db <---> json
 
-  * Finish: Spacecraft, Component
+  * Finish: Spacecraft, Component, Federation, Fleet
 
   * Then: Game
 
-  * Add: Structure, Unit, Body, Map (System, Sector)
+  * Finally: Structure, Unit, Body, Map (System, Sector)
 
 * Game elements.
 

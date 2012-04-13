@@ -12,6 +12,7 @@ dynamic rendering of the content.
 from server import app, data
 from flask import json, render_template, request, make_response
 
+# *** Helper functions.
 def make_json(dictionary):
     """Helper function that makes sure that the data served is recognized
     by browers as JSON.
@@ -19,6 +20,7 @@ def make_json(dictionary):
     response = make_response(json.dumps(dictionary))
     response.mimetype = 'application/json'
     return response
+
 
 # *** Index page
 @app.route('/')
@@ -76,8 +78,10 @@ def check_login(login_data, user, password):
 
 def check_cookie():
     """Checks the cookie for the appropriate user.
+
+    If there's no cookie, then the user is None.
     """
-    # If no cookie, the user is None
+
     cookie = request.cookies.get('username')
 
     if cookie == 'michael':
@@ -132,10 +136,6 @@ def secret():
     else:
         return make_json({'restricted' : True})
 
-# @app.route('/data/location')
-# def loc():
-#     return json.dumps(app.game.system.convert())
-
 
 # *** Play the game
 @app.route('/game.html')
@@ -155,4 +155,3 @@ def game():
         html += '<canvas id="%s"></canvas> ' % canvas
 
     return render_template('basic.html', body = html, javascript = scripts, head = header)
-
