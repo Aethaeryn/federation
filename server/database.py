@@ -7,9 +7,9 @@
 
 from server import app
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime
+from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship, backref
 
 # LOCATION = 'sqlite:////tmp/foo.sqlite'
 LOCATION = 'sqlite:///:memory:'
@@ -46,7 +46,7 @@ class Component(Base):
 
     id         = Column(Integer, primary_key=True)
     name       = Column(String(80))
-    spacecraft = Column(Integer)
+    spacecraft = Column(Integer) #### fixme
     enabled    = Column(Boolean)
     damage     = Column(Integer)
 
@@ -66,9 +66,10 @@ class Spacecraft(Base):
     name        = Column(String(80))
     custom_name = Column(String(80))
     components  = Column(String(800))
-    owner       = Column(Integer)
-    fleet       = Column(Integer)
-    system      = Column(Integer)
+    owner_id    = Column(Integer, ForeignKey('player.id'))
+    owner       = relationship("Player", backref=backref('spacecraft', order_by=id))
+    fleet       = Column(Integer) #### fixme
+    system      = Column(Integer) #### fixme
     x_position  = Column(Integer)
     y_position  = Column(Integer)
 
@@ -112,7 +113,7 @@ class Player(Base):
     cash       = Column(Integer)
     income     = Column(Integer)
     research   = Column(Integer)
-    federation = Column(Integer)
+    federation = Column(Integer) #### fixme
     fed_leader = Column(Boolean)
     fed_rank   = Column(Integer)
     fed_role   = Column(String(80))
@@ -127,6 +128,26 @@ class Player(Base):
         self.income     = 0
         self.research   = 0
 
+    def try_spacecraft(self):
+        print self.spacecraft
+
+    # Returns information that the GUI expects.
+    def get_player_info(self):
+        #### Temporary, remove me when it works!
+        self.territory = [None, None]
+
+        stats               = {}
+        stats["name"]       = self.game_name
+        stats["federation"] = self.federation
+        stats["cash"]       = self.cash
+        stats["income"]     = self.income
+        stats["research"]   = self.research
+        stats["ships"]      = len(self.spacecraft)
+        stats["fleets"]     = len(self.fleets)
+        stats["territory"]  = len(self.territory)
+
+        return stats
+
     def __repr__(self):
         return '<Player %s (%s)>' % (self.game_name, self.username)
 
@@ -135,9 +156,10 @@ class Fleet(Base):
 
     id         = Column(Integer, primary_key=True)
     name       = Column(String(80))
-    federation = Column(Integer)
-    commander  = Column(Integer)
-    deputy     = Column(Integer)
+    cmd_id     = Column(Integer, ForeignKey('player.id'))
+    federation = Column(Integer) #### fixme
+    commander  = relationship("Player", backref=backref('fleets', order_by=id))
+    deputy     = Column(Integer) #### fixme
 
     def __init__(self, name, commander):
         self.name = name

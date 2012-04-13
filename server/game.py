@@ -8,68 +8,6 @@
 from server import environment, location, data, database
 from copy import copy
 
-# Reads in a database table to a form recognized by Python and JSON.
-# This prevents the same data from being stored in multiple locations in the db.
-class ImportedObject():
-    def __init__(self, id):
-        self.id = id
-
-    def is_id(self, db, use_id):
-        q = database.session.query(db)
-
-        return self.db_copy(q.filter(db.id == use_id).first())
-
-    def has_id(self, db, id_key):
-        q = database.session.query(db)
-
-        matches = q.filter(db.__dict__[id_key] == self.id).all()
-
-        for i in range(len(matches)):
-            matches[i] = self.db_copy(matches[i])
-
-        return matches
-
-    def db_copy(self, db_item):
-        dict_copy = copy(db_item.__dict__)
-        dict_copy.pop('_sa_instance_state')
-
-        return dict_copy
-
-# Contains the relevant player from the player table, and lists of things from
-# other tables that have this player mentioned.
-class Player(ImportedObject):
-    def __init__(self, id):
-        ImportedObject.__init__(self, id)
-        self.load_from_db()
-
-    # Reads in the data from the database matching the ID.
-    def load_from_db(self):
-        self.__dict__.update(self.is_id(database.Player, self.id))
-
-        self.federation = self.is_id(database.Federation, self.federation)['name']
-
-        self.ships      = self.has_id(database.Spacecraft, "owner")
-        self.fleets     = self.has_id(database.Fleet, "commander")
-
-        #### TODO: Also read in territory.
-
-    # Returns information that the GUI expects.
-    def get_player_info(self):
-        #### Temporary, remove me when it works!
-        self.territory = [None, None]
-
-        stats               = {}
-        stats["name"]       = self.game_name
-        stats["federation"] = self.federation
-        stats["cash"]       = self.cash
-        stats["income"]     = self.income
-        stats["research"]   = self.research
-        stats["ships"]      = len(self.ships)
-        stats["fleets"]     = len(self.fleets)
-        stats["territory"]  = len(self.territory)
-
-        return stats
-
 class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
@@ -93,11 +31,11 @@ class Game():
         spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
 
         for spaceship in spaceships:
-            db_spaceship = database.Spacecraft(spaceship, "Foobar", " --- ", 1)
+            db_spaceship = database.Spacecraft(spaceship, "Foobar", " --- ", self.player)
             database.session.add(db_spaceship)
 
         # Fleet
-        database.session.add(database.Fleet("Zombie Raptor", 1))
+        database.session.add(database.Fleet("Zombie Raptor", self.player))
 
         # Federation
         database.session.add(database.Federation("Empire", 1))
@@ -122,8 +60,9 @@ class Game():
     def get_player(self, username):
         players = self.get_all_players()
 
+        # fixme
         if username in players:
-            return Player(players[username]).get_player_info()
+            return self.player.get_player_info()
 
         else:
             return {'Error' : '%s not found!' % (username) }
