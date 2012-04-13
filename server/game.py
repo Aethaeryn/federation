@@ -12,39 +12,9 @@ class Game():
     def __init__(self, turns_per_day):
         self.env = environment.Environment()
 
-        self.game = database.Game("Test", 2500, turns_per_day)
+#        self.game = database.Game("Test", 2500, turns_per_day)
 
-        self.debug()
-
-    def debug(self):
-        # Player
-        self.player = database.Player("michael", "Mike", "michael@example.com")
-        self.player.cash = 20
-        self.player.income = 2
-        self.player.research = 4
-        self.player.federation = 1
-
-        database.session.add(self.player)
-        database.session.add(self.game)
-
-        # Spacecraft
-        spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
-
-        for spaceship in spaceships:
-            db_spaceship = database.Spacecraft(spaceship, "Foobar", " --- ", self.player)
-            database.session.add(db_spaceship)
-
-        # Fleet
-        database.session.add(database.Fleet("Zombie Raptor", self.player))
-
-        # Federation
-        database.session.add(database.Federation("Empire", 1))
-
-        # Component
-        database.session.add(database.Component("Small Hull", 3))
-
-        # This must come last!
-        database.session.commit()
+        database.debug()
 
     # Retrieves the player names and IDs in a processable format.
     def get_all_players(self):
@@ -60,9 +30,11 @@ class Game():
     def get_player(self, username):
         players = self.get_all_players()
 
-        # fixme
         if username in players:
-            return self.player.get_player_info()
+            q = database.session.query(database.Player)
+            player = q.filter(database.Player.username == username).first()
+
+            return player.get_player_info()
 
         else:
             return {'Error' : '%s not found!' % (username) }

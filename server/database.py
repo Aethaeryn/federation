@@ -82,13 +82,12 @@ class Spacecraft(Base):
     def __repr__(self):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
 
-#### Also store custom names for Federation ranks.
 class Federation(Base):
     __tablename__ = 'federation'
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80), unique=True)
-    founder     = Column(Integer)
+    founder     = Column(Integer) #### fixme
     date        = Column(DateTime)
     cash        = Column(Integer)
     tax_rate    = Column(Integer)
@@ -170,3 +169,32 @@ class Fleet(Base):
 
 db      = Database(LOCATION)
 session = db.session
+
+def debug():
+    # Player
+    player = Player("michael", "Mike", "michael@example.com")
+    player.cash = 20
+    player.income = 2
+    player.research = 4
+    player.federation = 1
+
+    session.add(player)
+
+    # Spacecraft
+    spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
+
+    for spaceship in spaceships:
+        db_spaceship = Spacecraft(spaceship, "Foobar", " --- ", player)
+        session.add(db_spaceship)
+
+    # Fleet
+    session.add(Fleet("Zombie Raptor", player))
+        
+    # Federation
+    session.add(Federation("Empire", 1))
+
+    # Component
+    session.add(Component("Small Hull", 3))
+
+    # This must come last!
+    session.commit()
