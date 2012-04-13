@@ -6,11 +6,9 @@ Python
 ------
 * db <---> json
 
-  * Finish: Spacecraft, Component, Federation, Fleet
-
-  * Then: Game
-
-  * Finally: Structure, Unit, Body, Map (System, Sector)
+  * Make every database element seemlessly transition to JSON that can be
+    accessed, including a link to its environment information that's read
+    into JSON already.
 
 * Game elements.
 
@@ -43,17 +41,17 @@ CoffeeScript
 ------------
 * Rewrite board.js in CoffeeScript.
 
-* Map grid navigation.
+  * Rework the GUI to use just one <canvas> if possible
+
+  * Fix map edge detection system.
+
+* actions.coffee
 
   * Fix the keyboard scrolling so that diagonals, etc., work.
 
   * Allow mouse click+drag movement on both board and mini-map.
 
-* Rework the GUI to use just one <canvas> if possible
-
 * Add environment object sprites to the board.
-
-* Fix map edge detection system.
 
 * Add back in the mouseover information.
 

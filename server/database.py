@@ -47,7 +47,7 @@ class Component(Base):
     id         = Column(Integer, primary_key=True)
     name       = Column(String(80))
     enabled    = Column(Boolean)
-    damage     = Column(Integer)
+    hurt       = Column(Integer)
 
     ship_id    = Column(Integer, ForeignKey('spacecraft.id'))
     spacecraft = relationship('Spacecraft', backref=backref('components', order_by=id))
@@ -56,7 +56,7 @@ class Component(Base):
         self.name       = name
         self.spacecraft = spacecraft
         self.enabled    = True
-        self.damage     = 0
+        self.hurt       = 0
 
     def __repr__(self):
         return '<Component %s>' % (self.name)
@@ -70,9 +70,10 @@ class Spacecraft(Base):
 
     owner_id    = Column(Integer, ForeignKey('player.id'))
     fleet_id    = Column(Integer, ForeignKey('fleet.id'))
+    map_id      = Column(Integer, ForeignKey('map.id'))
     owner       = relationship('Player', backref=backref('spacecraft', order_by=id))
     fleet       = relationship('Fleet', backref=backref('spacecraft', order_by=id))
-    system      = Column(Integer) #### fixme
+    location    = relationship('Map', backref=backref('spacecraft', order_by=id))
 
     x_position  = Column(Integer)
     y_position  = Column(Integer)
@@ -90,7 +91,6 @@ class Federation(Base):
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80), unique=True)
-    founder     = Column(Integer) #### fixme
     date        = Column(DateTime)
     cash        = Column(Integer)
     tax_rate    = Column(Integer)
@@ -118,6 +118,7 @@ class Player(Base):
 
     federation = relationship('Federation', backref=backref('players', order_by = id))
     fed_id     = Column(Integer, ForeignKey('federation.id'))
+    fed_found  = Column(Boolean)
     fed_leader = Column(Boolean)
     fed_rank   = Column(Integer)
     fed_role   = Column(String(80))
@@ -131,13 +132,9 @@ class Player(Base):
         self.income     = 0
         self.research   = 0
 
-    def try_spacecraft(self):
-        print self.spacecraft
-
-    # Returns information that the GUI expects.
     def get_player_info(self):
-        #### Temporary, remove me when it works!
-        territory = [None, None]
+        """ Returns the information that the UI expects.
+        """
 
         stats               = {}
         stats['name']       = self.game_name
@@ -147,7 +144,7 @@ class Player(Base):
         stats['research']   = self.research
         stats['ships']      = len(self.spacecraft)
         stats['fleets']     = len(self.fleets)
-        stats['territory']  = len(territory)
+        stats['territory']  = len(self.territory)
 
         return stats
 
@@ -175,6 +172,83 @@ class Fleet(Base):
 
     def __repr__(self):
         return '<Fleet %s %s (%s)>' % (self.id, self.name, self.commander)
+
+class Unit(Base):
+    __tablename__ = 'unit'
+
+    id   = Column(Integer, primary_key=True)
+    name = Column(String(80))
+    hurt = Column(Integer)
+
+    def __init__(self, name):
+        self.name = name
+        self.hurt = 0
+
+    def __repr__(self):
+        return '<Unit %s %s>' %(self.name, self.id) 
+
+class Body(Base):
+    __tablename__ = 'body'
+
+    id          = Column(Integer, primary_key=True)
+    name        = Column(String(80))
+    custom_name = Column(String(80))
+    variant     = Column(String(80))
+
+    owner_id    = Column(Integer, ForeignKey('player.id'))
+    map_id      = Column(Integer, ForeignKey('map.id'))
+    owner       = relationship('Player', backref=backref('territory', order_by=id))
+    location    = relationship('Map', backref=backref('bodies', order_by=id))
+
+    x_position  = Column(Integer)
+    y_position  = Column(Integer)
+
+    def __init__(self, name, custom_name, variant):
+        self.name        = name
+        self.custom_name = custom_name
+        self.variant     = variant
+
+    def __repr__(self):
+        return '<Body %s (%s %s)>' %(self.custom_name, self.name, self.id)
+
+class Structure(Base):
+    __tablename__ = 'structure'
+
+    id      = Column(Integer, primary_key=True)
+    name    = Column(String(80))
+    hurt    = Column(Integer)
+    body_id = Column(Integer, ForeignKey('body.id'))
+    body    = relationship('Body', backref=backref('structures', order_by=id))
+
+    def __init__(self, name, body):
+        self.name = name
+        self.body = body
+        self.hurt = 0
+
+    def __repr__(self):
+        return '<Structure %s %s (%s %s)>' % (self.name, self.id, self.body.custom_name, self.body.id)
+
+class Map(Base):
+    __tablename__ = 'map'
+
+    id         = Column(Integer, primary_key=True)
+    map_type   = Column(String(80))
+    name       = Column(String(80))
+    x_size     = Column(Integer)
+    y_size     = Column(Integer)
+    x_position = Column(Integer)
+    y_position = Column(Integer)
+
+    def __init__(self, name, x_size, y_size, x_pos, y_pos, map_type):
+        self.name       = name
+        self.x_size     = x_size
+        self.y_size     = y_size
+        self.x_position = x_position
+        self.y_position = y_position
+        self.map_type   = map_type
+
+    def __repr__(self):
+        return '<%s %s (%s x %s)>' % (self.map_type, self.name, self.x_size, self.y_size)
 
 db      = Database(LOCATION)
 session = db.session

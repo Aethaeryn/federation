@@ -212,12 +212,6 @@ class Body(EnvironmentObject):
 
         super(Body, self).__init__(dictionary)
 
-        # These are stats set elsewhere, not by the config dictionary.
-        customized_stats = ['custom_name', 'variant', 'owner', 'structures']
-
-        for stat in customized_stats:
-            self.__dict__[stat] = False
-
 # The interface for environment.py. Instantiate to use this file elsewhere.
 class Environment():
     obj_id = 0
