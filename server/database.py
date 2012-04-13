@@ -46,9 +46,11 @@ class Component(Base):
 
     id         = Column(Integer, primary_key=True)
     name       = Column(String(80))
-    spacecraft = Column(Integer) #### fixme
     enabled    = Column(Boolean)
     damage     = Column(Integer)
+
+    ship_id    = Column(Integer, ForeignKey('spacecraft.id'))
+    spacecraft = relationship('Spacecraft', backref=backref('components', order_by=id))
 
     def __init__(self, name, spacecraft):
         self.name       = name
@@ -65,18 +67,19 @@ class Spacecraft(Base):
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80))
     custom_name = Column(String(80))
-    components  = Column(String(800))
+
     owner_id    = Column(Integer, ForeignKey('player.id'))
-    owner       = relationship("Player", backref=backref('spacecraft', order_by=id))
-    fleet       = Column(Integer) #### fixme
+    fleet_id    = Column(Integer, ForeignKey('fleet.id'))
+    owner       = relationship('Player', backref=backref('spacecraft', order_by=id))
+    fleet       = relationship('Fleet', backref=backref('spacecraft', order_by=id))
     system      = Column(Integer) #### fixme
+
     x_position  = Column(Integer)
     y_position  = Column(Integer)
 
-    def __init__(self, name, custom_name, components, owner):
+    def __init__(self, name, custom_name, owner):
         self.name        = name
         self.custom_name = custom_name
-        self.components  = components
         self.owner       = owner
 
     def __repr__(self):
@@ -112,7 +115,9 @@ class Player(Base):
     cash       = Column(Integer)
     income     = Column(Integer)
     research   = Column(Integer)
-    federation = Column(Integer) #### fixme
+
+    federation = relationship('Federation', backref=backref('players', order_by = id))
+    fed_id     = Column(Integer, ForeignKey('federation.id'))
     fed_leader = Column(Boolean)
     fed_rank   = Column(Integer)
     fed_role   = Column(String(80))
@@ -122,7 +127,6 @@ class Player(Base):
         self.game_name  = game_name
         self.email      = email
         self.date       = datetime.utcnow()
-        self.federation = "None"
         self.cash       = 0
         self.income     = 0
         self.research   = 0
@@ -133,17 +137,17 @@ class Player(Base):
     # Returns information that the GUI expects.
     def get_player_info(self):
         #### Temporary, remove me when it works!
-        self.territory = [None, None]
+        territory = [None, None]
 
         stats               = {}
         stats["name"]       = self.game_name
-        stats["federation"] = self.federation
+        stats["federation"] = self.federation.name
         stats["cash"]       = self.cash
         stats["income"]     = self.income
         stats["research"]   = self.research
         stats["ships"]      = len(self.spacecraft)
         stats["fleets"]     = len(self.fleets)
-        stats["territory"]  = len(self.territory)
+        stats["territory"]  = len(territory)
 
         return stats
 
@@ -155,10 +159,15 @@ class Fleet(Base):
 
     id         = Column(Integer, primary_key=True)
     name       = Column(String(80))
+
+    fed_id     = Column(Integer, ForeignKey('federation.id'))
     cmd_id     = Column(Integer, ForeignKey('player.id'))
-    federation = Column(Integer) #### fixme
-    commander  = relationship("Player", backref=backref('fleets', order_by=id))
-    deputy     = Column(Integer) #### fixme
+    dep_id     = Column(Integer, ForeignKey('player.id'))
+    federation = relationship("Federation", backref=backref('fleets', order_by=id))
+    commander  = relationship("Player", backref=backref('fleets', order_by=id),
+                              primaryjoin="Player.id==Fleet.cmd_id")
+    deputy     = relationship("Player", backref=backref('fleets_d', order_by=id),
+                              primaryjoin="Player.id==Fleet.dep_id")
 
     def __init__(self, name, commander):
         self.name = name
@@ -176,7 +185,9 @@ def debug():
     player.cash = 20
     player.income = 2
     player.research = 4
-    player.federation = 1
+
+    federation = Federation("Empire", 1)
+    player.federation = federation
 
     session.add(player)
 
@@ -184,17 +195,19 @@ def debug():
     spaceships = ["Battle Frigate", "Battle Frigate", "Basic Fighter", "Cruiser"]
 
     for spaceship in spaceships:
-        db_spaceship = Spacecraft(spaceship, "Foobar", " --- ", player)
+        db_spaceship = Spacecraft(spaceship, "Foobar", player)
         session.add(db_spaceship)
+
+    spaceship_foo = Spacecraft("Carrier", "Barfoo", player)
 
     # Fleet
     session.add(Fleet("Zombie Raptor", player))
         
     # Federation
-    session.add(Federation("Empire", 1))
+    session.add(federation)
 
     # Component
-    session.add(Component("Small Hull", 3))
+    session.add(Component("Small Hull", spaceship_foo))
 
     # This must come last!
     session.commit()
