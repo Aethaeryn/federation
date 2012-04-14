@@ -9,10 +9,8 @@ from federation import environment, location, data, database
 from copy import copy
 
 class Game():
-    def __init__(self, turns_per_day):
+    def __init__(self):
         self.env = environment.Environment()
-
-#        self.game = database.Game('Test', 2500, turns_per_day)
 
         database.debug()
 
@@ -38,28 +36,3 @@ class Game():
 
         else:
             return {'Error' : '%s not found!' % (username) }
-
-    # These events are called on every new turn.
-    def next_turn(self, time):
-        pass
-
-        #### Increment the turn by one.
-        #### Mark the time of the turn.
-        #### Refresh unit move points and do queued actions.
-        #### Update the economic income for player and federation (including tax).
-        #### Do other on-turn-start changes.
-
-    # Turns the turn into a month and year.
-    def get_turn_date(self):
-        # Each month value is an index for months.
-        months = ['January', 'February', 'March', 'April', 'May', 'June',
-                  'July', 'August', 'September', 'October', 'November',
-                  'December']
-
-        # Every 12 turns is another year. Within a year, are 12 months.
-        month = self.game.turn % 12
-        year  = self.game.turn / 12
-
-        year += self.game.start_year
-
-        return months[month], year

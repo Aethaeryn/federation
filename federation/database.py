@@ -38,6 +38,22 @@ class Game(Base):
         self.turns_per_day = turns_per_day
         self.turn          = 0
 
+    def get_date(self):
+        """ Converts the turn number into a calendar date. Each month is
+        represented by an index on the list 'months'. An Earth calendar is
+        used such that every 12 turns is a year, and each year has 12 months.
+        """
+
+        months = ['January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November',
+                  'December']
+
+        month = self.turn % 12
+        year  = self.turn / 12
+        year += self.start_year
+
+        return months[month], year
+
     def __repr__(self):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
@@ -185,7 +201,7 @@ class Unit(Base):
         self.hurt = 0
 
     def __repr__(self):
-        return '<Unit %s %s>' %(self.name, self.id) 
+        return '<Unit %s %s>' %(self.name, self.id)
 
 class Body(Base):
     __tablename__ = 'body'
@@ -254,6 +270,8 @@ db      = Database(LOCATION)
 session = db.session
 
 def debug():
+    # game = database.Game('Test', 2500, 1)
+
     # Player
     player = Player('michael', 'Mike', 'michael@example.com')
     player.cash = 20
@@ -276,7 +294,7 @@ def debug():
 
     # Fleet
     session.add(Fleet('Zombie Raptor', player))
-        
+
     # Federation
     session.add(federation)
 

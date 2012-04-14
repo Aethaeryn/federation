@@ -11,4 +11,4 @@ app = Flask(__name__)
 
 from federation import game, public
 
-app.game = game.Game(1)
+app.game = game.Game()
