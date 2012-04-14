@@ -258,8 +258,8 @@ class Map(Base):
         self.name       = name
         self.x_size     = x_size
         self.y_size     = y_size
-        self.x_position = x_position
-        self.y_position = y_position
+        self.x_position = x_pos
+        self.y_position = y_pos
         self.map_type   = map_type
 
     def __repr__(self):

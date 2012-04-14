@@ -27,7 +27,9 @@ def make_json(dictionary):
 def index():
     """Serves as the main page that greets people when they visit the website.
     """
-    desc = 'Federation is a massively multiplayer turn based strategy game with a space setting. To play the game in your browser, visit <a href="game.html">the game page</a>.'
+    desc = 'Federation is a massively multiplayer turn based strategy game with '\
+        'a space setting. To play the game in your browser, visit '\
+        '<a href="game.html">the game page</a>.'
 
     header = data.parse_header()
 
