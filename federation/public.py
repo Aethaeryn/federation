@@ -9,7 +9,7 @@
 dynamic rendering of the content.
 """
 
-from server import app, data
+from federation import app, data
 from flask import json, render_template, request, make_response
 
 # *** Helper functions.
@@ -107,7 +107,7 @@ def data_folder():
 
 @app.route('/data/environment')
 def environment():
-    """Displays the public data from server/data/environment in a way that
+    """Displays the public data from federation/data/environment in a way that
     the clients can parse using JSON.
     """
     return make_json(app.game.env.convert())

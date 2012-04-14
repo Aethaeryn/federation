@@ -9,6 +9,6 @@ from flask import Flask
 
 app = Flask(__name__)
 
-from server import game, public
+from federation import game, public
 
 app.game = game.Game(1)

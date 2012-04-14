@@ -15,12 +15,12 @@
 
 cd $( dirname "${BASH_SOURCE[0]}" )"/.."
 
-if [ ! -d "server/static/script" ]; then
-    mkdir "server/static/script"
+if [ ! -d "federation/static/script" ]; then
+    mkdir "federation/static/script"
 fi
 
-if [ ! -f "server/static/script/jquery.js" ]; then
-    curl -o server/static/script/jquery.js http://code.jquery.com/jquery-1.7.2.min.js
+if [ ! -f "federation/static/script/jquery.js" ]; then
+    curl -o federation/static/script/jquery.js http://code.jquery.com/jquery-1.7.2.min.js
 fi
 
-coffee --compile --output server/static/script/ src/
+coffee --compile --output federation/static/script/ src/

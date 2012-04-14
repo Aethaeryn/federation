@@ -9,14 +9,17 @@ Introduction
 ------------
 
 The code necessary to run a Federation server is located in the
-directory called 'server'. The Federation server provides the game
+directory called 'federation'. The Federation server provides the game
 engine, a JSON API to interact with it, and a basic in-browser user
 interface to the game. You do not need to download this code to play
 Federation because your browser will automatically use the JavaScript
 client when you visit the official website.
 
-The 'tools' folder provides various tools used in the development or
-maintenance of Federation.
+The 'tools' directory provides various tools used in the development
+or maintenance of Federation.
+
+The 'src' directory provides CoffeeScript files which are compiled
+into JavaScript to be served by the server.
 
 More information is available at the website: http://playfederation.com/
 

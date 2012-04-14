@@ -5,7 +5,7 @@
 #    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 
-from server import app
+from federation import app
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base

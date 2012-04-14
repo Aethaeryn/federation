@@ -12,6 +12,6 @@
 #
 # This file is essentially the opposite of coffee.sh
 
-cd $( dirname "${BASH_SOURCE[0]}" )"/../server/"; rm *.pyc
+cd $( dirname "${BASH_SOURCE[0]}" )"/../federation/"; rm *.pyc
 cd "static/script/"; rm *.js
 cd ..; rmdir script

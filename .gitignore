@@ -6,4 +6,4 @@
 .*
 
 # Ignores local customized code.
-server/templates/header.html
+federation/templates/header.html

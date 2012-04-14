@@ -5,7 +5,7 @@
 #    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 
-from server import environment, location, data, database
+from federation import environment, location, data, database
 from copy import copy
 
 class Game():

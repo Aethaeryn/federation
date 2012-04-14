@@ -6,7 +6,7 @@
 
 
 import copy
-from server import data
+from federation import data
 
 # An environment object is something that exists as a physical object in the
 # game world and on the game board.
