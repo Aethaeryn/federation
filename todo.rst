@@ -2,6 +2,11 @@
 TODO LIST
 =========
 
+These are all of the items needed before Federation moves onto the
+next phase of development. This is *not* an exhaustive list of all
+features before Federation enters alpha, but rather a list of what to
+focus on *now*.
+
 Python
 ------
 * db <---> json
@@ -14,27 +19,16 @@ Python
 
   * Map generation.
 
-  * Territories and bodies.
-
-    * Ownership and stats.
-
-    * clean up location.py
-
-    * Hex grid calculation algorithms.
+  * Hex grid (distance/radius) calculation algorithms.
 
 * Game code.
 
-  * Turns.
+  * Make a new Python file that when invoked by a cron script increments
+    the turns on a regular (e.g. every midnight) basis.
 
-    * Implement turns.
-
-    * Implement things that change on turn switch.
-
-  * Movement.
+  * Movement and location.
 
   * Combat.
-
-* Eventually: Authentication.
 
 
 CoffeeScript
