@@ -5,7 +5,6 @@
 #    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 
-from federation import app
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -201,7 +200,7 @@ class Unit(Base):
         self.hurt = 0
 
     def __repr__(self):
-        return '<Unit %s %s>' %(self.name, self.id)
+        return '<Unit %s %s>' % (self.name, self.id)
 
 class Body(Base):
     __tablename__ = 'body'
@@ -225,7 +224,7 @@ class Body(Base):
         self.variant     = variant
 
     def __repr__(self):
-        return '<Body %s (%s %s)>' %(self.custom_name, self.name, self.id)
+        return '<Body %s (%s %s)>' % (self.custom_name, self.name, self.id)
 
 class Structure(Base):
     __tablename__ = 'structure'

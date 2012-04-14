@@ -5,8 +5,7 @@
 #    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 
-from federation import environment, location, data, database
-from copy import copy
+from federation import environment, database
 
 class Game():
     def __init__(self):

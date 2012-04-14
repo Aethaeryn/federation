@@ -5,8 +5,6 @@
 #    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 
-import random, copy
-
 # Provides certain algorithms for hex board calculations.
 # Takes in location tuples such as (0, 0)
 class Location:

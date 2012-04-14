@@ -53,6 +53,7 @@ def login():
 
     return response
 
+#### Fixme: This doesn't currently do anything.
 @app.route('/move', methods=['POST', 'GET'])
 def move():
     """Sends a game move to the game server.
