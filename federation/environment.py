@@ -8,12 +8,15 @@
 import copy
 from federation import data
 
-# An environment object is something that exists as a physical object in the
-# game world and on the game board.
 class EnvironmentObject(object):
-    # Makes sure the dictionary can be appropriately instantiated as an object,
-    # and then does so.
+    """An environment object is something that exists as a physical
+    object in the game world and on the game board, as read in from
+    the YAML data files.
+    """
     def __init__(self, dictionary):
+        """Makes sure that the dictionary can be appropriately
+        instantiated as an object, and then does so.
+        """
         # Popping the required and optional so they're not checked against below.
         required = self.__dict__.pop('required')
         optional = self.__dict__.pop('optional')
@@ -41,24 +44,25 @@ class EnvironmentObject(object):
         # is added as an instance variable.
         self.__dict__.update(dictionary)
 
-    # Printing an environmental object gives its name.
     def __str__(self):
         return self.name
 
 class Component(EnvironmentObject):
     def __init__(self, dictionary):
+        """Reads in the ship data to create a component object.
+        """
         self.required = set(['name', 'description', 'size', 'cost'])
         self.optional = set(['hitpoints', 'shields', 'sensors', 'speed',
                              'cargo', 'dock', 'crew', 'hyperspace', 'special',
                              'wep_damage', 'wep_speed', 'wep_type',
                              'wep_special', 'unsellable'])
 
-        # Reads in the ship data to create a component object.
         super(Component, self).__init__(dictionary)
         self.size_traits()
 
-    # Sets the size and HP based on component size.
     def size_traits(self):
+        """Sets the size and HP based on the component size.
+        """
         if self.size == 'Small Component':
             self.hitpoints += 5
             self.exp_size   = 1
@@ -73,6 +77,8 @@ class Component(EnvironmentObject):
 
 class Spacecraft(EnvironmentObject):
     def __init__(self, dictionary):
+        """Turns a dictionary into a Spacecraft object.
+        """
         # These stats are read in from outside.
         self.required = set(['name', 'description', 'size', 'base_cost',
                              'component_list', 'component_max'])
@@ -93,13 +99,25 @@ class Spacecraft(EnvironmentObject):
         # Any component should add to its value.
         self.value = self.base_cost
 
-    # Uses the components in component_list to modify the spacecraft stats.
     def initialize_components(self, components):
+        """Uses the components in component_list to modify the
+        spacecraft stats.
+        """
         for component in self.component_list:
             self.add_component(components, component)
 
-    def enable_component(self, component):
-        # Allowed stats to read.
+    def add_component(self, components, component_name):
+        """Adds a component's stats to the spacecraft's stats.
+        """
+        component = components[component_name]
+
+        if self.components_in + component.exp_size >= self.component_max:
+            self.component_list.remove(component.name)
+            raise Exception('Not enough room for component ' + component.name)
+
+        self.components_in += component.exp_size
+        self.value         += component.cost
+
         stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
                      'dock', 'crew', 'hyperspace'])
 
@@ -112,18 +130,6 @@ class Spacecraft(EnvironmentObject):
 
                 if value and type(value) is bool:
                     self.__dict__[stat] = True
-
-    def add_component(self, components, component_name):
-        component = components[component_name]
-
-        if self.components_in + component.exp_size >= self.component_max:
-            self.component_list.remove(component.name)
-            raise Exception('Not enough room for component ' + component.name)
-
-        self.components_in += component.exp_size
-        self.value         += component.cost
-
-        self.enable_component(component)
 
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
