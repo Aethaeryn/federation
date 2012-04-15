@@ -5,8 +5,8 @@
 #    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 
-"""Serves the public data API json and game client html using flask for
-dynamic rendering of the content.
+"""Serves the public data API json and game client html using flask
+for dynamic rendering of the content.
 """
 
 from federation import app, data
@@ -14,8 +14,8 @@ from flask import json, render_template, request, make_response
 
 # *** Helper functions.
 def make_json(dictionary):
-    """Helper function that makes sure that the data served is recognized
-    by browers as JSON.
+    """Helper function that makes sure that the data served is
+    recognized by browers as JSON.
     """
     response = make_response(json.dumps(dictionary))
     response.mimetype = 'application/json'
@@ -25,7 +25,7 @@ def make_json(dictionary):
 # *** Index page
 @app.route('/')
 def index():
-    """Serves as the main page that greets people when they visit the website.
+    """Serves as the main page when people visit the website.
     """
     desc = 'Federation is a massively multiplayer turn based strategy game with '\
         'a space setting. To play the game in your browser, visit '\
@@ -95,8 +95,8 @@ def check_cookie():
 # *** Retrieve JSON data
 @app.route('/data/')
 def data_folder():
-    """Tells the client which pages to look for in the data directory for
-    JSON information to parse.
+    """Tells the client which pages to look for in the data directory
+    for JSON information to parse.
     """
     available = {}
     available['environment'] = True
@@ -108,8 +108,8 @@ def data_folder():
 
 @app.route('/data/environment')
 def environment():
-    """Displays the public data from federation/data/environment in a way that
-    the clients can parse using JSON.
+    """Displays the public data from federation/data/environment in a
+    way that the clients can parse using JSON.
     """
     return make_json(app.game.env.convert())
 
@@ -127,7 +127,7 @@ def player(username):
 
 @app.route('/data/secret')
 def secret():
-    """This is a temporary test to show data only to an authenticated user.
+    """This is a temporary test to show data to an authenticated user.
     """
     if check_cookie():
         return make_json({'private' : 'Hello world!'})
@@ -139,9 +139,9 @@ def secret():
 # *** Play the game
 @app.route('/game.html')
 def game():
-    """Creates an html page that uses javascript with canvas to format the
-    main game board. This serves as a client built into the server so that
-    downloading an external client is not required.
+    """Creates an html page that uses javascript with canvas to format
+    the main game board. This serves as a client built into the server
+    so that downloading an external client is not required.
     """
     canvases = ['header', 'board', 'sidebar', 'footer']
     scripts  = ['jquery.js', 'board.js', 'load.js', 'actions.js']
