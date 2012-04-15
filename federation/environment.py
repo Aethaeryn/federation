@@ -214,7 +214,6 @@ class Body(EnvironmentObject):
 
 # The interface for environment.py. Instantiate to use this file elsewhere.
 class Environment():
-    obj_id = 0
     obj    = {}
 
     # Creates a database of object types.
@@ -272,16 +271,6 @@ class Environment():
 
                 elif filename == 'body':
                     self.obj[filename][key] = Body(in_data)
-
-    # Increments the unique identifier of environment objects and returns a
-    # copy of that object.Use this to place a copy of an environmental object
-    # in the game environment.
-    def get(self, obj_type, obj_name):
-        self.obj_id += 1
-
-        obj_copy = copy.copy(self.obj[obj_type][obj_name])
-        obj_copy.__dict__['obj_id'] = self.obj_id
-        return obj_copy
 
     # Converts objects into a dictionary for parsing elsewhere.
     def convert(self):
