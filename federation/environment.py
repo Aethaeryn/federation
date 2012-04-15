@@ -84,7 +84,7 @@ class Spacecraft(EnvironmentObject):
         customized_stats = ['custom_name', 'hitpoints', 'shields', 'sensors',
                             'speed', 'cargo', 'dock', 'crew', 'hyperspace',
                             'damage_hitpoints', 'damage_shields',
-                            'components_in', 'component_stat']
+                            'components_in']
 
         for stat in customized_stats:
             self.__dict__[stat] = False
@@ -95,17 +95,10 @@ class Spacecraft(EnvironmentObject):
 
     # Uses the components in component_list to modify the spacecraft stats.
     def initialize_components(self, components):
-        self.component_stat = []
-
         for component in self.component_list:
             self.add_component(components, component)
 
-    # Checks to make sure a component position is valid before acting.
-    def check_position(self, position):
-        if position >= len(component_list) or position < 0:
-            raise Exception('Invalid component list position.')
-
-    def enable_component(self, component, position):
+    def enable_component(self, component):
         # Allowed stats to read.
         stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
                      'dock', 'crew', 'hyperspace'])
@@ -120,27 +113,6 @@ class Spacecraft(EnvironmentObject):
                 if value and type(value) is bool:
                     self.__dict__[stat] = True
 
-        self.component_stat[position]['enabled'] = True
-
-    def disable_component(self, component, position, change_status):
-        # Allowed stats to read.
-        stats = set(['hitpoints', 'shields', 'sensors', 'speed', 'cargo',
-                     'dock', 'crew', 'hyperspace'])
-
-        for stat in dir(component):
-            if stat in stats:
-                value = component.__dict__[stat]
-
-                if type(value) is int:
-                    self.__dict__[stat] -= value
-
-                #### fixme: What if there's more than one component that enables this stat?
-                if value and type(value) is bool:
-                    self.__dict__[stat] = False
-
-        if change_status:
-            self.component_stat[position]['enabled'] = False
-
     def add_component(self, components, component_name):
         component = components[component_name]
 
@@ -151,44 +123,7 @@ class Spacecraft(EnvironmentObject):
         self.components_in += component.exp_size
         self.value         += component.cost
 
-        # Keeps track of damage information for each component.
-        self.component_stat.append({'damage_hitpoints': 0})
-
-        self.enable_component(component, len(self.component_stat) - 1)
-
-    def del_component(self, components, position):
-        self.check_position(position)
-
-        component = components[self.component_list.pop(position)]
-        comp_stat = self.component_stat.pop(position)
-
-        self.components_in -= component.exp_size
-        self.value         -= component.cost
-
-        # Reverses the damage if it exists, since the spacecraft total HP is
-        # going to go down.
-        self.damage_hitpoints -= self.component_stat['damage_hitpoints']
-
-        if self.component_stat['enabled']:
-            self.disable_component(component, position, False)
-
-    def change_component_hitpoints(self, components, position, hp_change):
-        self.check_position(position)
-
-        component = components[self.component_list[position]]
-        comp_stat = self.component_stat[position]
-
-        # Reducing the damage on an entirely damaged component will enable it.
-        if comp_stat['damage_hitpoints'] == component.hitpoints and hp_change < 0:
-            self.enable_component(component, position)
-
-        comp_stat['damage_hitpoints'] += hp_change
-
-        # Maxing out the damage on a component will diable it.
-        if comp_stat['damage_hitpoints'] >= component.hitpoints:
-            self.comp_stat['damage_hitpoints'] = component.hitpoints
-
-            self.disable_component(component, position, True)
+        self.enable_component(component)
 
 class Structure(EnvironmentObject):
     def __init__(self, dictionary):
