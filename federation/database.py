@@ -42,7 +42,6 @@ class Game(Base):
         represented by an index on the list 'months'. An Earth calendar is
         used such that every 12 turns is a year, and each year has 12 months.
         """
-
         months = ['January', 'February', 'March', 'April', 'May', 'June',
                   'July', 'August', 'September', 'October', 'November',
                   'December']
@@ -150,7 +149,6 @@ class Player(Base):
     def get_player_info(self):
         """ Returns the information that the UI expects.
         """
-
         stats               = {}
         stats['name']       = self.game_name
         stats['federation'] = self.federation.name

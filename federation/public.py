@@ -60,7 +60,6 @@ def login():
 def move():
     """Sends a game move to the game server.
     """
-
     moves = request.form
 
     status = {}
@@ -84,7 +83,6 @@ def check_cookie():
 
     If there's no cookie, then the user is None.
     """
-
     cookie = request.cookies.get('username')
 
     if cookie == 'michael':
@@ -119,14 +117,12 @@ def environment():
 def players():
     """Displays the username and IDs of all the players in the game.
     """
-
     return make_json(app.game.get_all_players())
 
 @app.route('/data/player/<username>')
 def player(username):
     """Displays the public stats of any given user.
     """
-
     return make_json(app.game.get_player(username))
 
 @app.route('/data/secret')
