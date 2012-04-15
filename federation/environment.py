@@ -147,34 +147,38 @@ class Body(EnvironmentObject):
 
         super(Body, self).__init__(dictionary)
 
-# The interface for environment.py. Instantiate to use this file elsewhere.
 class Environment():
+    """When instantiated, it turns the files from data/environment
+    into something that the rest of the game can understand.
+    """
     obj    = {}
 
-    # Creates a database of object types.
     def __init__(self):
+        """Creates a dictionary of object types by parsing the data
+        files for environment objects and then having the component
+        lists of the spacecrafts modify their stats.
+        """
         directory = 'environment'
         filenames = ['component', 'spacecraft', 'structure', 'unit', 'body']
 
-        # Parses the data files for environment objects.
         parse    = data.Parse(directory, filenames)
         self.obj = parse.parsed
         self.inherit_spacecraft()
         self.objectify_dictionary()
 
-        # Has the spacecrafts' component lists modify spacecraft stats.
         for craft_type in self.obj['spacecraft']:
             self.obj['spacecraft'][craft_type].initialize_components(self.obj['component'])
 
-    # Handles spacecraft inheritance.
     def inherit_spacecraft(self):
+        """Handles spacecraft inheritance by adding the inherited
+        components to the top of the component list.
+        """
         for spacecraft in self.obj['spacecraft']:
             if 'inherits' in self.obj['spacecraft'][spacecraft]:
                 old_data = self.obj['spacecraft'][spacecraft]
 
                 inherits = old_data['inherits']
 
-                # The inherited components go at the top of the component list.
                 new_list = copy.copy(self.obj['spacecraft'][inherits]['component_list'])
 
                 for component in self.obj['spacecraft'][spacecraft]['component_list']:
@@ -182,12 +186,12 @@ class Environment():
 
                 old_data['component_list'] = new_list
 
-                # Merging the inherited spacecraft with the additions.
                 self.obj['spacecraft'][spacecraft] = copy.copy(self.obj['spacecraft'][inherits])
                 self.obj['spacecraft'][spacecraft].update(old_data)
 
-    # Turns the parsed dictionaries into Python objects.
     def objectify_dictionary(self):
+        """Turns the parsed dictionaries into Python objects.
+        """
         for filename in self.obj:
             for key in self.obj[filename]:
                 in_data = self.obj[filename].pop(key)
@@ -207,8 +211,9 @@ class Environment():
                 elif filename == 'body':
                     self.obj[filename][key] = Body(in_data)
 
-    # Converts objects into a dictionary for parsing elsewhere.
     def convert(self):
+        """Converts the objects into a dictionary.
+        """
         environmental_objs = {}
 
         for obj_type in self.obj:
