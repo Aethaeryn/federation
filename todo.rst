@@ -11,9 +11,8 @@ Python
 ------
 * db <---> json
 
-  * Make every database element seemlessly transition to JSON that can be
-    accessed, including a link to its environment information that's read
-    into JSON already.
+  * Make every database element seemlessly transition to JSON that can
+    be accessed.
 
 * Game elements.
 
@@ -30,6 +29,8 @@ Python
 
   * Combat.
 
+* Add in checks to database.py to make sure that the data is valid and
+  that all of the required fields are provided.
 
 CoffeeScript
 ------------

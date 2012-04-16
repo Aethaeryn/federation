@@ -10,7 +10,6 @@ from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
-# LOCATION = 'sqlite:////tmp/foo.sqlite'
 LOCATION = 'sqlite:///:memory:'
 Base     = declarative_base()
 
@@ -262,6 +261,108 @@ class Map(Base):
 
     def __repr__(self):
         return '<%s %s (%s x %s)>' % (self.map_type, self.name, self.x_size, self.y_size)
+
+class ModelBody(Base):
+    __tablename__ = 'model_body'
+
+    id          = Column(Integer, primary_key = True)
+    name        = Column(String(80))
+    description = Column(String)
+    variants    = Column(String)
+
+    def __init__(self, dictionary):
+        self.__dict__.update(dictionary)
+
+        if 'variants' in dictionary:
+            self.variants = ', '.join(self.variants)
+
+    def __repr__(self):
+        return '<Body %s Model>' % (self.name)
+
+class ModelUnit(Base):
+    __tablename__ = 'model_unit'
+
+    id          = Column(Integer, primary_key = True)
+    name        = Column(String(80))
+    description = Column(String)
+    hitpoints   = Column(Integer)
+    cost        = Column(Integer)
+    damage      = Column(Integer)
+    special     = Column(Integer)
+
+    def __init__(self, dictionary):
+        self.__dict__.update(dictionary)
+
+    def __repr__(self):
+        return '<Unit %s Model>' % (self.name)
+
+class ModelStructure(Base):
+    __tablename__ = 'model_structure'
+
+    id          = Column(Integer, primary_key = True)
+    name        = Column(String(80))
+    description = Column(String)
+    hitpoints   = Column(Integer)
+    cost        = Column(Integer)
+    special     = Column(String)
+    shields     = Column(Integer)
+    wep_damage  = Column(Integer)
+    wep_speed   = Column(Integer)
+    wep_type    = Column(String)
+    wep_special = Column(String)
+
+    def __init__(self, dictionary):
+        self.__dict__.update(dictionary)
+
+    def __repr__(self):
+        return '<Structure %s Model>' % (self.name)
+
+class ModelSpacecraft(Base):
+    __tablename__ = 'model_spacecraft'
+
+    id             = Column(Integer, primary_key = True)
+    name           = Column(String(80))
+    description    = Column(String)
+    size           = Column(String)
+    base_cost      = Column(Integer)
+    component_list = Column(String)
+    component_max  = Column(Integer)
+    special        = Column(String)
+    inherits       = Column(String)
+
+    hitpoints      = Column(Integer)
+    shields        = Column(Integer)
+    sensors        = Column(Integer)
+    speed          = Column(Integer)
+    cargo          = Column(Integer)
+    dock           = Column(Integer)
+    crew           = Column(Integer)
+    hyperspace     = Column(Boolean)
+    components_in  = Column(Integer)
+
+class ModelComponent(Base):
+    __tablename__ = 'model_component'
+
+    id          = Column(Integer, primary_key = True)
+    name        = Column(String(80))
+    description = Column(String)
+    size        = Column(String)
+    cost        = Column(Integer)
+
+    hitpoints   = Column(Integer)
+    shields     = Column(Integer)
+    sensors     = Column(Integer)
+    speed       = Column(Integer)
+    cargo       = Column(Integer)
+    dock        = Column(Integer)
+    crew        = Column(Integer)
+    hyperspace  = Column(Boolean)
+    special     = Column(String)
+    wep_damage  = Column(Integer)
+    wep_speed   = Column(Integer)
+    wep_type    = Column(Integer)
+    wep_special = Column(Integer)
+    unsellable  = Column(Boolean)
 
 db      = Database(LOCATION)
 session = db.session

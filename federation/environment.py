@@ -6,7 +6,7 @@
 
 
 import copy
-from federation import data
+from federation import data, database
 
 class EnvironmentObject(object):
     """An environment object is something that exists as a physical
@@ -43,9 +43,6 @@ class EnvironmentObject(object):
         # Every entry in the dictionary, assuming no exception has been thrown,
         # is added as an instance variable.
         self.__dict__.update(dictionary)
-
-    def __str__(self):
-        return self.name
 
 class Component(EnvironmentObject):
     def __init__(self, dictionary):
@@ -87,9 +84,8 @@ class Spacecraft(EnvironmentObject):
         super(Spacecraft, self).__init__(dictionary)
 
         # These are stats set elsewhere, not by the config dictionary.
-        customized_stats = ['custom_name', 'hitpoints', 'shields', 'sensors',
+        customized_stats = ['hitpoints', 'shields', 'sensors',
                             'speed', 'cargo', 'dock', 'crew', 'hyperspace',
-                            'damage_hitpoints', 'damage_shields',
                             'components_in']
 
         for stat in customized_stats:
@@ -131,28 +127,6 @@ class Spacecraft(EnvironmentObject):
                 if value and type(value) is bool:
                     self.__dict__[stat] = True
 
-class Structure(EnvironmentObject):
-    def __init__(self, dictionary):
-        self.required = set(['name', 'description', 'hitpoints', 'cost'])
-        self.optional = set(['special', 'shields', 'wep_damage', 'wep_speed',
-                             'wep_type', 'wep_special'])
-
-        super(Structure, self).__init__(dictionary)
-
-class Unit(EnvironmentObject):
-    def __init__(self, dictionary):
-        self.required = set(['name', 'description', 'hitpoints', 'cost'])
-        self.optional = set(['damage', 'special'])
-
-        super(Unit, self).__init__(dictionary)
-
-class Body(EnvironmentObject):
-    def __init__(self, dictionary):
-        self.required = set(['name', 'description'])
-        self.optional = set(['variants'])
-
-        super(Body, self).__init__(dictionary)
-
 class Environment():
     """When instantiated, it turns the files from data/environment
     into something that the rest of the game can understand.
@@ -165,12 +139,21 @@ class Environment():
         lists of the spacecrafts modify their stats.
         """
         directory = 'environment'
-        filenames = ['component', 'spacecraft', 'structure', 'unit', 'body']
+        filenames = ['component', 'spacecraft']
 
         parse    = data.Parse(directory, filenames)
         self.obj = parse.parsed
         self.inherit_spacecraft()
-        self.objectify_dictionary()
+
+        for filename in self.obj:
+            for key in self.obj[filename]:
+                in_data = self.obj[filename].pop(key)
+
+                if filename == 'component':
+                    self.obj[filename][key] = Component(in_data)
+
+                elif filename == 'spacecraft':
+                    self.obj[filename][key] = Spacecraft(in_data)
 
         for craft_type in self.obj['spacecraft']:
             self.obj['spacecraft'][craft_type].initialize_components(self.obj['component'])
@@ -195,28 +178,6 @@ class Environment():
                 self.obj['spacecraft'][spacecraft] = copy.copy(self.obj['spacecraft'][inherits])
                 self.obj['spacecraft'][spacecraft].update(old_data)
 
-    def objectify_dictionary(self):
-        """Turns the parsed dictionaries into Python objects.
-        """
-        for filename in self.obj:
-            for key in self.obj[filename]:
-                in_data = self.obj[filename].pop(key)
-
-                if filename == 'component':
-                    self.obj[filename][key] = Component(in_data)
-
-                elif filename == 'spacecraft':
-                    self.obj[filename][key] = Spacecraft(in_data)
-
-                elif filename == 'structure':
-                    self.obj[filename][key] = Structure(in_data)
-
-                elif filename == 'unit':
-                    self.obj[filename][key] = Unit(in_data)
-
-                elif filename == 'body':
-                    self.obj[filename][key] = Body(in_data)
-
     def convert(self):
         """Converts the objects into a dictionary.
         """
@@ -231,3 +192,29 @@ class Environment():
             environmental_objs[obj_type] = dictionary
 
         return environmental_objs
+
+class Environment2():
+    def __init__(self):
+        directory = 'environment'
+        filenames = ['structure', 'unit', 'body']
+
+        obj = data.Parse(directory, filenames).parsed
+
+        for filename in obj:
+            for key in obj[filename]:
+                if filename == 'structure':
+                    structure = database.ModelStructure(obj[filename][key])
+
+                    database.session.add(structure)
+
+                elif filename == 'unit':
+                    unit = database.ModelUnit(obj[filename][key])
+
+                    database.session.add(unit)
+
+                elif filename == 'body':
+                    body = database.ModelBody(obj[filename][key])
+
+                    database.session.add(body)
+
+        database.session.commit()
