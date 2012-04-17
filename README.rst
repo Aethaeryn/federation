@@ -114,9 +114,9 @@ license. For more information, see LICENSE.txt or go to:
 FAQ
 ---
 
-Q. Why do you require mod_wsgi?
+**Q**. Why do you require mod_wsgi?
 
-A. Flask uses wsgi to talk to the production web server. We've only
+**A**. Flask uses wsgi to talk to the production web server. We've only
 tested Federation with Apache httpd. Thus, mod_wsgi for Apache httpd
 is listed as a requirement. There is no guarantee that Federation will
 work without modification on other web servers. For a list of all
