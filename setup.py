@@ -25,24 +25,23 @@ class CoffeeScript():
         '''Reads in the CoffeeScript compiler into a JavaScript
         environment via execjs.
         '''
-        self.source   = self._get_source(filename)
+        self.source   = read_file(filename)
         self.compiled = execjs.get().compile(self.source)
-
-    def _get_source(self, filename):
-        '''Turns the source code of a file into a string that Python
-        can understand.
-        '''
-        source_file = io.open(filename, 'r', encoding='utf8')
-        source      = source_file.read()
-        source_file.close()
-        return source
 
     def compile(self, filename):
         '''Uses the CoffeeScript compiler to compile a .coffee file
         into JavaScript.
         '''
-        source = self._get_source(filename)
+        source = read_file(filename)
         return self.compiled.call('CoffeeScript.compile', source)
+
+def read_file(filename):
+    '''Turns a file into a string that Python can understand.
+    '''
+    source_file = io.open(filename, 'r', encoding='utf8')
+    source      = source_file.read()
+    source_file.close()
+    return source
 
 def write_file(destination, content):
     '''Writes a string of certain Unicode content to a given
