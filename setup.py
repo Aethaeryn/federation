@@ -29,9 +29,13 @@ def get_libraries(directory):
 
     for library in js_lib:
         if library not in listdir(directory):
-            downloaded = requests.get(js_lib[library])
+            downloaded  = requests.get(js_lib[library])
+            destination = "%s%s" % (directory, library)
+            destination = open(destination, 'w')
+            content     = downloaded.content
 
-            #### fixme: put the downloaded library into the directory
+            destination.write(content)
+            destination.close()
 
 def compile_coffee(coffee_dir, script_dir):
     coffee = CoffeeScript(script_dir + 'coffee-script.js')

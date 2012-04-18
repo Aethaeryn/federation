@@ -32,6 +32,8 @@ Python
 * Add in checks to database.py to make sure that the data is valid and
   that all of the required fields are provided.
 
+* Have setup.py check for new versions of the libraries in get_libraries()
+
 CoffeeScript
 ------------
 * Rewrite board.js in CoffeeScript.
