@@ -1,23 +1,23 @@
 # Copyright (c) 2011, 2012 Michael Babich
 # See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
-"""simple_client -- A simple Federation client.
+'''simple_client -- A simple Federation client.
 
 This client simply parses URLs containing game data as a way of testing
 the server-to-client API on third party clients.
 
 This client does not handle errors very well and so is only useful for
 development purposes. It breaks very easily.
-"""
+'''
 
 from sys import argv
 import urllib, urllib2, cookielib
 import json
 
 def print_dictionary(data, level):
-    """Recursively prints the contents of a dictionary in a format for
+    '''Recursively prints the contents of a dictionary in a format for
     human reading in terminals.
-    """
+    '''
     spacing = '  ' * level
     section = ''
 
@@ -36,9 +36,9 @@ def print_dictionary(data, level):
     return section
 
 def print_list(data, level):
-    """Recursively prints the contents of a list in a format for human
+    '''Recursively prints the contents of a list in a format for human
     reading in terminals.
-    """
+    '''
     spacing = '  ' * level
     section = ''
 
@@ -55,9 +55,9 @@ def print_list(data, level):
     return section
 
 def login(url):
-    """Tests the login system by using a test user and password and then
+    '''Tests the login system by using a test user and password and then
     trying to access restricted JSON data.
-    """
+    '''
     url += 'login'
 
     # http://xkcd.com/936
@@ -70,8 +70,8 @@ def login(url):
     status   = json.loads(response.read())['success']
 
 def data(url):
-    """Handles reading the data aspect of the Federation game server.
-    """
+    '''Handles reading the data aspect of the Federation game server.
+    '''
     url += 'data/'
 
     response = urllib2.urlopen(url)
@@ -84,8 +84,8 @@ def data(url):
             print print_dictionary(json.loads(response.read()), 0)
 
 def use_url(url):
-    """Uses the URL to test the various aspects of the API.
-    """
+    '''Uses the URL to test the various aspects of the API.
+    '''
     if url[-1] != '/':
         url += '/'
 

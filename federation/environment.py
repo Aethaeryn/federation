@@ -5,14 +5,14 @@ import copy
 from federation import data, database
 
 class EnvironmentObject(object):
-    """An environment object is something that exists as a physical
+    '''An environment object is something that exists as a physical
     object in the game world and on the game board, as read in from
     the YAML data files.
-    """
+    '''
     def __init__(self, dictionary):
-        """Makes sure that the dictionary can be appropriately
+        '''Makes sure that the dictionary can be appropriately
         instantiated as an object, and then does so.
-        """
+        '''
         # Popping the required and optional so they're not checked against below.
         required = self.__dict__.pop('required')
         optional = self.__dict__.pop('optional')
@@ -42,8 +42,8 @@ class EnvironmentObject(object):
 
 class Component(EnvironmentObject):
     def __init__(self, dictionary):
-        """Reads in the ship data to create a component object.
-        """
+        '''Reads in the ship data to create a component object.
+        '''
         self.required = set(['name', 'description', 'size', 'cost'])
         self.optional = set(['hitpoints', 'shields', 'sensors', 'speed',
                              'cargo', 'dock', 'crew', 'hyperspace', 'special',
@@ -54,8 +54,8 @@ class Component(EnvironmentObject):
         self.size_traits()
 
     def size_traits(self):
-        """Sets the size and HP based on the component size.
-        """
+        '''Sets the size and HP based on the component size.
+        '''
         if self.size == 'Small Component':
             self.hitpoints += 5
             self.exp_size   = 1
@@ -70,8 +70,8 @@ class Component(EnvironmentObject):
 
 class Spacecraft(EnvironmentObject):
     def __init__(self, dictionary):
-        """Turns a dictionary into a Spacecraft object.
-        """
+        '''Turns a dictionary into a Spacecraft object.
+        '''
         # These stats are read in from outside.
         self.required = set(['name', 'description', 'size', 'base_cost',
                              'component_list', 'component_max'])
@@ -92,15 +92,15 @@ class Spacecraft(EnvironmentObject):
         self.value = self.base_cost
 
     def initialize_components(self, components):
-        """Uses the components in component_list to modify the
+        '''Uses the components in component_list to modify the
         spacecraft stats.
-        """
+        '''
         for component in self.component_list:
             self.add_component(components, component)
 
     def add_component(self, components, component_name):
-        """Adds a component's stats to the spacecraft's stats.
-        """
+        '''Adds a component's stats to the spacecraft's stats.
+        '''
         component = components[component_name]
 
         if self.components_in + component.exp_size >= self.component_max:
@@ -124,16 +124,16 @@ class Spacecraft(EnvironmentObject):
                     self.__dict__[stat] = True
 
 class Environment():
-    """When instantiated, it turns the files from data/environment
+    '''When instantiated, it turns the files from data/environment
     into something that the rest of the game can understand.
-    """
+    '''
     obj    = {}
 
     def __init__(self):
-        """Creates a dictionary of object types by parsing the data
+        '''Creates a dictionary of object types by parsing the data
         files for environment objects and then having the component
         lists of the spacecrafts modify their stats.
-        """
+        '''
         directory = 'environment'
         filenames = ['component', 'spacecraft']
 
@@ -155,9 +155,9 @@ class Environment():
             self.obj['spacecraft'][craft_type].initialize_components(self.obj['component'])
 
     def inherit_spacecraft(self):
-        """Handles spacecraft inheritance by adding the inherited
+        '''Handles spacecraft inheritance by adding the inherited
         components to the top of the component list.
-        """
+        '''
         for spacecraft in self.obj['spacecraft']:
             if 'inherits' in self.obj['spacecraft'][spacecraft]:
                 old_data = self.obj['spacecraft'][spacecraft]
@@ -175,8 +175,8 @@ class Environment():
                 self.obj['spacecraft'][spacecraft].update(old_data)
 
     def convert(self):
-        """Converts the objects into a dictionary.
-        """
+        '''Converts the objects into a dictionary.
+        '''
         environmental_objs = {}
 
         for obj_type in self.obj:
