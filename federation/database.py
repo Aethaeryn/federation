@@ -330,16 +330,6 @@ class ModelSpacecraft(Base):
     special        = Column(String)
     inherits       = Column(String)
 
-    hitpoints      = Column(Integer)
-    shields        = Column(Integer)
-    sensors        = Column(Integer)
-    speed          = Column(Integer)
-    cargo          = Column(Integer)
-    dock           = Column(Integer)
-    crew           = Column(Integer)
-    hyperspace     = Column(Boolean)
-    components_in  = Column(Integer)
-
 class ModelComponent(Base):
     __tablename__ = 'model_component'
 
