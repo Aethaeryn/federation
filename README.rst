@@ -83,7 +83,7 @@ development only; it is probably not robust enough for a public
 server. To run Federation's test server, navigate to the Federation
 directory and type:
 
-    python test.py
+    python -m federation
 
 Federation should 'just work' on any system that has Python and the
 appropriate libraries installed. Python is an interpreted language, so
