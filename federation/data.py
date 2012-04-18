@@ -1,9 +1,5 @@
-#    Federation
-#    Copyright (C) 2011, 2012 Michael Babich
-#
-#    This software is licensed under the MIT license.
-#    See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
-
+# Copyright (c) 2011, 2012 Michael Babich
+# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
 """ Handles the custom data files that come with the server. These
 include the yaml files in data and the header.html template for custom
