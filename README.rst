@@ -27,31 +27,17 @@ More information is available at the website: http://playfederation.com/
 Python Dependencies
 -------------------
 
-+-------------+--------------------------+
-| Package     | Website                  |
-+=============+==========================+
-| Python      | http://python.org/       |
-+-------------+--------------------------+
-| PyYAML      | http://pyyaml.org/       |
-+-------------+--------------------------+
-| Flask       | http://flask.pocoo.org/  |
-+-------------+--------------------------+
-| SQLAlchemy  | http://sqlalchemy.org/   |
-+-------------+--------------------------+
-
-
-Other Dependencies
-------------------
-
-+-------------+--------------------------+
-| Package     | Website                  |
-+=============+==========================+
-| mod_wsgi    | http://modwsgi.org/      |
-+-------------+--------------------------+
-| node.js     | http://nodejs.org/       |
-+-------------+--------------------------+
-| CoffeScript | http://coffeescript.org/ |
-+-------------+--------------------------+
++-------------+--------------------------------------+
+| Package     | Website                              |
++=============+======================================+
+| PyYAML      | http://pyyaml.org/                   |
++-------------+--------------------------------------+
+| Flask       | http://flask.pocoo.org/              |
++-------------+--------------------------------------+
+| SQLAlchemy  | http://sqlalchemy.org/               |
++-------------+--------------------------------------+
+| PyExecJs    | http://pypi.python.org/pypi/PyExecJS |
++-------------+--------------------------------------+
 
 
 Federation Clients
@@ -105,12 +91,11 @@ platforms, contributions are welcome!
 FAQ
 ---
 
-**Q**. Why do you require mod_wsgi?
+**Q**. Why do you recommend mod_wsgi?
 
-**A**. Flask uses wsgi to talk to the production web server. We've only
-tested Federation with Apache httpd. Thus, mod_wsgi for Apache httpd
-is listed as a requirement. There is no guarantee that Federation will
-work without modification on other web servers. For a list of all
-servers which support wsgi, please see:
+**A**. Flask uses wsgi to talk to the production web server. We've
+only tested Federation with Apache httpd. There is no guarantee that
+Federation will work without modification on other web servers. For a
+list of all servers which support wsgi, please see:
 
     http://wsgi.readthedocs.org/en/latest/servers.html
