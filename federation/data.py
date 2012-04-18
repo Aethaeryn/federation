@@ -68,6 +68,8 @@ def parse_header():
     if 'header.html' in templates:
         header = open(path.join(template_path, 'header.html'), 'r')
         text   = header.read()
+
+        header.close()
         return text
 
     else:
