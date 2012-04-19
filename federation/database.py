@@ -1,6 +1,8 @@
 # Copyright (c) 2011, 2012 Michael Babich
 # See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
+'''Uses SQLAlchemy to store data a SQL database. 
+'''
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -11,6 +13,9 @@ LOCATION  = 'sqlite:///:memory:'
 Base      = declarative_base()
 
 class Database():
+    '''Acts as a connection layer between a SQL database session and
+    the rest of the SQLAlchemy-using code.
+    '''
     def __init__(self, location):
         self.engine = create_engine(location, echo=False)
         self.Session = sessionmaker()
@@ -19,6 +24,11 @@ class Database():
         Base.metadata.create_all(self.engine)
 
 class Game(Base):
+    '''Stores all of the information about a particular game running
+    on the Federation server. The server should eventually have the
+    capacity to run multiple game instances simultaneously with
+    different settings between them.
+    '''
     __tablename__ = 'game'
 
     id            = Column(Integer, primary_key=True)
@@ -52,6 +62,13 @@ class Game(Base):
         return '<Game %s (%s)>' % (self.server_name, self.id)
 
 class Component(Base):
+    '''Stores *all* of the components that are in existence in the
+    game and points them at the spacecraft they are installed in.
+    
+    Only the information that will differ between components in action
+    are stored here. The rest of the stats are stored in
+    ModelComponent because they do not regularly change.
+    '''
     __tablename__ = 'component'
 
     id         = Column(Integer, primary_key=True)
@@ -72,6 +89,10 @@ class Component(Base):
         return '<Component %s>' % (self.name)
 
 class Spacecraft(Base):
+    '''Stores *all* of the spacecraft in the game! This also points to
+    their relationships to their owner, their fleet, their location,
+    and their components.
+    '''
     __tablename__ = 'spacecraft'
 
     id          = Column(Integer, primary_key=True)
@@ -97,6 +118,14 @@ class Spacecraft(Base):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
 
 class Federation(Base):
+    '''Federations are similar to clans, factions, alliances, teams,
+    etc., in various other games. These are voluntary collections of
+    players who are on the same side and friendly to each other, with
+    common aims.
+
+    Like governments, federations can have leaders and can implement
+    certain political policies.
+    '''
     __tablename__ = 'federation'
 
     id          = Column(Integer, primary_key=True)
@@ -115,6 +144,8 @@ class Federation(Base):
         return '<Federation %s>' % (self.name)
 
 class Player(Base):
+    '''Stores information about every user in the game.
+    '''
     __tablename__ = 'player'
 
     id         = Column(Integer, primary_key=True)
@@ -161,6 +192,9 @@ class Player(Base):
         return '<Player %s (%s)>' % (self.game_name, self.username)
 
 class Fleet(Base):
+    '''Fleets are a collection of ships that are held together under
+    the command of one or two players.
+    '''
     __tablename__ = 'fleet'
 
     id         = Column(Integer, primary_key=True)
@@ -183,6 +217,9 @@ class Fleet(Base):
         return '<Fleet %s %s (%s)>' % (self.id, self.name, self.commander)
 
 class Unit(Base):
+    '''Units are individual humanoids that can be hired in the game
+    for various purposes.
+    '''
     __tablename__ = 'unit'
 
     id   = Column(Integer, primary_key=True)
@@ -197,6 +234,9 @@ class Unit(Base):
         return '<Unit %s %s>' % (self.name, self.id)
 
 class Body(Base):
+    '''Bodies are all celestial territories: asteroid belts, planets,
+    moons, stars, etc.
+    '''
     __tablename__ = 'body'
 
     id          = Column(Integer, primary_key=True)
@@ -221,6 +261,9 @@ class Body(Base):
         return '<Body %s (%s %s)>' % (self.custom_name, self.name, self.id)
 
 class Structure(Base):
+    '''Structures are buildings built on a body that modify its
+    capabilities, similar to components on a spacecraft.
+    '''
     __tablename__ = 'structure'
 
     id      = Column(Integer, primary_key=True)
@@ -238,6 +281,13 @@ class Structure(Base):
         return '<Structure %s %s (%s %s)>' % (self.name, self.id, self.body.custom_name, self.body.id)
 
 class Map(Base):
+    '''A map is a way for the player to interact with the game world
+    by rendering a hex-based representation of the various items that
+    have a definite location.
+
+    Maps are either detailed views of star systems ('system') or broad
+    overviews of clusters of stars ('sector').
+    '''
     __tablename__ = 'map'
 
     id         = Column(Integer, primary_key=True)
@@ -260,6 +310,9 @@ class Map(Base):
         return '<%s %s (%s x %s)>' % (self.map_type, self.name, self.x_size, self.y_size)
 
 class ModelBody(Base):
+    '''This stores the general data of various classes of celestial
+    bodies, used as a reference for specific bodies in the game.
+    '''
     __tablename__ = 'model_body'
 
     id          = Column(Integer, primary_key = True)
@@ -277,6 +330,9 @@ class ModelBody(Base):
         return '<Body %s Model>' % (self.name)
 
 class ModelUnit(Base):
+    '''This stores the general data of various types of units and the
+    stats they have.
+    '''
     __tablename__ = 'model_unit'
 
     id          = Column(Integer, primary_key = True)
@@ -294,6 +350,8 @@ class ModelUnit(Base):
         return '<Unit %s Model>' % (self.name)
 
 class ModelStructure(Base):
+    '''These are the general structure stats.
+    '''
     __tablename__ = 'model_structure'
 
     id          = Column(Integer, primary_key = True)
@@ -315,6 +373,9 @@ class ModelStructure(Base):
         return '<Structure %s Model>' % (self.name)
 
 class ModelSpacecraft(Base):
+    '''This contains information about each general spacecraft type
+    that is purchasable by the player.
+    '''
     __tablename__ = 'model_spacecraft'
 
     id             = Column(Integer, primary_key = True)
@@ -354,7 +415,7 @@ class ModelSpacecraft(Base):
                  'sensors'       : 0,
                  'shields'       : 0,
                  'speed'         : 0,
-                 'value'         : base_cost}
+                 'value'         : self.base_cost}
 
         for component in components:
             stats = self._add_component(component, stats)
@@ -384,6 +445,9 @@ class ModelSpacecraft(Base):
         return '<Spacecraft %s Model>' % (self.name)
 
 class ModelComponent(Base):
+    '''ModelComponents contain all of the stats general to component
+    types rather than specific to a particular instance of components.
+    '''
     __tablename__ = 'model_component'
 
     id          = Column(Integer, primary_key = True)
@@ -419,11 +483,6 @@ class ModelComponent(Base):
         if 'hitpoints' not in dictionary:
             self.hitpoints = 0
 
-        self._size_traits()
-
-    def _size_traits(self):
-        '''Sets the size and HP based on the component size.
-        '''
         if self.size == 'Small Component':
             self.hitpoints += 5
             self.exp_size   = 1
@@ -443,6 +502,9 @@ db      = Database(LOCATION)
 session = db.session
 
 def debug():
+    '''Temporary method that tests various parts of the database. This
+    will eventually be replaced by a standalone test module.
+    '''
     # game = database.Game('Test', 2500, 1)
 
     # Player

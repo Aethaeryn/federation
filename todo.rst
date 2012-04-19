@@ -23,6 +23,8 @@ Python
 
   * Break up database.py and perhaps public.py into subfiles.
 
+    * Put these in submodules database and web
+
 * Game elements.
 
   * Map generation.
@@ -42,6 +44,8 @@ Python
   that all of the required fields are provided.
 
   * Add reasonable defaults?
+
+* Briefly write a 'style guide' that explains differences with PEP 8.
 
 CoffeeScript
 ------------

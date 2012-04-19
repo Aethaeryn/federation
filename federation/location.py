@@ -19,7 +19,7 @@ def distance(start_location, end_location):
 
     return max(horizontal, alt_distance)
 
-def radius(self, location, radius):
+def radius(location, radius):
     '''Returns a set of tuple (x, y) coordinates in the radius range.
     '''
     radius_set = set([])
@@ -36,10 +36,10 @@ def radius(self, location, radius):
             radius_set.add((location[0] + radius, location[1] + i))
 
         # Connects the corners on the other sides.
-        y1  = location[1] - radius
-        y2  = location[1] + radius
-        x1  = location[0]
-        x2  = location[0]
+        y1 = location[1] - radius
+        y2 = location[1] + radius
+        x1 = location[0]
+        x2 = location[0]
 
         for i in range(radius):
             radius_set.add((x1, y1))

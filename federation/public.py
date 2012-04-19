@@ -59,8 +59,8 @@ def _check_cookie():
 def index():
     '''Serves as the main page when people visit the website.
     '''
-    desc = 'Federation is a massively multiplayer turn based strategy game with '\
-        'a space setting. To play the game in your browser, visit '\
+    desc = 'Federation is a massively multiplayer turn based strategy game ' \
+        'with a space setting. To play the game in your browser, visit '\
         '<a href="game.html">the game page</a>.'
 
     header = _get_header()
@@ -83,7 +83,8 @@ def game():
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return render_template('basic.html', body = html, javascript = scripts, head = header)
+    return render_template('basic.html', body=html,
+                           javascript=scripts, head=header)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
