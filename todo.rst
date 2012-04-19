@@ -32,8 +32,6 @@ Python
 * Add in checks to database.py to make sure that the data is valid and
   that all of the required fields are provided.
 
-* Have setup.py check for new versions of the libraries in get_libraries()
-
 CoffeeScript
 ------------
 * Rewrite board.js in CoffeeScript.
@@ -42,13 +40,14 @@ CoffeeScript
 
   * Fix map edge detection system.
 
+  * Add environment sprites to the board.
+
 * actions.coffee
 
   * Fix the keyboard scrolling so that diagonals, etc., work.
 
   * Allow mouse click+drag movement on both board and mini-map.
 
-* Add environment object sprites to the board.
 
 * Add back in the mouseover information.
 

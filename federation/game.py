@@ -6,6 +6,7 @@ from federation import environment, database
 class Game():
     def __init__(self):
         self.env = environment.Environment()
+        self.env2 = environment.Environment2()
 
         database.debug()
 

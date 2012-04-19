@@ -43,35 +43,15 @@ def _parse_data(directory, filenames):
 
     return parsed
 
-class EnvironmentObject(object):
-    '''An environment object is something that exists as a physical
-    object in the game world and on the game board, as read in from
-    the YAML data files.
-    '''
-    def __init__(self, dictionary):
-        '''Makes sure that the dictionary can be appropriately
-        instantiated as an object, and then does so.
-        '''
-        required = self.__dict__.pop('required')
-        optional = self.__dict__.pop('optional')
-
-        for entry in optional:
-            if entry not in dictionary:
-                self.__dict__[entry] = False
-
-        self.__dict__.update(dictionary)
-
-class Component(EnvironmentObject):
+class Component():
     def __init__(self, dictionary):
         '''Reads in the ship data to create a component object.
         '''
-        self.required = set(['name', 'description', 'size', 'cost'])
-        self.optional = set(['hitpoints', 'shields', 'sensors', 'speed',
-                             'cargo', 'dock', 'crew', 'hyperspace', 'special',
-                             'wep_damage', 'wep_speed', 'wep_type',
-                             'wep_special', 'unsellable'])
+        self.__dict__.update(dictionary)
 
-        super(Component, self).__init__(dictionary)
+        if 'hitpoints' not in dictionary:
+            self.hitpoints = 0
+
         self.size_traits()
 
     def size_traits(self):
@@ -89,16 +69,11 @@ class Component(EnvironmentObject):
             self.hitpoints += 20
             self.exp_size   = 4
 
-class Spacecraft(EnvironmentObject):
+class Spacecraft():
     def __init__(self, dictionary):
         '''Turns a dictionary into a Spacecraft object.
         '''
-        # These stats are read in from outside.
-        self.required = set(['name', 'description', 'size', 'base_cost',
-                             'component_list', 'component_max'])
-        self.optional = set(['special', 'inherits'])
-
-        super(Spacecraft, self).__init__(dictionary)
+        self.__dict__.update(dictionary)
 
         # These are stats set elsewhere, not by the config dictionary.
         customized_stats = ['hitpoints', 'shields', 'sensors',
@@ -215,25 +190,27 @@ class Environment2():
     '''
     def __init__(self):
         directory = 'environment'
-        filenames = ['structure', 'unit', 'body']
+        filenames = ['spacecraft', 'component', 'structure', 'unit', 'body']
 
         obj = _parse_data(directory, filenames)
 
         for filename in obj:
             for key in obj[filename]:
-                if filename == 'structure':
-                    structure = database.ModelStructure(obj[filename][key])
+                if filename == 'spacecraft':
+                    item = database.ModelSpacecraft(obj[filename][key])
 
-                    database.session.add(structure)
+                elif filename == 'component':
+                    item = database.ModelComponent(obj[filename][key])
+
+                elif filename == 'structure':
+                    item = database.ModelStructure(obj[filename][key])
 
                 elif filename == 'unit':
-                    unit = database.ModelUnit(obj[filename][key])
-
-                    database.session.add(unit)
+                    item = database.ModelUnit(obj[filename][key])
 
                 elif filename == 'body':
-                    body = database.ModelBody(obj[filename][key])
+                    item = database.ModelBody(obj[filename][key])
 
-                    database.session.add(body)
+                database.session.add(item)
 
         database.session.commit()

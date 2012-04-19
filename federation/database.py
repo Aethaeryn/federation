@@ -326,6 +326,21 @@ class ModelSpacecraft(Base):
     special        = Column(String)
     inherits       = Column(String)
 
+    def __init__(self, dictionary):
+        required = set(['name', 'description', 'size', 'base_cost',
+                        'component_list', 'component_max'])
+
+        for item in required:
+            if item not in dictionary and 'inherits' not in dictionary:
+                raise Exception('Entry %s not in spacecraft definition!' % item)
+
+        self.__dict__.update(dictionary)
+
+        self.component_list = ', '.join(self.component_list)
+
+    def __repr__(self):
+        return '<Spacecraft %s Model>' % (self.name)
+
 class ModelComponent(Base):
     __tablename__ = 'model_component'
 
@@ -349,6 +364,18 @@ class ModelComponent(Base):
     wep_type    = Column(Integer)
     wep_special = Column(Integer)
     unsellable  = Column(Boolean)
+
+    def __init__(self, dictionary):
+        required = set(['name', 'description', 'size', 'cost'])
+
+        for item in required:
+            if item not in dictionary:
+                raise Exception('Entry %s not in component definition!' % item)
+
+        self.__dict__.update(dictionary)
+
+    def __repr__(self):
+        return '<Component %s Model>' % (self.name)
 
 db      = Database(LOCATION)
 session = db.session
