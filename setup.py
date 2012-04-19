@@ -52,18 +52,17 @@ def write_file(destination, content):
     destination file.
     '''
     destination = io.open(destination, 'w', encoding='utf8')
-    destination.write(content)
+    destination.write(unicode(content))
     destination.close()
 
 def get_libraries(directory, libraries):
     '''Fetches JavaScript libraries from the Internet if they are not
     already in the JavaScript directory.
     '''
-
     for library in libraries:
         if library not in listdir(directory):
             downloaded  = requests.get(libraries[library])
-            destination = "%s%s" % (directory, library)
+            destination = path.join(directory, library)
             content     = downloaded.content
             write_file(destination, content)
 
@@ -71,10 +70,10 @@ def compile_coffee(coffee_dir, script_dir):
     '''Turns a directory full of CoffeeScript files into a directory
     full of JavaScript files using a CoffeeScript compiler object.
     '''
-    coffee = CoffeeScript(script_dir + 'coffee-script.js')
+    coffee = CoffeeScript(path.join(script_dir, 'coffee-script.js'))
 
     for filename in listdir(coffee_dir):
-        js_filename = '%s%s.js' % (script_dir, filename.split('.')[0])
+        js_filename = path.join(script_dir, "%s.js" % filename.split('.')[0])
         compiled    = coffee.compile(coffee_dir + filename)
         write_file(js_filename, compiled)
 
