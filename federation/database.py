@@ -6,8 +6,9 @@ from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
-LOCATION = 'sqlite:///:memory:'
-Base     = declarative_base()
+SEPARATOR = ', '
+LOCATION  = 'sqlite:///:memory:'
+Base      = declarative_base()
 
 class Database():
     def __init__(self, location):
@@ -270,7 +271,7 @@ class ModelBody(Base):
         self.__dict__.update(dictionary)
 
         if 'variants' in dictionary:
-            self.variants = ', '.join(self.variants)
+            self.variants = SEPARATOR.join(self.variants)
 
     def __repr__(self):
         return '<Body %s Model>' % (self.name)
@@ -336,7 +337,48 @@ class ModelSpacecraft(Base):
 
         self.__dict__.update(dictionary)
 
-        self.component_list = ', '.join(self.component_list)
+        self.component_list = SEPARATOR.join(self.component_list)
+
+    def get_full_stats(self):
+        '''Gives the actual spacecraft stats by using the component
+        stats for every component in the component list.
+        '''
+        components = self.component_list.split(SEPARATOR)
+
+        stats = {'cargo'         : 0,
+                 'components_in' : 0,
+                 'crew'          : 0,
+                 'dock'          : 0,
+                 'hitpoints'     : 0,
+                 'hyperspace'    : False,
+                 'sensors'       : 0,
+                 'shields'       : 0,
+                 'speed'         : 0,
+                 'value'         : base_cost}
+
+        for component in components:
+            stats = self._add_component(component, stats)
+
+    def _add_component(self, component, stats):
+        '''Adds a particular component's stats to the spacecraft's stats.
+        '''
+        #### TODO get component stats from the ModelComponent
+
+        stats["components_in"] += component.exp_size
+        stats["value"]         += component.cost
+
+        #### TODO imported from environment.py : get to work here!
+        # for stat in dir(component):
+        #     if stat in stats:
+        #         value = component.__dict__[stat]
+        #
+        #         if type(value) is int:
+        #             self.__dict__[stat] += value
+        #
+        #         if value and type(value) is bool:
+        #             self.__dict__[stat] = True
+
+        return stats
 
     def __repr__(self):
         return '<Spacecraft %s Model>' % (self.name)
@@ -373,6 +415,26 @@ class ModelComponent(Base):
                 raise Exception('Entry %s not in component definition!' % item)
 
         self.__dict__.update(dictionary)
+
+        if 'hitpoints' not in dictionary:
+            self.hitpoints = 0
+
+        self._size_traits()
+
+    def _size_traits(self):
+        '''Sets the size and HP based on the component size.
+        '''
+        if self.size == 'Small Component':
+            self.hitpoints += 5
+            self.exp_size   = 1
+
+        elif self.size == 'Medium Component':
+            self.hitpoints += 10
+            self.exp_size   = 2
+
+        elif self.size == 'Large Component':
+            self.hitpoints += 20
+            self.exp_size   = 4
 
     def __repr__(self):
         return '<Component %s Model>' % (self.name)
