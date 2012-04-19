@@ -1,6 +1,9 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+'''This turns the federation/data/environment config files into stuff
+that the game can understand.
 
+Copyright (c) 2011, 2012 Michael Babich
+See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+'''
 import copy, yaml
 from federation import database
 from os import path
@@ -49,31 +52,13 @@ class EnvironmentObject(object):
         '''Makes sure that the dictionary can be appropriately
         instantiated as an object, and then does so.
         '''
-        # Popping the required and optional so they're not checked against below.
         required = self.__dict__.pop('required')
         optional = self.__dict__.pop('optional')
 
-        # Every new instance variable must be expected by the object.
-        for key in dictionary:
-            if key not in required and key not in optional:
-                raise Exception('Illegal value in the data file!')
-
-        # Every new required instance variable must be provided.
-        for entry in required:
-            if entry not in dictionary and 'name' in dictionary:
-                raise Exception('Missing entry ' + entry +
-                                ' not in data file for item ' + dictionary.name)
-
-            elif 'name' not in dictionary:
-                raise Exception('Missing name for an entry!')
-
-        # Any optional instance variable that is missing will be set to false.
         for entry in optional:
             if entry not in dictionary:
                 self.__dict__[entry] = False
 
-        # Every entry in the dictionary, assuming no exception has been thrown,
-        # is added as an instance variable.
         self.__dict__.update(dictionary)
 
 class Component(EnvironmentObject):
@@ -225,6 +210,9 @@ class Environment():
         return environmental_objs
 
 class Environment2():
+    '''When instantiated, this reads in configuration data from the
+    environment folder and then writes it to the database.
+    '''
     def __init__(self):
         directory = 'environment'
         filenames = ['structure', 'unit', 'body']
