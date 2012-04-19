@@ -19,7 +19,7 @@ def distance(start_location, end_location):
 
     return max(horizontal, alt_distance)
 
-def radius(location, radius):
+def get_radius(location, radius):
     '''Returns a set of tuple (x, y) coordinates in the radius range.
     '''
     radius_set = set([])
@@ -35,28 +35,31 @@ def radius(location, radius):
         for i in range(-radius + (radius / 2), radius - (radius / 2) + 1):
             radius_set.add((location[0] + radius, location[1] + i))
 
+        x = []
+        y = []
+
         # Connects the corners on the other sides.
-        y1 = location[1] - radius
-        y2 = location[1] + radius
-        x1 = location[0]
-        x2 = location[0]
+        y[0] = location[1] - radius
+        y[1] = location[1] + radius
+        x[0] = location[0]
+        x[1] = location[0]
 
         for i in range(radius):
-            radius_set.add((x1, y1))
-            radius_set.add((x2, y1))
-            radius_set.add((x1, y2))
-            radius_set.add((x2, y2))
+            radius_set.add((x[0], y[0]))
+            radius_set.add((x[1], y[0]))
+            radius_set.add((x[0], y[1]))
+            radius_set.add((x[1], y[1]))
 
             # Odds walk the hexes a certain way.
-            if x1 % 2:
-                x1 -= 1
-                x2 += 1
-                y2 -= 1
+            if x[0] % 2:
+                x[0] -= 1
+                x[1] += 1
+                y[1] -= 1
 
             # Evens walk the hexes another way.
             else:
-                x1 -= 1
-                x2 += 1
-                y1 += 1
+                x[0] -= 1
+                x[1] += 1
+                y[0] += 1
 
     return radius_set

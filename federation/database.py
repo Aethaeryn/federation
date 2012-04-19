@@ -278,7 +278,8 @@ class Structure(Base):
         self.hurt = 0
 
     def __repr__(self):
-        return '<Structure %s %s (%s %s)>' % (self.name, self.id, self.body.custom_name, self.body.id)
+        stats = (self.name, self.id, self.body.custom_name, self.body.id)
+        return '<Structure %s %s (%s %s)>' % stats
 
 class Map(Base):
     '''A map is a way for the player to interact with the game world
@@ -307,7 +308,8 @@ class Map(Base):
         self.map_type   = map_type
 
     def __repr__(self):
-        return '<%s %s (%s x %s)>' % (self.map_type, self.name, self.x_size, self.y_size)
+        stats = (self.map_type, self.name, self.x_size, self.y_size)
+        return '<%s %s (%s x %s)>' % stats
 
 class ModelBody(Base):
     '''This stores the general data of various classes of celestial
@@ -519,7 +521,8 @@ def debug():
     session.add(player)
 
     # Spacecraft
-    spaceships = ['Battle Frigate', 'Battle Frigate', 'Basic Fighter', 'Cruiser']
+    spaceships = ['Battle Frigate', 'Battle Frigate',
+                  'Basic Fighter', 'Cruiser']
 
     for spaceship in spaceships:
         db_spaceship = Spacecraft(spaceship, 'Foobar', player)
