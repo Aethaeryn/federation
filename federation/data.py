@@ -1,67 +1,51 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
-
 '''Handles the custom data files that come with the server. These
 include the yaml files in data and the header.html template for custom
 HTML code.
-'''
 
+Copyright (c) 2011, 2012 Michael Babich
+See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+'''
 import yaml
 from os import path, listdir
 
-class Parse():
-    '''Puts the yaml files from the data directory into a form that
-    the game understands.
+def parse(directory, filenames):
+    '''Takes a string (i.e. only one file) or a list of strings that
+    are files in the data directory and puts them into dictionaries
+    that the game can understand.
     '''
+    DIR = path.join(path.dirname(__file__), 'data')
+    EXT = 'yml'
 
-    DIR = path.join(path.dirname(__file__), 'data/')
-    EXT = '.yml'
+    if type(filenames) is str:
+        filenames = [filenames]
 
-    def __init__(self, directory, filenames):
-        '''Takes a string (i.e. only one file) or a list of strings
-        and puts it into the self.parsed dictionary.
-        '''
+    parsed = {}
 
-        if type(filenames) is str:
-            filenames = [filenames]
+    for filename in filenames:
+        full_path = path.join(DIR, directory, '%s.%s' % (filename, EXT))
+        parsed[filename] = _open_yaml(full_path)
 
-        self.parsed = {}
+    return parsed
 
-        if directory[-1] != '/':
-            directory += '/'
+def _open_yaml(location):
+    '''Opens the yaml data from a given file and returns it in
+    dictionary form, with a special case for environment. This special
+    case makes a new entry called name in the dictionary and sets it
+    as the name of the environmental object.
+    '''
+    conf    = open(location, 'r')
+    yaml_in = yaml.load(conf)
+    conf.close()
 
-        for filename in filenames:
-            try:
-                self.parsed[filename] = self.parse(directory, filename)
-            except:
-                raise Exception('Error in parsing '
-                                + self.DIR + directory + filename + self.EXT)
+    if 'environment' in location:
+        for key in yaml_in:
+            yaml_in[key]['name'] = key
 
-    @classmethod
-    def parse(self, directory, filename):
-        '''Opens the yaml data from a given file and returns it in
-        dictionary form, with a special case for environment. This
-        special case makes a new entry called name in the dictionary
-        and sets it as the name of the environmental object.
-        '''
-
-        if directory[-1] != '/':
-            directory += '/'
-
-        conf    = open(self.DIR + directory + filename + self.EXT, 'r')
-        yaml_in = yaml.load(conf)
-        conf.close()
-
-        if 'environment' in directory:
-            for key in yaml_in:
-                yaml_in[key]['name'] = key
-
-        return yaml_in
+    return yaml_in
 
 def parse_header():
     '''Gets the custom HTML from templates/header.html, if it exists.
     '''
-
     template_path = path.join(path.dirname(__file__), 'templates')
     templates     = listdir(template_path)
 

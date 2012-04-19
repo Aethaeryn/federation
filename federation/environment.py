@@ -137,8 +137,7 @@ class Environment():
         directory = 'environment'
         filenames = ['component', 'spacecraft']
 
-        parse    = data.Parse(directory, filenames)
-        self.obj = parse.parsed
+        self.obj = data.parse(directory, filenames)
         self.inherit_spacecraft()
 
         for filename in self.obj:
@@ -194,7 +193,7 @@ class Environment2():
         directory = 'environment'
         filenames = ['structure', 'unit', 'body']
 
-        obj = data.Parse(directory, filenames).parsed
+        obj = data.parse(directory, filenames)
 
         for filename in obj:
             for key in obj[filename]:
