@@ -32,52 +32,7 @@ def _get_header():
     else:
         return ''
 
-@app.route('/')
-def index():
-    '''Serves as the main page when people visit the website.
-    '''
-    desc = 'Federation is a massively multiplayer turn based strategy game with '\
-        'a space setting. To play the game in your browser, visit '\
-        '<a href="game.html">the game page</a>.'
-
-    header = _get_header()
-
-    return render_template('basic.html', body = desc, head = header)
-
-
-# *** Authentication and authenticated actions.
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    '''Authenticates a user.
-    '''
-    status = {}
-
-    user = 'michael'
-    password = 'correcthorsebatterystaple'
-
-    status['success'] = check_login(request.form, user, password)
-
-    response = _make_json(status)
-
-    if status['success']:
-        response.set_cookie('username', user)
-
-    return response
-
-#### Fixme: This doesn't currently do anything.
-@app.route('/move', methods=['POST', 'GET'])
-def move():
-    '''Sends a game move to the game server.
-    '''
-    moves = request.form
-
-    status = {}
-
-    status['success'] = check_cookie()
-
-    return _make_json(status)
-
-def check_login(login_data, user, password):
+def _check_login(login_data, user, password):
     '''Verifies the login information.
     '''
     if ('password' in login_data and 'user' in login_data and
@@ -87,7 +42,7 @@ def check_login(login_data, user, password):
     else:
         return False
 
-def check_cookie():
+def _check_cookie():
     '''Checks the cookie for the appropriate user.
 
     If there's no cookie, then the user is None.
@@ -100,8 +55,67 @@ def check_cookie():
     else:
         return False
 
+@app.route('/')
+def index():
+    '''Serves as the main page when people visit the website.
+    '''
+    desc = 'Federation is a massively multiplayer turn based strategy game with '\
+        'a space setting. To play the game in your browser, visit '\
+        '<a href="game.html">the game page</a>.'
 
-# *** Retrieve JSON data
+    header = _get_header()
+
+    return render_template('basic.html', body = desc, head = header)
+
+@app.route('/game.html')
+def game():
+    '''Creates an html page that uses javascript with canvas to format
+    the main game board. This serves as a client built into the server
+    so that downloading an external client is not required.
+    '''
+    canvases = ['header', 'board', 'sidebar', 'footer']
+    scripts  = ['jquery.js', 'board.js', 'load.js', 'actions.js']
+
+    html     = ''
+
+    header   = _get_header()
+
+    for canvas in canvases:
+        html += '<canvas id="%s"></canvas> ' % canvas
+
+    return render_template('basic.html', body = html, javascript = scripts, head = header)
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    '''Authenticates a user.
+    '''
+    status = {}
+
+    user = 'michael'
+    password = 'correcthorsebatterystaple'
+
+    status['success'] = _check_login(request.form, user, password)
+
+    response = _make_json(status)
+
+    if status['success']:
+        response.set_cookie('username', user)
+
+    return response
+
+#### TODO: This doesn't currently do anything.
+@app.route('/move', methods=['POST', 'GET'])
+def move():
+    '''Sends a game move to the game server.
+    '''
+    moves = request.form
+
+    status = {}
+
+    status['success'] = _check_cookie()
+
+    return _make_json(status)
+
 @app.route('/data/')
 def data_folder():
     '''Tells the client which pages to look for in the data directory
@@ -111,10 +125,11 @@ def data_folder():
     available['environment'] = True
     available['player']      = True
 
-    available['secret'] = check_cookie()
+    available['secret'] = _check_cookie()
 
     return _make_json(available)
 
+#### TODO: This is currently broken
 @app.route('/data/environment')
 def environment():
     '''Displays the public data from federation/data/environment in a
@@ -138,28 +153,8 @@ def player(username):
 def secret():
     '''This is a temporary test to show data to an authenticated user.
     '''
-    if check_cookie():
+    if _check_cookie():
         return _make_json({'private' : 'Hello world!'})
 
     else:
         return _make_json({'restricted' : True})
-
-
-# *** Play the game
-@app.route('/game.html')
-def game():
-    '''Creates an html page that uses javascript with canvas to format
-    the main game board. This serves as a client built into the server
-    so that downloading an external client is not required.
-    '''
-    canvases = ['header', 'board', 'sidebar', 'footer']
-    scripts  = ['jquery.js', 'board.js', 'load.js', 'actions.js']
-
-    html     = ''
-
-    header   = _get_header()
-
-    for canvas in canvases:
-        html += '<canvas id="%s"></canvas> ' % canvas
-
-    return render_template('basic.html', body = html, javascript = scripts, head = header)
