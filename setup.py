@@ -4,11 +4,15 @@ before running it for the first time.
 Currently, this just sets up the JavaScript files by downloading the
 libraries and compiling the CoffeeScript into JavaScript.
 
+This file needs an external configuration file to run.
+
 Copyright (c) 2011, 2012 Michael Babich
 See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 '''
-import execjs, requests, io
+import execjs, io, requests, yaml
 from os import path, listdir, mkdir
+
+CONF_FILE = 'federation/data/setup.yml'
 
 def location(target):
     '''Turns a string that is a relative directory location into a
@@ -51,16 +55,14 @@ def write_file(destination, content):
     destination.write(content)
     destination.close()
 
-def get_libraries(directory):
+def get_libraries(directory, libraries):
     '''Fetches JavaScript libraries from the Internet if they are not
     already in the JavaScript directory.
     '''
-    js_lib = {'jquery.js'        : 'http://code.jquery.com/jquery-1.7.2.min.js',
-              'coffee-script.js' : 'http://jashkenas.github.com/coffee-script/extras/coffee-script.js'}
 
-    for library in js_lib:
+    for library in libraries:
         if library not in listdir(directory):
-            downloaded  = requests.get(js_lib[library])
+            downloaded  = requests.get(libraries[library])
             destination = "%s%s" % (directory, library)
             content     = downloaded.content
             write_file(destination, content)
@@ -80,14 +82,15 @@ def main():
     '''Sets up various things that are required for running
     Federation.
     '''
-    coffee_dir = location('src/')
-    static_dir = location('federation/static/')
-    script_dir = static_dir + 'script/'
+    config     = yaml.load(read_file(location(CONF_FILE)))
+    coffee_dir = location(config['Directories']['Coffee'])
+    static_dir = location(config['Directories']['Static'])
+    script_dir = location(config['Directories']['Script'])
 
     if 'script' not in listdir(static_dir):
         mkdir(script_dir)
 
-    get_libraries(script_dir)
+    get_libraries(script_dir, config['Libraries'])
     compile_coffee(coffee_dir, script_dir)
 
 if __name__ == '__main__':

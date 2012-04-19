@@ -1,0 +1,10 @@
+# This configuration file contains all of the information for setup.py
+
+Directories:
+  Coffee : src/
+  Static : federation/static/
+  Script : federation/static/script/
+
+Libraries:
+  jquery.js        : http://code.jquery.com/jquery-1.7.2.min.js
+  coffee-script.js : http://jashkenas.github.com/coffee-script/extras/coffee-script.js
