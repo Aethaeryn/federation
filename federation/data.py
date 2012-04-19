@@ -6,7 +6,7 @@ Copyright (c) 2011, 2012 Michael Babich
 See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 '''
 import yaml
-from os import path, listdir
+from os import path
 
 def parse(directory, filenames):
     '''Takes a string (i.e. only one file) or a list of strings that
@@ -42,19 +42,3 @@ def _open_yaml(location):
             yaml_in[key]['name'] = key
 
     return yaml_in
-
-def parse_header():
-    '''Gets the custom HTML from templates/header.html, if it exists.
-    '''
-    template_path = path.join(path.dirname(__file__), 'templates')
-    templates     = listdir(template_path)
-
-    if 'header.html' in templates:
-        header = open(path.join(template_path, 'header.html'), 'r')
-        text   = header.read()
-
-        header.close()
-        return text
-
-    else:
-        return ''

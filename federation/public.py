@@ -1,15 +1,14 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
-
 '''Serves the public data API json and game client html using flask
 for dynamic rendering of the content.
+
+Copyright (c) 2011, 2012 Michael Babich
+See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 '''
-
-from federation import app, data
+from federation import app
 from flask import json, render_template, request, make_response
+from os import path, listdir
 
-# *** Helper functions.
-def make_json(dictionary):
+def _make_json(dictionary):
     '''Helper function that makes sure that the data served is
     recognized by browers as JSON.
     '''
@@ -17,8 +16,22 @@ def make_json(dictionary):
     response.mimetype = 'application/json'
     return response
 
+def _get_header():
+    '''Gets the custom HTML from templates/header.html, if it exists.
+    '''
+    template_path = path.join(path.dirname(__file__), 'templates')
+    templates     = listdir(template_path)
 
-# *** Index page
+    if 'header.html' in templates:
+        header = open(path.join(template_path, 'header.html'), 'r')
+        text   = header.read()
+
+        header.close()
+        return text
+
+    else:
+        return ''
+
 @app.route('/')
 def index():
     '''Serves as the main page when people visit the website.
@@ -27,7 +40,7 @@ def index():
         'a space setting. To play the game in your browser, visit '\
         '<a href="game.html">the game page</a>.'
 
-    header = data.parse_header()
+    header = _get_header()
 
     return render_template('basic.html', body = desc, head = header)
 
@@ -44,7 +57,7 @@ def login():
 
     status['success'] = check_login(request.form, user, password)
 
-    response = make_json(status)
+    response = _make_json(status)
 
     if status['success']:
         response.set_cookie('username', user)
@@ -62,7 +75,7 @@ def move():
 
     status['success'] = check_cookie()
 
-    return make_json(status)
+    return _make_json(status)
 
 def check_login(login_data, user, password):
     '''Verifies the login information.
@@ -100,36 +113,36 @@ def data_folder():
 
     available['secret'] = check_cookie()
 
-    return make_json(available)
+    return _make_json(available)
 
 @app.route('/data/environment')
 def environment():
     '''Displays the public data from federation/data/environment in a
     way that the clients can parse using JSON.
     '''
-    return make_json(app.game.env.convert())
+    return _make_json(app.game.env.convert())
 
 @app.route('/data/player/')
 def players():
     '''Displays the username and IDs of all the players in the game.
     '''
-    return make_json(app.game.get_all_players())
+    return _make_json(app.game.get_all_players())
 
 @app.route('/data/player/<username>')
 def player(username):
     '''Displays the public stats of any given user.
     '''
-    return make_json(app.game.get_player(username))
+    return _make_json(app.game.get_player(username))
 
 @app.route('/data/secret')
 def secret():
     '''This is a temporary test to show data to an authenticated user.
     '''
     if check_cookie():
-        return make_json({'private' : 'Hello world!'})
+        return _make_json({'private' : 'Hello world!'})
 
     else:
-        return make_json({'restricted' : True})
+        return _make_json({'restricted' : True})
 
 
 # *** Play the game
@@ -144,7 +157,7 @@ def game():
 
     html     = ''
 
-    header   = data.parse_header()
+    header   = _get_header()
 
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
