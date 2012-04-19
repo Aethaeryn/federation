@@ -9,8 +9,11 @@ This file needs an external configuration file to run.
 Copyright (c) 2011, 2012 Michael Babich
 See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 '''
-import execjs, io, requests, yaml
 from os import path, listdir, mkdir
+import execjs
+import io
+import requests
+import yaml
 
 CONF_FILE = 'federation/data/setup.yml'
 

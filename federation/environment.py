@@ -4,7 +4,7 @@ that the game can understand.
 Copyright (c) 2011, 2012 Michael Babich
 See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 '''
-import copy, yaml
+import yaml
 from federation import database
 from os import path
 

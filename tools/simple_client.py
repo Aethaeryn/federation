@@ -9,10 +9,11 @@ the server-to-client API on third party clients.
 This client does not handle errors very well and so is only useful for
 development purposes. It breaks very easily.
 '''
-
 from sys import argv
-import urllib, urllib2, cookielib
+import cookielib
 import json
+import urllib
+import urllib2
 
 def print_dictionary(data, level):
     '''Recursively prints the contents of a dictionary in a format for
