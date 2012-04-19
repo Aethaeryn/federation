@@ -14,6 +14,15 @@ Python
   * Make every database element seemlessly transition to JSON that can
     be accessed.
 
+  * Finish moving Spacecraft and Component models from environment to
+    database and make sure that the data/environment JSON is just as
+    functional as it was before the rewrite.
+
+  * Sort the methods, classes, functions, variables, etc., in a
+    logical manner.
+
+  * Break up database.py and perhaps public.py into subfiles.
+
 * Game elements.
 
   * Map generation.
@@ -22,8 +31,8 @@ Python
 
 * Game code.
 
-  * Make a new Python file that when invoked by a cron script increments
-    the turns on a regular (e.g. every midnight) basis.
+  * Make a new Python file that when called by a cron script
+    increments the turns on a regular (e.g. every midnight) basis.
 
   * Movement and location.
 
@@ -31,6 +40,8 @@ Python
 
 * Add in checks to database.py to make sure that the data is valid and
   that all of the required fields are provided.
+
+  * Add reasonable defaults?
 
 CoffeeScript
 ------------
