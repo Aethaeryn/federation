@@ -1,7 +1,7 @@
 # Copyright (c) 2011, 2012 Michael Babich
 # See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
-'''Uses SQLAlchemy to store data a SQL database. 
+'''Uses SQLAlchemy to store data a SQL database.
 '''
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
@@ -33,8 +33,8 @@ class Game(Base):
 
     id            = Column(Integer, primary_key=True)
     server_name   = Column(String(80), unique=True)
-    turn          = Column(Integer)
     start_year    = Column(Integer)
+    turn          = Column(Integer)
     turns_per_day = Column(Integer)
 
     def __init__(self, server_name, start_year, turns_per_day):
@@ -64,7 +64,7 @@ class Game(Base):
 class Component(Base):
     '''Stores *all* of the components that are in existence in the
     game and points them at the spacecraft they are installed in.
-    
+
     Only the information that will differ between components in action
     are stored here. The rest of the stats are stored in
     ModelComponent because they do not regularly change.
@@ -99,12 +99,12 @@ class Spacecraft(Base):
     name        = Column(String(80))
     custom_name = Column(String(80))
 
-    owner_id    = Column(Integer, ForeignKey('player.id'))
     fleet_id    = Column(Integer, ForeignKey('fleet.id'))
     map_id      = Column(Integer, ForeignKey('map.id'))
-    owner       = relationship('Player', backref=backref('spacecraft', order_by=id))
+    owner_id    = Column(Integer, ForeignKey('player.id'))
     fleet       = relationship('Fleet', backref=backref('spacecraft', order_by=id))
     location    = relationship('Map', backref=backref('spacecraft', order_by=id))
+    owner       = relationship('Player', backref=backref('spacecraft', order_by=id))
 
     x_position  = Column(Integer)
     y_position  = Column(Integer)
@@ -130,10 +130,10 @@ class Federation(Base):
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80), unique=True)
-    date        = Column(DateTime)
     cash        = Column(Integer)
-    tax_rate    = Column(Integer)
+    date        = Column(DateTime)
     shared_view = Column(Boolean)
+    tax_rate    = Column(Integer)
 
     def __init__(self, name, founder):
         self.name    = name
@@ -150,10 +150,10 @@ class Player(Base):
 
     id         = Column(Integer, primary_key=True)
     username   = Column(String(80), unique=True)
-    game_name  = Column(String(80))
-    email      = Column(String(80))
-    date       = Column(DateTime)
     cash       = Column(Integer)
+    date       = Column(DateTime)
+    email      = Column(String(80))
+    game_name  = Column(String(80))
     income     = Column(Integer)
     research   = Column(Integer)
 
@@ -244,10 +244,10 @@ class Body(Base):
     custom_name = Column(String(80))
     variant     = Column(String(80))
 
-    owner_id    = Column(Integer, ForeignKey('player.id'))
     map_id      = Column(Integer, ForeignKey('map.id'))
-    owner       = relationship('Player', backref=backref('territory', order_by=id))
+    owner_id    = Column(Integer, ForeignKey('player.id'))
     location    = relationship('Map', backref=backref('bodies', order_by=id))
+    owner       = relationship('Player', backref=backref('territory', order_by=id))
 
     x_position  = Column(Integer)
     y_position  = Column(Integer)
@@ -339,10 +339,10 @@ class ModelUnit(Base):
 
     id          = Column(Integer, primary_key = True)
     name        = Column(String(80))
-    description = Column(String)
-    hitpoints   = Column(Integer)
     cost        = Column(Integer)
     damage      = Column(Integer)
+    description = Column(String)
+    hitpoints   = Column(Integer)
     special     = Column(Integer)
 
     def __init__(self, dictionary):
@@ -358,15 +358,15 @@ class ModelStructure(Base):
 
     id          = Column(Integer, primary_key = True)
     name        = Column(String(80))
+    cost        = Column(Integer)
     description = Column(String)
     hitpoints   = Column(Integer)
-    cost        = Column(Integer)
-    special     = Column(String)
     shields     = Column(Integer)
+    special     = Column(String)
     wep_damage  = Column(Integer)
+    wep_special = Column(String)
     wep_speed   = Column(Integer)
     wep_type    = Column(String)
-    wep_special = Column(String)
 
     def __init__(self, dictionary):
         self.__dict__.update(dictionary)
@@ -382,13 +382,13 @@ class ModelSpacecraft(Base):
 
     id             = Column(Integer, primary_key = True)
     name           = Column(String(80))
-    description    = Column(String)
-    size           = Column(String)
     base_cost      = Column(Integer)
     component_list = Column(String)
     component_max  = Column(Integer)
-    special        = Column(String)
+    description    = Column(String)
     inherits       = Column(String)
+    size           = Column(String)
+    special        = Column(String)
 
     def __init__(self, dictionary):
         required = set(['name', 'description', 'size', 'base_cost',
@@ -454,24 +454,24 @@ class ModelComponent(Base):
 
     id          = Column(Integer, primary_key = True)
     name        = Column(String(80))
+    cost        = Column(Integer)
     description = Column(String)
     size        = Column(String)
-    cost        = Column(Integer)
 
-    hitpoints   = Column(Integer)
-    shields     = Column(Integer)
-    sensors     = Column(Integer)
-    speed       = Column(Integer)
     cargo       = Column(Integer)
-    dock        = Column(Integer)
     crew        = Column(Integer)
+    dock        = Column(Integer)
+    hitpoints   = Column(Integer)
     hyperspace  = Column(Boolean)
+    sensors     = Column(Integer)
+    shields     = Column(Integer)
     special     = Column(String)
+    speed       = Column(Integer)
+    unsellable  = Column(Boolean)
     wep_damage  = Column(Integer)
+    wep_special = Column(Integer)
     wep_speed   = Column(Integer)
     wep_type    = Column(Integer)
-    wep_special = Column(Integer)
-    unsellable  = Column(Boolean)
 
     def __init__(self, dictionary):
         required = set(['name', 'description', 'size', 'cost'])
