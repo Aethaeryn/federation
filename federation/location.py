@@ -1,7 +1,7 @@
-'''Provides certain algorithms for hex board calculations.
+# Copyright (c) 2011, 2012 Michael Babich
+# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 
-Copyright (c) 2011, 2012 Michael Babich
-See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+'''Provides certain algorithms for hex board calculations.
 '''
 def distance(start_location, end_location):
     '''Calculates the difference between two points on a hex board

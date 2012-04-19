@@ -1,3 +1,6 @@
+# Copyright (c) 2011, 2012 Michael Babich
+# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+
 '''This file does all of the actions necessary to set up Federation
 before running it for the first time.
 
@@ -5,9 +8,6 @@ Currently, this just sets up the JavaScript files by downloading the
 libraries and compiling the CoffeeScript into JavaScript.
 
 This file needs an external configuration file to run.
-
-Copyright (c) 2011, 2012 Michael Babich
-See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
 '''
 from os import path, listdir, mkdir
 import execjs
