@@ -12,18 +12,16 @@ from sqlalchemy.orm import sessionmaker
 LOCATION = 'sqlite:///:memory:'
 Base = declarative_base()
 
-class Database():
-    '''Acts as a connection layer between a SQL database session and
-    the rest of the SQLAlchemy-using code.
+def make_db(location):
+    '''This provides the code that sets up SQLAlchemy so that it can
+    talk to the database. It returns a session instance.
     '''
-    def __init__(self, location):
-        self.engine = create_engine(location, echo=False)
-        self.Session = sessionmaker()
-        self.Session.configure(bind=self.engine)
-        self.session = self.Session()
-        Base.metadata.create_all(self.engine)
+    engine = create_engine(location, echo=False)
+    session = sessionmaker()
+    session.configure(bind=engine)
+    Base.metadata.create_all(engine)
+    return session()
 
 import federation.database.database, federation.database.model
 
-db      = Database(LOCATION)
-session = db.session
+session = make_db(LOCATION)
