@@ -4,7 +4,8 @@
 '''This file runs a game server of Federation by acting as an
 intermediary between the web server and the database.
 '''
-from federation import environment, database
+from federation import environment
+from federation.database import database
 
 class Game():
     '''Acts as an instance of a game server. Multiple games are

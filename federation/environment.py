@@ -5,7 +5,7 @@
 that the game can understand.
 '''
 import yaml
-from federation import database
+from federation.database import database
 from os import path
 
 def _parse_data(directory, filenames):
