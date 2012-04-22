@@ -5,7 +5,7 @@
 that the game can understand.
 '''
 import yaml
-from federation.database import database
+from federation.database import model, database
 from os import path
 
 def _parse_data(directory, filenames):
@@ -55,19 +55,19 @@ def environment():
     for filename in obj:
         for key in obj[filename]:
             if filename == 'spacecraft':
-                item = database.ModelSpacecraft(obj[filename][key])
+                item = model.ModelSpacecraft(obj[filename][key])
 
             elif filename == 'component':
-                item = database.ModelComponent(obj[filename][key])
+                item = model.ModelComponent(obj[filename][key])
 
             elif filename == 'structure':
-                item = database.ModelStructure(obj[filename][key])
+                item = model.ModelStructure(obj[filename][key])
 
             elif filename == 'unit':
-                item = database.ModelUnit(obj[filename][key])
+                item = model.ModelUnit(obj[filename][key])
 
             elif filename == 'body':
-                item = database.ModelBody(obj[filename][key])
+                item = model.ModelBody(obj[filename][key])
 
             database.session.add(item)
 
