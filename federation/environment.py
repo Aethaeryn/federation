@@ -5,7 +5,7 @@
 that the game can understand.
 '''
 import yaml
-from federation.database import model, database
+from federation.database import model, database, session
 from os import path
 
 def _parse_data(directory, filenames):
@@ -69,6 +69,6 @@ def environment():
             elif filename == 'body':
                 item = model.ModelBody(obj[filename][key])
 
-            database.session.add(item)
+            session.add(item)
 
-    database.session.commit()
+    session.commit()

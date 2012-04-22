@@ -5,7 +5,7 @@
 intermediary between the web server and the database.
 '''
 from federation import environment
-from federation.database import database
+from federation.database import database, session
 
 class Game():
     '''Acts as an instance of a game server. Multiple games are
@@ -22,7 +22,7 @@ class Game():
     def get_all_players(self):
         '''Puts the player names and IDs in a dictionary.
         '''
-        query = database.session.query(database.Player)
+        query = session.query(database.Player)
         users = query.all()
         names = {}
 
@@ -38,7 +38,7 @@ class Game():
         players = self.get_all_players()
 
         if username in players:
-            query  = database.session.query(database.Player)
+            query  = session.query(database.Player)
             player = query.filter(database.Player.username == username).first()
 
             return player.get_player_info()

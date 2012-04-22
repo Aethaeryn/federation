@@ -5,21 +5,8 @@
 '''
 from datetime import datetime
 from federation.database import Base
-from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
-from sqlalchemy.orm import sessionmaker, relationship, backref
-
-LOCATION  = 'sqlite:///:memory:'
-
-class Database():
-    '''Acts as a connection layer between a SQL database session and
-    the rest of the SQLAlchemy-using code.
-    '''
-    def __init__(self, location):
-        self.engine = create_engine(location, echo=False)
-        self.Session = sessionmaker()
-        self.Session.configure(bind=self.engine)
-        self.session = self.Session()
-        Base.metadata.create_all(self.engine)
+from sqlalchemy import Column, Integer, Boolean, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 class Game(Base):
     '''Stores all of the information about a particular game running
@@ -309,10 +296,9 @@ class Map(Base):
         stats = (self.map_type, self.name, self.x_size, self.y_size)
         return '<%s %s (%s x %s)>' % stats
 
-db      = Database(LOCATION)
-session = db.session
-
 def debug():
+    from federation.database import session
+
     '''Temporary method that tests various parts of the database. This
     will eventually be replaced by a standalone test module.
     '''
