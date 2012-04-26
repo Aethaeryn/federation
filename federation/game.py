@@ -1,5 +1,5 @@
 # Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+# See LICENSE.txt or http://opensource.org/licenses/MIT
 
 '''This file runs a game server of Federation by acting as an
 intermediary between the web server and the database.

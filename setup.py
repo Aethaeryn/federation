@@ -1,5 +1,5 @@
 # Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+# See LICENSE.txt or http://opensource.org/licenses/MIT
 
 '''This file does all of the actions necessary to set up Federation
 before running it for the first time.

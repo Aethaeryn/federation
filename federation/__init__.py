@@ -1,5 +1,5 @@
 # Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+# See LICENSE.txt or http://opensource.org/licenses/MIT
 
 '''The federation package contains everything that is necessary to run
 a Federation game server.

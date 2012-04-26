@@ -1,5 +1,5 @@
 # Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+# See LICENSE.txt or http://opensource.org/licenses/MIT
 
 '''Runs a test server locally on port 8080 via Flask's built in server
 functionality. Do *NOT* use this in a production environment. Instead

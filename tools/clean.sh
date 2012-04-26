@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://www.opensource.org/licenses/mit-license.php
+# See LICENSE.txt or http://opensource.org/licenses/MIT
 
 # This script removes all the compiled and generated Python and JavaScript
 # files, returning Federation to its original state.
