@@ -25,17 +25,6 @@ def _get_header():
         return ''
 
 def index():
-    '''Serves as the main page when people visit the website.
-    '''
-    desc = 'Federation is a massively multiplayer turn based strategy game ' \
-        'with a space setting. To play the game in your browser, visit '\
-        '<a href="game.html">the game page</a>.'
-
-    header = _get_header()
-
-    return make_page(body=desc, head=header)
-
-def game_board():
     '''Creates an html page that uses javascript with canvas to format
     the main game board. This serves as a client built into the server
     so that downloading an external client is not required.

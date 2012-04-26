@@ -19,7 +19,6 @@ game.start()
 
 def set_up():
     website = [['/'                       , 'index',       public.index],
-               ['/game.html'              , 'game',        public.game_board],
                ['/data/'                  , 'data',        public.data_folder],
                ['/data/environment'       , 'environment', public.environment],
                ['/data/player/'           , 'players',     public.players],
