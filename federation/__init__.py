@@ -19,11 +19,14 @@ app.game = game.Game()
 
 public.login.methods = ['POST', 'GET']
 
-app.add_url_rule('/', 'index', public.index)
-app.add_url_rule('/game.html', 'game', public.game)
-app.add_url_rule('/login', 'login', public.login)
-app.add_url_rule('/data/', 'data', public.data_folder)
-app.add_url_rule('/data/environment', 'environment', public.environment)
-app.add_url_rule('/data/player/', 'players', public.players)
-app.add_url_rule('/data/player/<username>', 'player', public.player)
-app.add_url_rule('/data/secret', 'secret', public.secret)
+website = [['/'                       , 'index',       public.index],
+           ['/game.html'              , 'game',        public.game],
+           ['/login'                  , 'login',       public.login],
+           ['/data/'                  , 'data',        public.data_folder],
+           ['/data/environment'       , 'environment', public.environment],
+           ['/data/player/'           , 'players',     public.players],
+           ['/data/player/<username>' , 'player',      public.player],
+           ['/data/secret'            , 'secret',      public.secret]]
+
+for page in website:
+    app.add_url_rule(*page)
