@@ -6,7 +6,6 @@ for dynamic rendering of the content.
 '''
 from federation import game
 from federation.web import *
-from flask import request
 from os import path, listdir
 
 def _get_header():
@@ -52,23 +51,6 @@ def game_board():
         html += '<canvas id="%s"></canvas> ' % canvas
 
     return make_page(body=html, javascript=scripts, head=header)
-
-def login():
-    '''Authenticates a user.
-    '''
-    status = {}
-
-    user = 'michael'
-    password = 'correcthorsebatterystaple'
-
-    status['success'] = check_login(request.form, user, password)
-
-    response = make_json(status)
-
-    if status['success']:
-        response.set_cookie('username', user)
-
-    return response
 
 def data_folder():
     '''Tells the client which pages to look for in the data directory
