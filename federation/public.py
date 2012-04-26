@@ -6,7 +6,7 @@ for dynamic rendering of the content.
 '''
 from federation import game
 from federation.web import *
-from flask import render_template, request
+from flask import request
 from os import path, listdir
 
 def _get_header():
@@ -34,7 +34,7 @@ def index():
 
     header = _get_header()
 
-    return render_template('basic.html', body = desc, head = header)
+    return make_page(body=desc, head=header)
 
 def game_board():
     '''Creates an html page that uses javascript with canvas to format
@@ -51,8 +51,7 @@ def game_board():
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return render_template('basic.html', body=html,
-                           javascript=scripts, head=header)
+    return make_page(body=html, javascript=scripts, head=header)
 
 def login():
     '''Authenticates a user.

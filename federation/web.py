@@ -3,7 +3,7 @@
 
 '''Handles all of the Flask helper functions for public.py
 '''
-from flask import json, request, make_response
+from flask import json, request, make_response, render_template
 
 def make_json(dictionary):
     '''Helper function that makes sure that the data served is
@@ -35,3 +35,6 @@ def check_cookie():
 
     else:
         return False
+
+def make_page(**kwargs):
+    return render_template('basic.html', **kwargs)
