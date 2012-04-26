@@ -5,16 +5,9 @@
 for dynamic rendering of the content.
 '''
 from federation import game
-from flask import json, render_template, request, make_response
+from federation.web import *
+from flask import render_template, request
 from os import path, listdir
-
-def _make_json(dictionary):
-    '''Helper function that makes sure that the data served is
-    recognized by browers as JSON.
-    '''
-    response = make_response(json.dumps(dictionary))
-    response.mimetype = 'application/json'
-    return response
 
 def _get_header():
     '''Gets the custom HTML from templates/header.html, if it exists.
@@ -31,29 +24,6 @@ def _get_header():
 
     else:
         return ''
-
-def _check_login(login_data, user, password):
-    '''Verifies the login information.
-    '''
-    if ('password' in login_data and 'user' in login_data and
-        login_data['password'] == password and login_data['user'] == user):
-        return True
-
-    else:
-        return False
-
-def _check_cookie():
-    '''Checks the cookie for the appropriate user.
-
-    If there's no cookie, then the user is None.
-    '''
-    cookie = request.cookies.get('username')
-
-    if cookie == 'michael':
-        return True
-
-    else:
-        return False
 
 def index():
     '''Serves as the main page when people visit the website.
@@ -92,9 +62,9 @@ def login():
     user = 'michael'
     password = 'correcthorsebatterystaple'
 
-    status['success'] = _check_login(request.form, user, password)
+    status['success'] = check_login(request.form, user, password)
 
-    response = _make_json(status)
+    response = make_json(status)
 
     if status['success']:
         response.set_cookie('username', user)
@@ -109,32 +79,32 @@ def data_folder():
     available['environment'] = True
     available['player']      = True
 
-    available['secret'] = _check_cookie()
+    available['secret'] = check_cookie()
 
-    return _make_json(available)
+    return make_json(available)
 
 #### TODO: This is currently broken
 def environment():
     '''Displays the public data from federation/data/environment in a
     way that the clients can parse using JSON.
     '''
-    return _make_json(game.env.convert())
+    return make_json(game.env.convert())
 
 def players():
     '''Displays the username and IDs of all the players in the game.
     '''
-    return _make_json(game.get_all_players())
+    return make_json(game.get_all_players())
 
 def player(username):
     '''Displays the public stats of any given user.
     '''
-    return _make_json(game.get_player(username))
+    return make_json(game.get_player(username))
 
 def secret():
     '''This is a temporary test to show data to an authenticated user.
     '''
-    if _check_cookie():
-        return _make_json({'private' : 'Hello world!'})
+    if check_cookie():
+        return make_json({'private' : 'Hello world!'})
 
     else:
-        return _make_json({'restricted' : True})
+        return make_json({'restricted' : True})
