@@ -5,7 +5,7 @@
 for dynamic rendering of the content.
 '''
 from federation import game
-from federation.web import *
+from avenue.api import *
 from os import path, listdir
 
 def _get_header():
@@ -24,7 +24,7 @@ def _get_header():
     else:
         return ''
 
-def index():
+def game_index():
     '''Creates an html page that uses javascript with canvas to format
     the main game board. This serves as a client built into the server
     so that downloading an external client is not required.
