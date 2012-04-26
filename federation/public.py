@@ -55,7 +55,6 @@ def _check_cookie():
     else:
         return False
 
-@app.route('/')
 def index():
     '''Serves as the main page when people visit the website.
     '''
@@ -67,7 +66,6 @@ def index():
 
     return render_template('basic.html', body = desc, head = header)
 
-@app.route('/game.html')
 def game():
     '''Creates an html page that uses javascript with canvas to format
     the main game board. This serves as a client built into the server
@@ -86,7 +84,6 @@ def game():
     return render_template('basic.html', body=html,
                            javascript=scripts, head=header)
 
-@app.route('/login', methods=['POST', 'GET'])
 def login():
     '''Authenticates a user.
     '''
@@ -104,20 +101,6 @@ def login():
 
     return response
 
-#### TODO: This doesn't currently do anything.
-@app.route('/move', methods=['POST', 'GET'])
-def move():
-    '''Sends a game move to the game server.
-    '''
-    moves = request.form
-
-    status = {}
-
-    status['success'] = _check_cookie()
-
-    return _make_json(status)
-
-@app.route('/data/')
 def data_folder():
     '''Tells the client which pages to look for in the data directory
     for JSON information to parse.
@@ -131,26 +114,22 @@ def data_folder():
     return _make_json(available)
 
 #### TODO: This is currently broken
-@app.route('/data/environment')
 def environment():
     '''Displays the public data from federation/data/environment in a
     way that the clients can parse using JSON.
     '''
     return _make_json(app.game.env.convert())
 
-@app.route('/data/player/')
 def players():
     '''Displays the username and IDs of all the players in the game.
     '''
     return _make_json(app.game.get_all_players())
 
-@app.route('/data/player/<username>')
 def player(username):
     '''Displays the public stats of any given user.
     '''
     return _make_json(app.game.get_player(username))
 
-@app.route('/data/secret')
 def secret():
     '''This is a temporary test to show data to an authenticated user.
     '''
