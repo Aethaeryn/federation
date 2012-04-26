@@ -17,16 +17,16 @@ from federation import game, public
 
 game.start()
 
-public.login.methods = ['POST', 'GET']
+def set_up():
+    website = [['/'                       , 'index',       public.index],
+               ['/game.html'              , 'game',        public.game_board],
+               ['/data/'                  , 'data',        public.data_folder],
+               ['/data/environment'       , 'environment', public.environment],
+               ['/data/player/'           , 'players',     public.players],
+               ['/data/player/<username>' , 'player',      public.player],
+               ['/data/secret'            , 'secret',      public.secret]]
 
-website = [['/'                       , 'index',       public.index],
-           ['/game.html'              , 'game',        public.game_board],
-           ['/login'                  , 'login',       public.login],
-           ['/data/'                  , 'data',        public.data_folder],
-           ['/data/environment'       , 'environment', public.environment],
-           ['/data/player/'           , 'players',     public.players],
-           ['/data/player/<username>' , 'player',      public.player],
-           ['/data/secret'            , 'secret',      public.secret]]
+    for page in website:
+        app.add_url_rule(*page)
 
-for page in website:
-    app.add_url_rule(*page)
+set_up()
