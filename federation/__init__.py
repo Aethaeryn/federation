@@ -15,12 +15,12 @@ app = Flask(__name__)
 
 from federation import game, public
 
-app.game = game.Game()
+game.start()
 
 public.login.methods = ['POST', 'GET']
 
 website = [['/'                       , 'index',       public.index],
-           ['/game.html'              , 'game',        public.game],
+           ['/game.html'              , 'game',        public.game_board],
            ['/login'                  , 'login',       public.login],
            ['/data/'                  , 'data',        public.data_folder],
            ['/data/environment'       , 'environment', public.environment],

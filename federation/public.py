@@ -4,7 +4,7 @@
 '''Serves the public data API json and game client html using flask
 for dynamic rendering of the content.
 '''
-from federation import app
+from federation import game
 from flask import json, render_template, request, make_response
 from os import path, listdir
 
@@ -66,7 +66,7 @@ def index():
 
     return render_template('basic.html', body = desc, head = header)
 
-def game():
+def game_board():
     '''Creates an html page that uses javascript with canvas to format
     the main game board. This serves as a client built into the server
     so that downloading an external client is not required.
@@ -118,17 +118,17 @@ def environment():
     '''Displays the public data from federation/data/environment in a
     way that the clients can parse using JSON.
     '''
-    return _make_json(app.game.env.convert())
+    return _make_json(game.env.convert())
 
 def players():
     '''Displays the username and IDs of all the players in the game.
     '''
-    return _make_json(app.game.get_all_players())
+    return _make_json(game.get_all_players())
 
 def player(username):
     '''Displays the public stats of any given user.
     '''
-    return _make_json(app.game.get_player(username))
+    return _make_json(game.get_player(username))
 
 def secret():
     '''This is a temporary test to show data to an authenticated user.
