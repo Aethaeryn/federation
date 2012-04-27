@@ -10,6 +10,7 @@ serves http pages that can be accessed directly by a modern browser
 with JavaScript and canvas support.
 '''
 from federation import public, game
+from flask import Blueprint
 
 class Federation():
     website = [['/'                       , 'game_index',  public.game_index],
@@ -21,3 +22,10 @@ class Federation():
 
     def __init__(self):
         game.start()
+
+app = Blueprint('fedgame', __name__, static_folder='static', url_prefix='/federation')
+
+foo = Federation()
+
+for page in foo.website:
+    app.add_url_rule(*page)

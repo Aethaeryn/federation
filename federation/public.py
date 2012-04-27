@@ -6,23 +6,6 @@ for dynamic rendering of the content.
 '''
 from federation import game
 from avenue.api import *
-from os import path, listdir
-
-def _get_header():
-    '''Gets the custom HTML from templates/header.html, if it exists.
-    '''
-    template_path = path.join(path.dirname(__file__), 'templates')
-    templates     = listdir(template_path)
-
-    if 'header.html' in templates:
-        header = open(path.join(template_path, 'header.html'), 'r')
-        text   = header.read()
-
-        header.close()
-        return text
-
-    else:
-        return ''
 
 def game_index():
     '''Creates an html page that uses javascript with canvas to format
@@ -34,12 +17,13 @@ def game_index():
 
     html     = ''
 
-    header   = _get_header()
+    header   = get_header()
 
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return make_page(body=html, javascript=scripts, head=header)
+    return make_page(body=html, javascript=scripts, head=header,
+                     style='../static/dark-plain')
 
 def data_folder():
     '''Tells the client which pages to look for in the data directory
