@@ -10,7 +10,9 @@ canvas support.
 '''
 from flask import Blueprint
 
-app = Blueprint('federation', __name__, static_folder='static', url_prefix='/federation')
+app = Blueprint('federation', __name__,
+                static_folder='static',
+                url_prefix='/federation')
 
 from federation import public, game
 

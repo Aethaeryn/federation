@@ -5,7 +5,7 @@
 for dynamic rendering of the content.
 '''
 from federation import game, app
-from avenue.api import *
+from avenue import api
 
 @app.route('/')
 def game_index():
@@ -18,13 +18,13 @@ def game_index():
 
     html     = ''
 
-    header   = get_header()
+    header   = api.get_header()
 
     for canvas in canvases:
         html += '<canvas id="%s"></canvas> ' % canvas
 
-    return make_page(body=html, javascript=scripts, head=header,
-                     style='../static/dark-plain')
+    return api.make_page(body=html, javascript=scripts, head=header,
+                         style='../static/dark-plain')
 
 @app.route('/data/')
 def data_folder():
@@ -34,10 +34,9 @@ def data_folder():
     available = {}
     available['environment'] = True
     available['player']      = True
+    available['secret']      = api.check_cookie()
 
-    available['secret'] = check_cookie()
-
-    return make_json(available)
+    return api.make_json(available)
 
 #### TODO: This is currently broken
 @app.route('/data/environment')
@@ -45,26 +44,26 @@ def environment():
     '''Displays the public data from federation/data/environment in a
     way that the clients can parse using JSON.
     '''
-    return make_json(game.env.convert())
+    return api.make_json(game.env.convert())
 
 @app.route('/data/player/')
 def players():
     '''Displays the username and IDs of all the players in the game.
     '''
-    return make_json(game.get_all_players())
+    return api.make_json(game.get_all_players())
 
 @app.route('/data/player/<username>')
 def player(username):
     '''Displays the public stats of any given user.
     '''
-    return make_json(game.get_player(username))
+    return api.make_json(game.get_player(username))
 
 @app.route('/data/secret')
 def secret():
     '''This is a temporary test to show data to an authenticated user.
     '''
-    if check_cookie():
-        return make_json({'private' : 'Hello world!'})
+    if api.check_cookie():
+        return api.make_json({'private' : 'Hello world!'})
 
     else:
-        return make_json({'restricted' : True})
+        return api.make_json({'restricted' : True})

@@ -297,11 +297,11 @@ class Map(Base):
         return '<%s %s (%s x %s)>' % stats
 
 def debug():
-    from federation.database import session
-
     '''Temporary method that tests various parts of the database. This
     will eventually be replaced by a standalone test module.
     '''
+    from federation.database import session
+
     # game = database.Game('Test', 2500, 1)
 
     # Player

@@ -17,7 +17,7 @@ would only need to read from the database if something changes or if
 the server is (re)starting.
 '''
 from federation.database import Base
-from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, Boolean, String
 
 SEPARATOR = ', '
 
