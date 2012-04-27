@@ -28,8 +28,6 @@ Directory Layout
 +----------------------+-------------------------------------------------+
 | federation/static    | Static (i.e. unchanging) files that are served. |
 +----------------------+-------------------------------------------------+
-| federation/templates | HTML templates used by Flask.                   |
-+----------------------+-------------------------------------------------+
 | src                  | CoffeeScript source files to be compiled.       |
 +----------------------+-------------------------------------------------+
 | tools                | Small programs that supplement Federation.      |
@@ -42,6 +40,8 @@ Python Dependencies
 +-------------+--------------------------------------+
 | Package     | Website                              |
 +=============+======================================+
+| Avenue      | https://github.com/Aethaeryn/Avenue  |
++-------------+--------------------------------------+
 | PyYAML      | http://pyyaml.org/                   |
 +-------------+--------------------------------------+
 | Flask       | http://flask.pocoo.org/              |
@@ -80,16 +80,8 @@ many of the Python dependencies so you'll have fewer surprises at
 runtime. After ``setup.py`` works without issues, make sure that Flask
 and SQLAlchemy are installed.
 
-To run Federation on a server, install a WSGI-compatible server, such
-as Apache with mod_wsgi, and point it at ``server.wsgi``. Currently,
-only Apache has been tested with Federation.
-
-You can also run a test server of Federation on port 8080 with the
-built in server of Flask. Use this for development and testing, *NOT*
-for a public server! Navigate to the Federation directory, or install
-the federation package globally, and type:
-
-    python -m federation
+Federation now runs within Avenue, an abstraction layer between Flask
+and websites. To run Federation, run it through Avenue.
 
 Federation is heavily under development. It has only been tested under
 recent versions of Fedora Linux with recent versions of the required
