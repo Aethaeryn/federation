@@ -1,9 +1,7 @@
 # Copyright (c) 2011, 2012 Michael Babich
 # See LICENSE.txt or http://opensource.org/licenses/MIT
 
-'''This submodule acts as an interface between an SQL database for
-persistent storage and an object oriented form that the game itself
-likes to use.
+'''This submodule acts as an ORM for a SQL database.
 '''
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
