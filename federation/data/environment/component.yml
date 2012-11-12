@@ -165,22 +165,22 @@ Cargo Bay:
   cargo       : 50
   cost        : 50
 
-Small Crew Quarters:
+Small Habitation Ring:
   size        : "Small Component"
-  description : "Allows for crew to stay on the ship."
+  description : "Allows for humans to live on the ship."
   crew        : 8
   cost        : 20
 
-Crew Quarters:
+Large Habitation Ring:
   size        : "Medium Component"
-  description : "Allows for a larger crew to stay on the ship."
+  description : "Allows for humans to live on the ship."
   crew        : 20
   cost        : 40
 
 Docking Bay:
   size        : "Large Component"
-  description : "Allows small and medium ships to dock onboard."
-  dock        : 10
+  description : "Allows small ships to dock onboard."
+  dock        : 5
   cost        : 75
 
 Construction Dock:
