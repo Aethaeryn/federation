@@ -1,0 +1,29 @@
+Small Cargo Bay:
+  size        : "Small Module"
+  description : "Stores cargo on the ship."
+  cargo       : 20
+  cost        : 25
+
+Cargo Bay:
+  size        : "Medium Module"
+  description : "Stores cargo on the ship."
+  cargo       : 50
+  cost        : 50
+
+Habitation Ring:
+  size        : "Large Module"
+  description : "Allows for humans to live on the ship."
+  crew        : 20
+  cost        : 40
+
+Docking Module:
+  size        : "Medium Module"
+  description : "Allows small ships to dock."
+  dock        : 5
+  cost        : 75
+
+Construction Dock:
+  size        : "Large Module"
+  description : "Builds medium and large ships; can also assist in their repair."
+  special     : "Require Shipyard"
+  cost        : 200

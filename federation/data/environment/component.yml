@@ -133,7 +133,7 @@ Tesla Generator:
   shields     : 50
   cost        : 75
 
-# BASIC COMPONENTS
+# IMPROVEMENTS
 Sensor Array I:
   size        : "Small Component"
   description : "Enables the ship to detect objects further away."
@@ -151,40 +151,3 @@ Mining Equipment:
   description : "Enables a ship to mine for resources in an asteroid field."
   special     : "Enable Mining"
   cost        : 50
-
-# STORAGE COMPONENTS
-Small Cargo Bay:
-  size        : "Small Component"
-  description : "Stores cargo on the ship."
-  cargo       : 20
-  cost        : 25
-
-Cargo Bay:
-  size        : "Medium Component"
-  description : "Stores cargo on the ship."
-  cargo       : 50
-  cost        : 50
-
-Small Habitation Ring:
-  size        : "Small Component"
-  description : "Allows for humans to live on the ship."
-  crew        : 8
-  cost        : 20
-
-Large Habitation Ring:
-  size        : "Medium Component"
-  description : "Allows for humans to live on the ship."
-  crew        : 20
-  cost        : 40
-
-Docking Bay:
-  size        : "Large Component"
-  description : "Allows small ships to dock onboard."
-  dock        : 5
-  cost        : 75
-
-Construction Dock:
-  size        : "Large Component"
-  description : "Builds medium and large ships; can also assist in their repair."
-  special     : "Require Shipyard"
-  cost        : 200
