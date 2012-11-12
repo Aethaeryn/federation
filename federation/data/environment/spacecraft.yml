@@ -61,18 +61,18 @@ Battle Frigate:
 Carrier:
   inherits      : "Capital Ship"
   component_list:
-    - "Docking Bay"
-    - "Docking Bay"
-    - "Docking Bay"
-    - "Docking Bay"
-    - "Crew Quarters"
+    - "Docking Module"
+    - "Docking Module"
+    - "Docking Module"
+    - "Docking Module"
+    - "Habitation Ring"
     - "Laser"
 
 Cruiser:
   inherits      : "Capital Ship"
   component_list:
-    - "Docking Bay"
-    - "Crew Quarters"
+    - "Docking Module"
+    - "Habitation Ring"
     - "Super Laser"
 
 Missile Platform:
@@ -91,10 +91,10 @@ Spaceport:
   component_list:
     - "Super Laser"
     - "Heavy Missile Launcher"
-    - "Docking Bay"
-    - "Docking Bay"
-    - "Docking Bay"
-    - "Docking Bay"
+    - "Docking Module"
+    - "Docking Module"
+    - "Docking Module"
+    - "Docking Module"
     - "Construction Dock"
     - "Heavy Armor"
     - "Heavy Armor"
