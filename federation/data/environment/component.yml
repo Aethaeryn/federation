@@ -41,11 +41,10 @@ Super Laser:
 
 Bombardment Cannon:
   size        : "Large Component"
-  description : "A large laser capable of doing tremendous damage. Damages a ship's own shields due to power requirements."
+  description : "A large laser capable of doing tremendous damage."
   wep_damage  : 100
   wep_speed   : 1
   wep_type    : "Laser"
-  wep_special : "Drain Shield"
   cost        : 200
 
 # CORE COMPONENTS
@@ -99,52 +98,21 @@ Large Engine:
 # DEFENSIVE COMPONENTS
 Light Armor:
   size        : "Small Component"
-  description : "Boosts the hitpoints of the spacecraft."
+  description : "Boosts the hitpoints of the spacecraft or module."
   hitpoints   : 10
   cost        : 30
 
 Medium Armor:
   size        : "Medium Component"
-  description : "Boosts the hitpoints of the spacecraft."
+  description : "Boosts the hitpoints of the spacecraft or module."
   hitpoints   : 20
   cost        : 50
 
 Heavy Armor:
   size        : "Large Component"
-  description : "Boosts the hitpoints of the spacecraft."
+  description : "Boosts the hitpoints of the spacecraft or module."
   hitpoints   : 40
   cost        : 85
-
-Shield Generator:
-  size        : "Small Component"
-  description : "Boosts the ship's shield capabilities."
-  shields     : 10
-  cost        : 25
-
-Medium Generator:
-  size        : "Medium Component"
-  description : "Gives a moderate boost to the ship's shield capabilities"
-  shields     : 25
-  cost        : 40
-
-Tesla Generator:
-  size        : "Large Component"
-  description : "Greatly boosts the ship's shield capabilities"
-  shields     : 50
-  cost        : 75
-
-# IMPROVEMENTS
-Sensor Array I:
-  size        : "Small Component"
-  description : "Enables the ship to detect objects further away."
-  sensors     : 5
-  cost        : 25
-
-Sensor Array II:
-  size        : "Medium Component"
-  description : "Enables the ship to detect objects further away."
-  sensors     : 10
-  cost        : 45
 
 Mining Equipment:
   size        : "Small Component"
