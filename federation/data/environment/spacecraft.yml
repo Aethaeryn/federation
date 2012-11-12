@@ -50,23 +50,17 @@ Space Station:
 Basic Fighter:
   inherits      : "Fighter"
   component_list:
-    - "Shield Generator"
-    - "Sensor Array I"
     - "Missile Launcher"
 
 Battle Frigate:
   inherits      : "Frigate"
   component_list:
-    - "Medium Generator"
     - "Light Armor"
-    - "Sensor Array I"
     - "Laser"
 
 Carrier:
   inherits      : "Capital Ship"
   component_list:
-    - "Tesla Generator"
-    - "Sensor Array II"
     - "Docking Bay"
     - "Docking Bay"
     - "Docking Bay"
@@ -77,8 +71,6 @@ Carrier:
 Cruiser:
   inherits      : "Capital Ship"
   component_list:
-    - "Tesla Generator"
-    - "Sensor Array I"
     - "Docking Bay"
     - "Crew Quarters"
     - "Super Laser"
@@ -86,16 +78,12 @@ Cruiser:
 Missile Platform:
   inherits      : "Defensive Platform"
   component_list:
-    - "Shield Generator"
-    - "Sensor Array I"
     - "Missile Launcher"
     - "Missile Launcher"
 
 Laser Platform:
   inherits      : "Defensive Platform"
   component_list:
-    - "Shield Generator"
-    - "Sensor Array I"
     - "Laser"
 
 Spaceport:
@@ -108,8 +96,5 @@ Spaceport:
     - "Docking Bay"
     - "Docking Bay"
     - "Construction Dock"
-    - "Sensor Array II"
-    - "Tesla Generator"
-    - "Tesla Generator"
     - "Heavy Armor"
     - "Heavy Armor"
