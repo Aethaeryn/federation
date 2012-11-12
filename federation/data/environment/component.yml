@@ -39,14 +39,6 @@ Super Laser:
   wep_type    : "Laser"
   cost        : 100
 
-Bombardment Cannon:
-  size        : "Large Component"
-  description : "A large laser capable of doing tremendous damage."
-  wep_damage  : 100
-  wep_speed   : 1
-  wep_type    : "Laser"
-  cost        : 200
-
 # CORE COMPONENTS
 Small Hull:
   size        : "Small Component"

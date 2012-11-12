@@ -29,15 +29,6 @@ Capital Ship:
     - "Large Hull"
     - "Large Engine"
 
-Space Station:
-  size          : "Large Platform"
-  description   : "Used for economic purposes, as well as for the docking and building of spacecraft."
-  special       : "Shipyard"
-  component_max : 54
-  base_cost     : 600
-  component_list:
-    - "Large Hull"
-
 # INHERITED SHIP TEMPLATES
 Basic Fighter:
   inherits      : "Fighter"
@@ -67,12 +58,13 @@ Cruiser:
     - "Super Laser"
 
 Spaceport:
-  inherits      : "Space Station"
+  inherits      : "Capital Ship"
   component_list:
-    - "Super Laser"
-    - "Heavy Missile Launcher"
+    - "Laser"
+    - "Missile Launcher"
+    - "Habitation Ring"
     - "Docking Module"
     - "Docking Module"
     - "Docking Module"
     - "Docking Module"
-    - "Construction Dock"
+    - "Construction Module"

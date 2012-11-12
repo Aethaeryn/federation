@@ -22,8 +22,7 @@ Docking Module:
   dock        : 5
   cost        : 75
 
-Construction Dock:
+Construction Module:
   size        : "Large Module"
-  description : "Builds medium and large ships; can also assist in their repair."
-  special     : "Require Shipyard"
+  description : "Builds spaceships; can also assist in their repair."
   cost        : 200
