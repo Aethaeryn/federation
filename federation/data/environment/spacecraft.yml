@@ -29,14 +29,6 @@ Capital Ship:
     - "Large Hull"
     - "Large Engine"
 
-Defensive Platform:
-  size          : "Small Platform"
-  description   : "Stationary platform that automatically attacks enemy spacecraft in its region."
-  component_max : 7
-  base_cost     : 80
-  component_list:
-    - "Small Hull"
-
 Space Station:
   size          : "Large Platform"
   description   : "Used for economic purposes, as well as for the docking and building of spacecraft."
@@ -55,7 +47,6 @@ Basic Fighter:
 Battle Frigate:
   inherits      : "Frigate"
   component_list:
-    - "Light Armor"
     - "Laser"
 
 Carrier:
@@ -75,17 +66,6 @@ Cruiser:
     - "Habitation Ring"
     - "Super Laser"
 
-Missile Platform:
-  inherits      : "Defensive Platform"
-  component_list:
-    - "Missile Launcher"
-    - "Missile Launcher"
-
-Laser Platform:
-  inherits      : "Defensive Platform"
-  component_list:
-    - "Laser"
-
 Spaceport:
   inherits      : "Space Station"
   component_list:
@@ -96,5 +76,3 @@ Spaceport:
     - "Docking Module"
     - "Docking Module"
     - "Construction Dock"
-    - "Heavy Armor"
-    - "Heavy Armor"

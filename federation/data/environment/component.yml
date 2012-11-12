@@ -94,28 +94,3 @@ Large Engine:
   hyperspace  : True
   speed       : 3
   cost        : 100
-
-# DEFENSIVE COMPONENTS
-Light Armor:
-  size        : "Small Component"
-  description : "Boosts the hitpoints of the spacecraft or module."
-  hitpoints   : 10
-  cost        : 30
-
-Medium Armor:
-  size        : "Medium Component"
-  description : "Boosts the hitpoints of the spacecraft or module."
-  hitpoints   : 20
-  cost        : 50
-
-Heavy Armor:
-  size        : "Large Component"
-  description : "Boosts the hitpoints of the spacecraft or module."
-  hitpoints   : 40
-  cost        : 85
-
-Mining Equipment:
-  size        : "Small Component"
-  description : "Enables a ship to mine for resources in an asteroid field."
-  special     : "Enable Mining"
-  cost        : 50
