@@ -1,6 +1,3 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://opensource.org/licenses/MIT
-
 '''Uses SQLAlchemy to store data a SQL database.
 '''
 from datetime import datetime

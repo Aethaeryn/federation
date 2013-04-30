@@ -1,6 +1,3 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://opensource.org/licenses/MIT
-
 '''Provides certain algorithms for hex board calculations.
 '''
 def distance(start_location, end_location):

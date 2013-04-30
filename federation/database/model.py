@@ -1,6 +1,3 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://opensource.org/licenses/MIT
-
 '''This file contains model objects in the database. These are things
 that are read in at the start of a new game from static config files
 and rarely, if ever, change. Their main role is to serve as a point of

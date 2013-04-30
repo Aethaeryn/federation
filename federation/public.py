@@ -1,6 +1,3 @@
-# Copyright (c) 2011, 2012 Michael Babich
-# See LICENSE.txt or http://opensource.org/licenses/MIT
-
 '''Serves the public data API json and game client html using flask
 for dynamic rendering of the content.
 '''
