@@ -57,12 +57,6 @@ def environment():
             elif filename == 'component':
                 item = model.ModelComponent(obj[filename][key])
 
-            elif filename == 'structure':
-                item = model.ModelStructure(obj[filename][key])
-
-            elif filename == 'unit':
-                item = model.ModelUnit(obj[filename][key])
-
             elif filename == 'body':
                 item = model.ModelBody(obj[filename][key])
 

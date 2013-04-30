@@ -38,49 +38,6 @@ class ModelBody(Base):
     def __repr__(self):
         return '<Body %s Model>' % (self.name)
 
-class ModelUnit(Base):
-    '''This stores the general data of various types of units and the
-    stats they have.
-    '''
-    __tablename__ = 'model_unit'
-
-    id          = Column(Integer, primary_key = True)
-    name        = Column(String(80))
-    cost        = Column(Integer)
-    damage      = Column(Integer)
-    description = Column(String)
-    hitpoints   = Column(Integer)
-    special     = Column(Integer)
-
-    def __init__(self, dictionary):
-        self.__dict__.update(dictionary)
-
-    def __repr__(self):
-        return '<Unit %s Model>' % (self.name)
-
-class ModelStructure(Base):
-    '''These are the general structure stats.
-    '''
-    __tablename__ = 'model_structure'
-
-    id          = Column(Integer, primary_key = True)
-    name        = Column(String(80))
-    cost        = Column(Integer)
-    description = Column(String)
-    hitpoints   = Column(Integer)
-    shields     = Column(Integer)
-    special     = Column(String)
-    wep_damage  = Column(Integer)
-    wep_special = Column(String)
-    wep_speed   = Column(Integer)
-    wep_type    = Column(String)
-
-    def __init__(self, dictionary):
-        self.__dict__.update(dictionary)
-
-    def __repr__(self):
-        return '<Structure %s Model>' % (self.name)
-
 class ModelSpacecraft(Base):
     '''This contains information about each general spacecraft type
     that is purchasable by the player.
