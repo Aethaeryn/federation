@@ -1,9 +1,5 @@
 # Ignore compiled files.
 *.pyc
-*.js
 
 # Ignore hidden directories and files.
 .*
-
-# Ignores local customized code.
-federation/templates/header.html
