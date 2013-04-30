@@ -1,7 +1,3 @@
-# Players can purchase blank spacecraft and buy the components themselves, or
-# they can purchase spacecraft that already come with components.
-
-# BLANK SPACECRAFT
 Fighter:
   size          : "Small Ship"
   description   : "Cheap, basic spacecraft."
@@ -10,6 +6,7 @@ Fighter:
   component_list:
     - "Small Hull"
     - "Small Engine"
+    - "Missile Launcher"
 
 Frigate:
   size          : "Medium Ship"
@@ -19,8 +16,9 @@ Frigate:
   component_list:
     - "Medium Hull"
     - "Medium Engine"
+    - "Laser"
 
-Capital Ship:
+Cruiser:
   size          : "Large Ship"
   description   : "Cheap, basic, and fast capital ship."
   component_max : 36
@@ -28,22 +26,8 @@ Capital Ship:
   component_list:
     - "Large Hull"
     - "Large Engine"
-
-# INHERITED SHIP TEMPLATES
-Basic Fighter:
-  inherits      : "Fighter"
-  component_list:
-    - "Missile Launcher"
-
-Battle Frigate:
-  inherits      : "Frigate"
-  component_list:
-    - "Laser"
-
-Cruiser:
-  inherits      : "Capital Ship"
-  component_list:
     - "Docking Module"
     - "Docking Module"
     - "Habitation Ring"
-    - "Super Laser"
+    - "Laser"
+    - "Laser"
