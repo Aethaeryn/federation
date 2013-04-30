@@ -11,6 +11,11 @@ app = Blueprint('federation', __name__,
                 static_folder='static',
                 url_prefix='/federation')
 
-from federation import public, game
+from federation import environment
+from federation.database import database, session
 
-game.start()
+def start():
+    '''Sets up the game.
+    '''
+    environment.environment()
+    database.debug()
