@@ -1,4 +1,3 @@
-# WEAPONS
 Missile Launcher:
   size        : "Small Component"
   description : "Basic damaging weapon. Especially effective against small ships."
@@ -31,15 +30,6 @@ Laser:
   wep_type    : "Laser"
   cost        : 50
 
-Super Laser:
-  size        : "Large Component"
-  description : "Slow, extremely powerful variant of the laser used in capital ships."
-  wep_damage  : 68
-  wep_speed   : 2
-  wep_type    : "Laser"
-  cost        : 100
-
-# CORE COMPONENTS
 Small Hull:
   size        : "Small Component"
   description : "Provides the basic structure for a small spacecraft."
@@ -56,14 +46,6 @@ Medium Hull:
   sensors     : 1
   cost        : 75
 
-Large Hull:
-  size        : "Large Component"
-  description : "Provides the basic structure for a large spacecraft."
-  unsellable  : True
-  hitpoints   : 90
-  sensors     : 2
-  cost        : 125
-
 Small Engine:
   size        : "Small Component"
   description : "Provides the basic movement for a small spacecraft."
@@ -78,11 +60,3 @@ Medium Engine:
   hyperspace  : True
   speed       : 5
   cost        : 50
-
-Large Engine:
-  size        : "Large Component"
-  description : "Provides the basic movement for a large spacecraft and allows for FTL travel."
-  unsellable  : True
-  hyperspace  : True
-  speed       : 3
-  cost        : 100
