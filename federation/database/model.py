@@ -18,26 +18,6 @@ from sqlalchemy import Column, Integer, Boolean, String
 
 SEPARATOR = ', '
 
-class ModelBody(Base):
-    '''This stores the general data of various classes of celestial
-    bodies, used as a reference for specific bodies in the game.
-    '''
-    __tablename__ = 'model_body'
-
-    id          = Column(Integer, primary_key = True)
-    name        = Column(String(80))
-    description = Column(String)
-    variants    = Column(String)
-
-    def __init__(self, dictionary):
-        self.__dict__.update(dictionary)
-
-        if 'variants' in dictionary:
-            self.variants = SEPARATOR.join(self.variants)
-
-    def __repr__(self):
-        return '<Body %s Model>' % (self.name)
-
 class ModelSpacecraft(Base):
     '''This contains information about each general spacecraft type
     that is purchasable by the player.

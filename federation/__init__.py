@@ -18,4 +18,3 @@ def start():
     '''Sets up the game.
     '''
     environment.environment()
-    database.debug()
