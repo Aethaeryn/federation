@@ -1,15 +1,3 @@
-Small Cargo Bay:
-  size        : "Small Module"
-  description : "Stores cargo on the ship."
-  cargo       : 20
-  cost        : 25
-
-Cargo Bay:
-  size        : "Medium Module"
-  description : "Stores cargo on the ship."
-  cargo       : 50
-  cost        : 50
-
 Habitation Ring:
   size        : "Large Module"
   description : "Allows for humans to live on the ship."
@@ -21,8 +9,3 @@ Docking Module:
   description : "Allows small ships to dock."
   dock        : 5
   cost        : 75
-
-Construction Module:
-  size        : "Large Module"
-  description : "Builds spaceships; can also assist in their repair."
-  cost        : 200

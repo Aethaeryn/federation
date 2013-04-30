@@ -40,31 +40,10 @@ Battle Frigate:
   component_list:
     - "Laser"
 
-Carrier:
-  inherits      : "Capital Ship"
-  component_list:
-    - "Docking Module"
-    - "Docking Module"
-    - "Docking Module"
-    - "Docking Module"
-    - "Habitation Ring"
-    - "Laser"
-
 Cruiser:
   inherits      : "Capital Ship"
   component_list:
     - "Docking Module"
+    - "Docking Module"
     - "Habitation Ring"
     - "Super Laser"
-
-Spaceport:
-  inherits      : "Capital Ship"
-  component_list:
-    - "Laser"
-    - "Missile Launcher"
-    - "Habitation Ring"
-    - "Docking Module"
-    - "Docking Module"
-    - "Docking Module"
-    - "Docking Module"
-    - "Construction Module"
