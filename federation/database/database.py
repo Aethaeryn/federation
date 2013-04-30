@@ -5,44 +5,6 @@ from federation.database import Base
 from sqlalchemy import Column, Integer, Boolean, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-class Game(Base):
-    '''Stores all of the information about a particular game running
-    on the Federation server. The server should eventually have the
-    capacity to run multiple game instances simultaneously with
-    different settings between them.
-    '''
-    __tablename__ = 'game'
-
-    id            = Column(Integer, primary_key=True)
-    server_name   = Column(String(80), unique=True)
-    start_year    = Column(Integer)
-    turn          = Column(Integer)
-    turns_per_day = Column(Integer)
-
-    def __init__(self, server_name, start_year, turns_per_day):
-        self.server_name   = server_name
-        self.start_year    = start_year
-        self.turns_per_day = turns_per_day
-        self.turn          = 0
-
-    def get_date(self):
-        '''Converts the turn number into a calendar date. Each month is
-        represented by an index on the list 'months'. An Earth calendar is
-        used such that every 12 turns is a year, and each year has 12 months.
-        '''
-        months = ['January', 'February', 'March', 'April', 'May', 'June',
-                  'July', 'August', 'September', 'October', 'November',
-                  'December']
-
-        month = self.turn % 12
-        year  = self.turn / 12
-        year += self.start_year
-
-        return months[month], year
-
-    def __repr__(self):
-        return '<Game %s (%s)>' % (self.server_name, self.id)
-
 class Component(Base):
     '''Stores *all* of the components that are in existence in the
     game and points them at the spacecraft they are installed in.
@@ -80,14 +42,7 @@ class Spacecraft(Base):
     id          = Column(Integer, primary_key=True)
     name        = Column(String(80))
     custom_name = Column(String(80))
-
-    fleet_id    = Column(Integer, ForeignKey('fleet.id'))
-    map_id      = Column(Integer, ForeignKey('map.id'))
     owner_id    = Column(Integer, ForeignKey('player.id'))
-    fleet       = relationship('Fleet', backref=backref('spacecraft', order_by=id))
-    location    = relationship('Map', backref=backref('spacecraft', order_by=id))
-    owner       = relationship('Player', backref=backref('spacecraft', order_by=id))
-
     x_position  = Column(Integer)
     y_position  = Column(Integer)
 
@@ -98,32 +53,6 @@ class Spacecraft(Base):
 
     def __repr__(self):
         return '<Spacecraft %s (%s)>' % (self.custom_name, self.name)
-
-class Federation(Base):
-    '''Federations are similar to clans, factions, alliances, teams,
-    etc., in various other games. These are voluntary collections of
-    players who are on the same side and friendly to each other, with
-    common aims.
-
-    Like governments, federations can have leaders and can implement
-    certain political policies.
-    '''
-    __tablename__ = 'federation'
-
-    id          = Column(Integer, primary_key=True)
-    name        = Column(String(80), unique=True)
-    cash        = Column(Integer)
-    date        = Column(DateTime)
-    shared_view = Column(Boolean)
-    tax_rate    = Column(Integer)
-
-    def __init__(self, name, founder):
-        self.name    = name
-        self.founder = founder
-        self.date    = datetime.utcnow()
-
-    def __repr__(self):
-        return '<Federation %s>' % (self.name)
 
 class Player(Base):
     '''Stores information about every user in the game.
@@ -136,15 +65,6 @@ class Player(Base):
     date       = Column(DateTime)
     email      = Column(String(80))
     game_name  = Column(String(80))
-    income     = Column(Integer)
-    research   = Column(Integer)
-
-    federation = relationship('Federation', backref=backref('players', order_by = id))
-    fed_id     = Column(Integer, ForeignKey('federation.id'))
-    fed_found  = Column(Boolean)
-    fed_leader = Column(Boolean)
-    fed_rank   = Column(Integer)
-    fed_role   = Column(String(80))
 
     def __init__(self, username, game_name, email):
         self.username   = username
@@ -153,7 +73,6 @@ class Player(Base):
         self.date       = datetime.utcnow()
         self.cash       = 0
         self.income     = 0
-        self.research   = 0
 
     def get_player_info(self):
         '''Returns the information that the UI expects.
@@ -162,38 +81,9 @@ class Player(Base):
         stats['name']       = self.game_name
         stats['federation'] = self.federation.name
         stats['cash']       = self.cash
-        stats['income']     = self.income
-        stats['research']   = self.research
         stats['ships']      = len(self.spacecraft)
-        stats['fleets']     = len(self.fleets)
-        stats['territory']  = len(self.territory)
 
         return stats
 
     def __repr__(self):
         return '<Player %s (%s)>' % (self.game_name, self.username)
-
-class Fleet(Base):
-    '''Fleets are a collection of ships that are held together under
-    the command of one or two players.
-    '''
-    __tablename__ = 'fleet'
-
-    id         = Column(Integer, primary_key=True)
-    name       = Column(String(80))
-
-    fed_id     = Column(Integer, ForeignKey('federation.id'))
-    cmd_id     = Column(Integer, ForeignKey('player.id'))
-    dep_id     = Column(Integer, ForeignKey('player.id'))
-    federation = relationship('Federation', backref=backref('fleets', order_by=id))
-    commander  = relationship('Player', backref=backref('fleets', order_by=id),
-                              primaryjoin='Player.id==Fleet.cmd_id')
-    deputy     = relationship('Player', backref=backref('fleets_d', order_by=id),
-                              primaryjoin='Player.id==Fleet.dep_id')
-
-    def __init__(self, name, commander):
-        self.name = name
-        self.commander = commander
-
-    def __repr__(self):
-        return '<Fleet %s %s (%s)>' % (self.id, self.name, self.commander)
