@@ -1,5 +1,4 @@
 # Ignore compiled files.
-*.pyc
 
 # Ignore hidden directories and files.
 .*
